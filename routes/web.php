@@ -17,6 +17,7 @@ Route::get('/news-media', [ContentController::class, 'news'])->name('news');
 Route::get('/library/{contentItem:slug}', [ContentController::class, 'show'])->name('content.show');
 Route::get('/contact', [ContactController::class, 'create'])->name('contact');
 Route::post('/contact', [ContactController::class, 'store'])->middleware('throttle:6,60')->name('contact.store');
+Route::get('/sitemap.xml', [PageController::class, 'sitemap'])->name('sitemap');
 
 Route::middleware('guest')->group(function () {
     Route::get('/admin/login', [AdminAuthController::class, 'create'])->name('admin.login');

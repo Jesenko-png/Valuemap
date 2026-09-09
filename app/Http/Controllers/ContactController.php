@@ -10,7 +10,10 @@ use Illuminate\View\View;
 
 class ContactController extends Controller
 {
-    public function create(): View { return view('contact'); }
+    public function create(): View
+    {
+        return view('contact');
+    }
 
     public function store(Request $request): RedirectResponse
     {

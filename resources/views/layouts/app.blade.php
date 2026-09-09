@@ -5,13 +5,18 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="description" content="@yield('description', 'ValueMap connects European regions, health data and stakeholders to turn fragmented knowledge into shared public value.')">
     <meta name="theme-color" content="#102c2c">
+    <link rel="icon" href="{{ asset('favicon.svg') }}" type="image/svg+xml">
     <title>@yield('title', 'Mapping health data ecosystems across Europe') — ValueMap</title>
     <link rel="canonical" href="{{ url()->current() }}">
     <meta property="og:type" content="@yield('og_type', 'website')">
     <meta property="og:title" content="@yield('title', 'Mapping value. Connecting Europe.') — ValueMap">
     <meta property="og:description" content="@yield('description', 'European health data ecosystems, connected for public value.')">
     <meta property="og:url" content="{{ url()->current() }}">
-    @if(!request()->routeIs('content.show'))
+    @if(request()->routeIs('content.show') && isset($contentItem) && $contentItem->image_path)
+        <meta property="og:image" content="{{ rtrim(config('app.url'), '/') }}/storage/{{ $contentItem->image_path }}">
+        <meta name="twitter:card" content="summary_large_image">
+        <meta name="twitter:image" content="{{ rtrim(config('app.url'), '/') }}/storage/{{ $contentItem->image_path }}">
+    @elseif(!request()->routeIs('content.show'))
         <meta property="og:image" content="{{ rtrim(config('app.url'), '/') }}/og.png">
         <meta name="twitter:card" content="summary_large_image">
         <meta name="twitter:image" content="{{ rtrim(config('app.url'), '/') }}/og.png">

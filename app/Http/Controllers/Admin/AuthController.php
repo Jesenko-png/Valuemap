@@ -11,7 +11,10 @@ use Illuminate\View\View;
 
 class AuthController extends Controller
 {
-    public function create(): View { return view('admin.login'); }
+    public function create(): View
+    {
+        return view('admin.login');
+    }
 
     public function store(Request $request): RedirectResponse
     {
@@ -22,13 +25,15 @@ class AuthController extends Controller
             return back()->withErrors(['email' => 'Too many attempts. Try again in '.RateLimiter::availableIn($key).' seconds.'])->onlyInput('email');
         }
 
-        if (!Auth::attempt([...$credentials, 'is_admin' => true], $request->boolean('remember'))) {
+        if (! Auth::attempt([...$credentials, 'is_admin' => true], $request->boolean('remember'))) {
             RateLimiter::hit($key, 60);
+
             return back()->withErrors(['email' => 'The provided credentials are not valid.'])->onlyInput('email');
         }
 
         RateLimiter::clear($key);
         $request->session()->regenerate();
+
         return redirect()->intended(route('admin.index'));
     }
 
@@ -37,6 +42,7 @@ class AuthController extends Controller
         Auth::logout();
         $request->session()->invalidate();
         $request->session()->regenerateToken();
+
         return redirect()->route('home');
     }
 }

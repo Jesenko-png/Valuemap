@@ -11,7 +11,9 @@ class ContentItem extends Model
     use HasFactory;
 
     public const RESULT_TYPES = ['deliverable', 'publication', 'other_result'];
+
     public const MEDIA_TYPES = ['news', 'event', 'newsletter', 'press'];
+
     public const TYPES = [...self::RESULT_TYPES, ...self::MEDIA_TYPES];
 
     protected $fillable = [
