@@ -40,3 +40,31 @@ map?.querySelectorAll('[data-partner]').forEach((node) => {
         }
     });
 });
+
+const consentBanner = document.querySelector('[data-consent-banner]');
+const analyticsId = window.valueMapAnalyticsId;
+
+const startAnalytics = () => {
+    if (!analyticsId || window.dataLayer) return;
+    window.dataLayer = [];
+    window.gtag = function () { window.dataLayer.push(arguments); };
+    window.gtag('js', new Date());
+    window.gtag('config', analyticsId, { anonymize_ip: true });
+    const script = document.createElement('script');
+    script.async = true;
+    script.src = `https://www.googletagmanager.com/gtag/js?id=${encodeURIComponent(analyticsId)}`;
+    document.head.appendChild(script);
+};
+
+if (analyticsId) {
+    const savedConsent = localStorage.getItem('valuemap_analytics_consent');
+    if (savedConsent === 'granted') startAnalytics();
+    if (!savedConsent && consentBanner) consentBanner.hidden = false;
+
+    consentBanner?.querySelectorAll('[data-consent]').forEach((button) => button.addEventListener('click', () => {
+        const choice = button.dataset.consent;
+        localStorage.setItem('valuemap_analytics_consent', choice);
+        consentBanner.hidden = true;
+        if (choice === 'granted') startAnalytics();
+    }));
+}

@@ -25,8 +25,7 @@
     <meta name="twitter:description" content="@yield('description', 'European health data ecosystems, connected for public value.')">
     @vite(['resources/css/app.css', 'resources/js/app.js'])
     @if(config('services.analytics.id'))
-        <script async src="https://www.googletagmanager.com/gtag/js?id={{ config('services.analytics.id') }}"></script>
-        <script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments)}gtag('js',new Date());gtag('config','{{ config('services.analytics.id') }}');</script>
+        <script>window.valueMapAnalyticsId = @json(config('services.analytics.id'));</script>
     @endif
 </head>
 <body class="@yield('body_class')">
@@ -65,5 +64,11 @@
         </div>
         <div class="footer-bottom"><span>© {{ date('Y') }} ValueMap project</span><span>Horizon Europe · Grant details pending confirmation</span><a href="{{ route('admin.login') }}">Project administration</a></div>
     </footer>
+    @if(config('services.analytics.id'))
+        <aside class="consent-banner" data-consent-banner hidden aria-label="Analytics preferences">
+            <p><strong>Help us improve ValueMap</strong><span>We use optional analytics to understand which project resources are useful. No analytics loads before your choice.</span></p>
+            <div><button class="button button-outline" type="button" data-consent="denied">Decline</button><button class="button" type="button" data-consent="granted">Allow analytics</button></div>
+        </aside>
+    @endif
 </body>
 </html>
