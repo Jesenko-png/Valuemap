@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use App\Models\ContactMessage;
 use App\Models\ContentItem;
+use App\Models\User;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
@@ -19,7 +20,12 @@ class ContentController extends Controller
         $type = in_array($request->string('type')->toString(), ContentItem::TYPES, true) ? $request->string('type')->toString() : null;
         $items = ContentItem::query()->when($type, fn ($q) => $q->where('type', $type))->latest()->paginate(15)->withQueryString();
 
-        return view('admin.index', ['items' => $items, 'type' => $type, 'messageCount' => ContactMessage::count()]);
+        return view('admin.index', [
+            'items' => $items,
+            'type' => $type,
+            'messageCount' => ContactMessage::count(),
+            'pendingUsers' => $request->user()->isMainAdmin() ? User::where('is_approved', false)->count() : 0,
+        ]);
     }
 
     public function create(): View

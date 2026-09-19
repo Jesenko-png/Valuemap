@@ -32,8 +32,7 @@
     <a class="skip-link" href="#main">Skip to content</a>
     <header class="site-header">
         <a class="brand" href="{{ route('home') }}" aria-label="ValueMap home">
-            <span class="brand-mark" aria-hidden="true"><i></i><i></i><i></i><i></i></span>
-            <span><strong>VALUE</strong>MAP<small>European health data ecosystems</small></span>
+            <img class="site-logo" src="{{ asset('images/brand/valuemap-logo.png') }}" alt="VALUEMAP" width="725" height="130">
         </a>
         <button class="menu-toggle" type="button" aria-label="Open menu" aria-expanded="false" data-menu-toggle><span></span><span></span></button>
         <nav class="site-nav" aria-label="Main navigation" data-menu>
@@ -41,9 +40,15 @@
             <a @class(['active' => request()->routeIs('about')]) href="{{ route('about') }}">About</a>
             <a @class(['active' => request()->routeIs('structure')]) href="{{ route('structure') }}">Structure</a>
             <a @class(['active' => request()->routeIs('consortium')]) href="{{ route('consortium') }}">Consortium</a>
+            <a @class(['active' => request()->routeIs('ecosystem')]) href="{{ route('ecosystem') }}">Ecosystem</a>
             <a @class(['active' => request()->routeIs('results', 'content.show')]) href="{{ route('results') }}">Results</a>
             <a @class(['active' => request()->routeIs('news')]) href="{{ route('news') }}">News & media</a>
             <a class="nav-cta" href="{{ route('contact') }}">Contact <span aria-hidden="true">↗</span></a>
+            @auth
+                <a class="nav-login" href="{{ auth()->user()->canManageContent() ? route('admin.index') : route('account.index') }}">{{ auth()->user()->canManageContent() ? 'Dashboard' : 'Account' }}</a>
+            @else
+                <a class="nav-login" href="{{ route('login') }}">Login</a>
+            @endauth
         </nav>
     </header>
 
@@ -52,7 +57,7 @@
     <footer class="site-footer">
         <div class="footer-main">
             <div>
-                <a class="brand footer-brand" href="{{ route('home') }}"><span class="brand-mark" aria-hidden="true"><i></i><i></i><i></i><i></i></span><span><strong>VALUE</strong>MAP<small>European health data ecosystems</small></span></a>
+                <a class="brand footer-brand" href="{{ route('home') }}" aria-label="ValueMap home"><img class="footer-logo" src="{{ asset('images/brand/valuemap-logo.png') }}" alt="VALUEMAP" width="725" height="130"></a>
                 <p>Mapping the actors, resources and relationships that make health data valuable across Europe.</p>
             </div>
             <div class="footer-links"><h2>Explore</h2><a href="{{ route('about') }}">About the project</a><a href="{{ route('structure') }}">Work packages</a><a href="{{ route('consortium') }}">Consortium</a><a href="{{ route('ecosystem') }}">Stakeholder ecosystem</a></div>
@@ -62,7 +67,7 @@
                 <p>Funded by the European Union. Views and opinions expressed are, however, those of the author(s) only and do not necessarily reflect those of the European Union or the granting authority. Neither the European Union nor the granting authority can be held responsible for them.</p>
             </div>
         </div>
-        <div class="footer-bottom"><span>© {{ date('Y') }} ValueMap project</span><span>Horizon Europe · Grant details pending confirmation</span><a href="{{ route('admin.login') }}">Project administration</a></div>
+        <div class="footer-bottom"><span>© {{ date('Y') }} ValueMap project</span><span>Horizon Europe · Grant details pending confirmation</span><a href="{{ route('login') }}">Project login</a></div>
     </footer>
     @if(config('services.analytics.id'))
         <aside class="consent-banner" data-consent-banner hidden aria-label="Analytics preferences">

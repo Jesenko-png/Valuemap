@@ -20,7 +20,7 @@ class CreateAdmin extends Command
 
             return self::FAILURE;
         }
-        User::updateOrCreate(['email' => $email], ['name' => 'ValueMap administrator', 'password' => $password, 'is_admin' => true]);
+        User::updateOrCreate(['email' => $email], ['name' => 'ValueMap main administrator', 'password' => $password, 'is_admin' => true, 'role' => User::ROLE_MAIN_ADMIN, 'requested_role' => User::ROLE_MAIN_ADMIN, 'is_approved' => true, 'approved_at' => now()]);
         $this->info('Administrator account is ready.');
 
         return self::SUCCESS;

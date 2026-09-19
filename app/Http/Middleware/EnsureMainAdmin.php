@@ -6,13 +6,11 @@ use Closure;
 use Illuminate\Http\Request;
 use Symfony\Component\HttpFoundation\Response;
 
-class EnsureAdmin
+class EnsureMainAdmin
 {
     public function handle(Request $request, Closure $next): Response
     {
-        if (! $request->user()?->canManageContent()) {
-            return redirect()->route('login')->with('error', 'Administrator access is required.');
-        }
+        abort_unless($request->user()?->isMainAdmin(), 403);
 
         return $next($request);
     }

@@ -10,6 +10,14 @@ use Illuminate\Notifications\Notifiable;
 
 class User extends Authenticatable
 {
+    public const ROLE_MAIN_ADMIN = 'main_admin';
+
+    public const ROLE_ADMIN = 'admin';
+
+    public const ROLE_READER = 'reader';
+
+    public const ROLES = [self::ROLE_MAIN_ADMIN, self::ROLE_ADMIN, self::ROLE_READER];
+
     /** @use HasFactory<UserFactory> */
     use HasFactory, Notifiable;
 
@@ -23,6 +31,11 @@ class User extends Authenticatable
         'email',
         'password',
         'is_admin',
+        'role',
+        'requested_role',
+        'is_approved',
+        'approved_at',
+        'approved_by',
     ];
 
     /**
@@ -46,6 +59,32 @@ class User extends Authenticatable
             'email_verified_at' => 'datetime',
             'password' => 'hashed',
             'is_admin' => 'boolean',
+            'is_approved' => 'boolean',
+            'approved_at' => 'datetime',
         ];
+    }
+
+    public function isMainAdmin(): bool
+    {
+        return $this->role === self::ROLE_MAIN_ADMIN;
+    }
+
+    public function canManageContent(): bool
+    {
+        return $this->is_approved && in_array($this->role, [self::ROLE_MAIN_ADMIN, self::ROLE_ADMIN], true);
+    }
+
+    public function canSignIn(): bool
+    {
+        return $this->is_approved;
+    }
+
+    public function getRoleLabelAttribute(): string
+    {
+        return match ($this->role) {
+            self::ROLE_MAIN_ADMIN => 'Main administrator',
+            self::ROLE_ADMIN => 'Administrator',
+            default => 'Reader',
+        };
     }
 }

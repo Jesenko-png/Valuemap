@@ -1,7 +1,9 @@
 <?php
 
+use App\Http\Controllers\AccountController;
 use App\Http\Controllers\Admin\AuthController as AdminAuthController;
 use App\Http\Controllers\Admin\ContentController as AdminContentController;
+use App\Http\Controllers\Admin\UserController as AdminUserController;
 use App\Http\Controllers\ContactController;
 use App\Http\Controllers\ContentController;
 use App\Http\Controllers\PageController;
@@ -20,8 +22,15 @@ Route::post('/contact', [ContactController::class, 'store'])->middleware('thrott
 Route::get('/sitemap.xml', [PageController::class, 'sitemap'])->name('sitemap');
 
 Route::middleware('guest')->group(function () {
-    Route::get('/admin/login', [AdminAuthController::class, 'create'])->name('admin.login');
-    Route::post('/admin/login', [AdminAuthController::class, 'store'])->name('admin.login.store');
+    Route::get('/login', [AdminAuthController::class, 'create'])->name('login');
+    Route::post('/login', [AdminAuthController::class, 'store'])->name('login.store');
+    Route::post('/register', [AdminAuthController::class, 'register'])->middleware('throttle:4,60')->name('register');
+});
+
+Route::get('/admin/login', fn () => redirect()->route('login'))->name('admin.login');
+Route::middleware('auth')->group(function () {
+    Route::get('/account', [AccountController::class, 'index'])->name('account.index');
+    Route::post('/logout', [AdminAuthController::class, 'destroy'])->name('logout');
 });
 
 Route::prefix('admin')->middleware(['auth', 'admin'])->group(function () {
@@ -31,5 +40,8 @@ Route::prefix('admin')->middleware(['auth', 'admin'])->group(function () {
     Route::get('/content/{contentItem}/edit', [AdminContentController::class, 'edit'])->name('admin.content.edit');
     Route::put('/content/{contentItem}', [AdminContentController::class, 'update'])->name('admin.content.update');
     Route::delete('/content/{contentItem}', [AdminContentController::class, 'destroy'])->name('admin.content.destroy');
-    Route::post('/logout', [AdminAuthController::class, 'destroy'])->name('admin.logout');
+    Route::middleware('main_admin')->group(function () {
+        Route::get('/users', [AdminUserController::class, 'index'])->name('admin.users.index');
+        Route::patch('/users/{user}', [AdminUserController::class, 'update'])->name('admin.users.update');
+    });
 });
