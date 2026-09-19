@@ -5,6 +5,19 @@
 
 @section('content')
 <section class="hero">
+    <img class="hero-background" src="{{ asset('images/visuals/valuemap-europe-network.jpg') }}" alt="" width="1942" height="809" fetchpriority="high">
+    <div class="hero-shade" aria-hidden="true"></div>
+    <div class="hero-pulses" aria-hidden="true">
+        <i style="--x:58%;--y:35%;--delay:.2s;--size:7px"></i>
+        <i style="--x:66%;--y:31%;--delay:1.1s;--size:6px"></i>
+        <i style="--x:72%;--y:42%;--delay:.6s;--size:8px"></i>
+        <i style="--x:79%;--y:37%;--delay:1.8s;--size:6px"></i>
+        <i style="--x:84%;--y:49%;--delay:.9s;--size:8px"></i>
+        <i style="--x:63%;--y:52%;--delay:1.5s;--size:7px"></i>
+        <i style="--x:73%;--y:58%;--delay:.35s;--size:6px"></i>
+        <i style="--x:88%;--y:61%;--delay:2.2s;--size:7px"></i>
+        <i style="--x:54%;--y:48%;--delay:2.6s;--size:6px"></i>
+    </div>
     <div class="hero-grid">
         <div class="hero-copy reveal">
             <p class="eyebrow"><span></span> Horizon Europe research project</p>
@@ -12,13 +25,43 @@
             <p class="hero-lede">ValueMap connects regions, data and people to shape a more trusted, useful and inclusive European health data ecosystem.</p>
             <div class="hero-actions"><a class="button" href="{{ route('about') }}">Explore the project <span>↗</span></a><a class="text-link" href="{{ route('results') }}">View public results <span>↓</span></a></div>
         </div>
-        <div class="ecosystem-map reveal" aria-label="Abstract map of connected European health data ecosystems">
-            <p class="map-label"><span>ECOSYSTEM MAP</span><strong>6 countries · 9 partners</strong></p>
-            <svg viewBox="0 0 620 620" role="img" aria-hidden="true"><g class="orbit-lines" fill="none"><ellipse cx="310" cy="310" rx="250" ry="142" transform="rotate(-18 310 310)"/><ellipse cx="310" cy="310" rx="180" ry="272" transform="rotate(37 310 310)"/><circle cx="310" cy="310" r="205"/></g><g class="connections" fill="none"><path d="M124 218C215 160 245 180 310 280S430 390 500 340"/><path d="M178 430C235 360 225 300 310 280S415 190 470 162"/><path d="M136 300C228 320 340 350 452 446"/><path d="M250 112C300 210 350 244 482 260"/></g><g class="nodes"><circle cx="124" cy="218" r="7"/><circle cx="178" cy="430" r="7"/><circle cx="136" cy="300" r="7"/><circle cx="250" cy="112" r="7"/><circle class="node-main" cx="310" cy="280" r="13"/><circle cx="470" cy="162" r="7"/><circle cx="482" cy="260" r="7"/><circle cx="500" cy="340" r="7"/><circle cx="452" cy="446" r="7"/></g></svg>
-            <div class="map-chip chip-one"><i></i> Health data</div><div class="map-chip chip-two"><i></i> Shared value</div><div class="map-core"><small>EUROPEAN</small><strong>DATA<br>ECOSYSTEM</strong></div>
+        <div class="hero-insight reveal" aria-label="ValueMap project scope">
+            <div class="hero-insight-head"><span>Project scope</span><i aria-hidden="true"></i></div>
+            <p>Connecting regional intelligence into one European view.</p>
+            <div class="hero-insight-grid"><span><small>Partners</small><strong>09</strong></span><span><small>Countries</small><strong>06</strong></span><span><small>Focus</small><strong>Health data</strong></span></div>
+            <a href="{{ route('consortium') }}">Explore the consortium <span>↗</span></a>
         </div>
     </div>
     <div class="project-facts"><div><span>01</span><small>Duration</small><strong>36 months</strong></div><div><span>02</span><small>Consortium</small><strong>9 partners</strong></div><div><span>03</span><small>Geography</small><strong>6 countries</strong></div><div><span>04</span><small>Programme</small><strong>Horizon Europe</strong></div></div>
+</section>
+
+<section class="visual-story" data-story-slider aria-label="ValueMap project story">
+    <div class="visual-story-heading reveal">
+        <p class="eyebrow">The project in focus</p>
+        <h2>See how the ecosystem <em>comes together.</em></h2>
+        <p>From understanding regional strengths to bringing stakeholders around the same table and turning evidence into public value.</p>
+    </div>
+    <div class="story-stage" tabindex="0">
+        <article class="story-slide is-active" data-story-slide aria-hidden="false">
+            <img src="{{ asset('images/visuals/valuemap-europe-network.jpg') }}" alt="Luminous map of connected European regions" width="1942" height="809">
+            <div class="story-slide-shade"></div>
+            <div class="story-slide-content"><span>01 / Map</span><h3>Understand the landscape.</h3><p>Reveal the actors, assets and connections shaping health data value across Europe.</p><a href="{{ route('about') }}">Why ValueMap ↗</a></div>
+        </article>
+        <article class="story-slide" data-story-slide aria-hidden="true">
+            <img src="{{ asset('images/visuals/valuemap-collaboration.jpg') }}" alt="Researchers and public-sector partners working together around a map" width="2056" height="765" loading="lazy">
+            <div class="story-slide-shade"></div>
+            <div class="story-slide-content"><span>02 / Connect</span><h3>Bring perspectives together.</h3><p>Healthcare, policy, research, industry and citizens help test what creates real value.</p><a href="{{ route('ecosystem') }}">Meet the ecosystem ↗</a></div>
+        </article>
+        <article class="story-slide" data-story-slide aria-hidden="true">
+            <img src="{{ asset('images/visuals/valuemap-impact-network.jpg') }}" alt="European health, research and community data streams converging into a shared network" width="2048" height="768" loading="lazy">
+            <div class="story-slide-shade"></div>
+            <div class="story-slide-content"><span>03 / Create value</span><h3>Turn evidence into impact.</h3><p>Translate mapped knowledge into useful pathways, public results and stronger ecosystems.</p><a href="{{ route('results') }}">Explore the library ↗</a></div>
+        </article>
+        <div class="story-controls" aria-label="Slideshow controls">
+            <div class="story-dots"><button class="is-active" type="button" data-story-dot="0" aria-label="Show slide 1" aria-current="true"></button><button type="button" data-story-dot="1" aria-label="Show slide 2"></button><button type="button" data-story-dot="2" aria-label="Show slide 3"></button></div>
+            <div class="story-arrows"><button type="button" data-story-prev aria-label="Previous slide">←</button><button type="button" data-story-next aria-label="Next slide">→</button></div>
+        </div>
+    </div>
 </section>
 
 <section class="section intro-section" id="about">

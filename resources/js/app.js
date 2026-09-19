@@ -68,3 +68,59 @@ if (analyticsId) {
         if (choice === 'granted') startAnalytics();
     }));
 }
+
+const storySlider = document.querySelector('[data-story-slider]');
+if (storySlider) {
+    const slides = [...storySlider.querySelectorAll('[data-story-slide]')];
+    const dots = [...storySlider.querySelectorAll('[data-story-dot]')];
+    const stage = storySlider.querySelector('.story-stage');
+    const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    let activeSlide = 0;
+    let storyTimer;
+
+    const showStorySlide = (index) => {
+        activeSlide = (index + slides.length) % slides.length;
+        slides.forEach((slide, slideIndex) => {
+            const isActive = slideIndex === activeSlide;
+            slide.classList.toggle('is-active', isActive);
+            slide.setAttribute('aria-hidden', String(!isActive));
+            if ('inert' in slide) slide.inert = !isActive;
+        });
+        dots.forEach((dot, dotIndex) => {
+            const isActive = dotIndex === activeSlide;
+            dot.classList.toggle('is-active', isActive);
+            if (isActive) dot.setAttribute('aria-current', 'true');
+            else dot.removeAttribute('aria-current');
+        });
+    };
+
+    const stopStoryTimer = () => window.clearInterval(storyTimer);
+    const startStoryTimer = () => {
+        stopStoryTimer();
+        if (!reducedMotion) storyTimer = window.setInterval(() => showStorySlide(activeSlide + 1), 6500);
+    };
+
+    dots.forEach((dot) => dot.addEventListener('click', () => {
+        showStorySlide(Number(dot.dataset.storyDot));
+        startStoryTimer();
+    }));
+    storySlider.querySelector('[data-story-prev]')?.addEventListener('click', () => {
+        showStorySlide(activeSlide - 1);
+        startStoryTimer();
+    });
+    storySlider.querySelector('[data-story-next]')?.addEventListener('click', () => {
+        showStorySlide(activeSlide + 1);
+        startStoryTimer();
+    });
+    stage?.addEventListener('keydown', (event) => {
+        if (event.key === 'ArrowLeft') showStorySlide(activeSlide - 1);
+        if (event.key === 'ArrowRight') showStorySlide(activeSlide + 1);
+    });
+    storySlider.addEventListener('mouseenter', stopStoryTimer);
+    storySlider.addEventListener('mouseleave', startStoryTimer);
+    storySlider.addEventListener('focusin', stopStoryTimer);
+    storySlider.addEventListener('focusout', startStoryTimer);
+
+    showStorySlide(0);
+    startStoryTimer();
+}
