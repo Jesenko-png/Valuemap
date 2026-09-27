@@ -5,16 +5,63 @@
 <header class="page-hero compact"><p class="eyebrow">The consortium</p><h1>Connecting expertise <em>across Europe.</em></h1><p>Nine organisations from six countries combine expertise in healthcare, research, digital health, public administration, innovation, industry and health data governance.</p></header>
 
 <section class="section map-section">
+    @php
+        $mapBounds = ['minLongitude' => -25, 'maxLongitude' => 45, 'minLatitude' => 34, 'maxLatitude' => 72];
+        $projectPoint = function (float $longitude, float $latitude) use ($mapBounds): array {
+            $x = 40 + (($longitude - $mapBounds['minLongitude']) / ($mapBounds['maxLongitude'] - $mapBounds['minLongitude'])) * 820;
+            $y = 30 + (($mapBounds['maxLatitude'] - $latitude) / ($mapBounds['maxLatitude'] - $mapBounds['minLatitude'])) * 560;
+            return [round($x, 1), round($y, 1)];
+        };
+        $countryCodes = ['Hungary' => 'HUN', 'Spain' => 'ESP', 'Portugal' => 'PRT', 'Sweden' => 'SWE', 'Bosnia and Herzegovina' => 'BIH', 'Ireland' => 'IRL'];
+        $partnerPoints = collect(config('valuemap.partners'))->map(function ($partner, $index) use ($projectPoint, $countryCodes) {
+            [$x, $y] = $projectPoint($partner['longitude'], $partner['latitude']);
+            $x += $partner['map_offset_x'] ?? 0;
+            $y += $partner['map_offset_y'] ?? 0;
+            return [...$partner, 'number' => $index + 1, 'x' => $x, 'y' => $y, 'country_code' => $countryCodes[$partner['country']]];
+        });
+        $coordinator = $partnerPoints->first();
+        $countryGroups = $partnerPoints->groupBy('country');
+    @endphp
     <div class="consortium-map" data-consortium-map>
-        <div class="map-intro"><p class="eyebrow">European network</p><h2>Six countries.<br>One shared effort.</h2><p>Seven beneficiaries, one affiliated partner and one associated partner bring complementary regional and sectoral perspectives.</p><div class="map-status" data-map-status><span>●</span> Select a numbered node</div></div>
-        @php($points = [[480,150],[360,390],[275,360],[485,75],[355,430],[580,420],[395,410],[430,445],[165,250]])
-        <svg viewBox="0 0 900 560" role="img" aria-label="Interactive network map showing nine VALUEMAP partner organisations">
-            <g class="map-grid"><path d="M50 120H850M50 220H850M50 320H850M50 420H850M180 50V510M340 50V510M500 50V510M660 50V510"/></g>
-            <g class="map-links"><path d="M480 150L360 390 275 360 485 75 355 430 580 420 395 410 430 445 165 250"/><path d="M480 150L485 75M360 390L580 420M275 360L165 250"/></g>
-            @foreach(config('valuemap.partners') as $i=>$partner)
-                <g class="partner-node" tabindex="0" role="button" data-partner="{{ $partner['name'] }} — {{ $partner['country'] }}" aria-label="Show {{ $partner['name'] }}"><circle cx="{{ $points[$i][0] }}" cy="{{ $points[$i][1] }}" r="25"/><text x="{{ $points[$i][0] }}" y="{{ $points[$i][1]+5 }}">{{ str_pad($i+1,2,'0',STR_PAD_LEFT) }}</text></g>
-            @endforeach
-        </svg>
+        <div class="map-intro">
+            <p class="eyebrow">European network</p>
+            <h2>Six countries.<br>One shared effort.</h2>
+            <p>Seven beneficiaries, one affiliated partner and one associated partner bring complementary regional and sectoral perspectives.</p>
+            <ul class="map-country-list" aria-label="Partner countries">
+                @foreach($countryGroups as $country => $partners)
+                    <li><span>{{ $countryCodes[$country] }}</span><strong>{{ $country }}</strong><small>{{ $partners->count() }} {{ Str::plural('partner', $partners->count()) }}</small></li>
+                @endforeach
+            </ul>
+            <div class="map-status" data-map-status aria-live="polite"><span aria-hidden="true">●</span><div><strong data-map-status-title>Explore partner locations</strong><small data-map-status-meta>Select a numbered marker on the map.</small></div></div>
+        </div>
+        <div class="europe-map-panel">
+            <svg viewBox="0 0 900 620" role="img" aria-labelledby="europe-map-title europe-map-description">
+                <title id="europe-map-title">Map of the VALUEMAP consortium across Europe</title>
+                <desc id="europe-map-description">A geographic map showing nine partner locations in Hungary, Spain, Portugal, Sweden, Bosnia and Herzegovina, and Ireland.</desc>
+                <defs>
+                    <radialGradient id="map-glow"><stop offset="0" stop-color="#80e9dc" stop-opacity=".22"/><stop offset="1" stop-color="#80e9dc" stop-opacity="0"/></radialGradient>
+                    <filter id="pin-shadow" x="-80%" y="-80%" width="260%" height="260%"><feDropShadow dx="0" dy="4" stdDeviation="5" flood-color="#071f1f" flood-opacity=".32"/></filter>
+                </defs>
+                <circle class="map-glow" cx="520" cy="330" r="330" fill="url(#map-glow)"/>
+                @include('partials.europe-map')
+                <g class="map-network-lines" aria-hidden="true">
+                    @foreach($partnerPoints->skip(1) as $point)
+                        <path d="M{{ $coordinator['x'] }} {{ $coordinator['y'] }} L{{ $point['x'] }} {{ $point['y'] }}"/>
+                    @endforeach
+                </g>
+                <g class="partner-pins">
+                    @foreach($partnerPoints as $partner)
+                        @php($locationLabel = $partner['location'] === $partner['country'] ? $partner['country'] : $partner['location'].' · '.$partner['country'])
+                        <g class="partner-node" tabindex="0" role="button" data-partner="{{ $partner['name'] }}" data-location="{{ $locationLabel }}" data-country-code="{{ $partner['country_code'] }}" aria-label="Show {{ $partner['name'] }}, {{ $locationLabel }}">
+                            <circle class="partner-node-pulse" cx="{{ $partner['x'] }}" cy="{{ $partner['y'] }}" r="25"/>
+                            <circle class="partner-node-dot" cx="{{ $partner['x'] }}" cy="{{ $partner['y'] }}" r="17" filter="url(#pin-shadow)"/>
+                            <text x="{{ $partner['x'] }}" y="{{ $partner['y'] + 4 }}">{{ str_pad($partner['number'], 2, '0', STR_PAD_LEFT) }}</text>
+                        </g>
+                    @endforeach
+                </g>
+            </svg>
+            <p class="map-attribution">Geographic boundaries: Natural Earth · Public domain</p>
+        </div>
     </div>
 </section>
 

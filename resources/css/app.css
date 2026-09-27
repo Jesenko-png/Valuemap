@@ -238,3 +238,23 @@
     .project-facts{margin-left:-18px;margin-right:-18px}.project-facts>div{padding-left:12px;padding-right:10px}.project-facts strong{font-size:13px}
     .story-slide-content,.story-controls{left:18px;right:18px}.story-arrows{gap:5px}.story-dots button{min-width:25px;width:25px}.story-dots button.is-active{width:38px}
 }
+
+/* Geographic consortium map */
+.consortium-map{grid-template-columns:minmax(290px,340px) minmax(0,1fr);min-height:720px;background:#edf4ef;border-color:rgba(16,44,44,.18);box-shadow:0 28px 80px rgba(16,44,44,.1)}
+.map-intro{position:relative;z-index:2;padding:38px 34px}.map-intro h2{font-size:clamp(34px,3vw,45px)}
+.map-country-list{margin:30px 0 0;padding:0;display:grid;grid-template-columns:1fr 1fr;list-style:none;border-top:1px solid rgba(255,255,255,.18);border-left:1px solid rgba(255,255,255,.18)}
+.map-country-list li{min-width:0;padding:13px 10px;display:grid;grid-template-columns:auto 1fr;gap:2px 8px;border-right:1px solid rgba(255,255,255,.18);border-bottom:1px solid rgba(255,255,255,.18)}
+.map-country-list span{grid-row:span 2;font:8px 'DM Mono';color:var(--lime)}.map-country-list strong{overflow:hidden;font-size:10px;line-height:1.25;text-overflow:ellipsis}.map-country-list small{font-size:8px;color:#91a7a4}
+.map-status{margin-top:auto;padding:15px;display:grid;grid-template-columns:auto 1fr;align-items:start;gap:10px}.map-status>span{color:var(--lime);line-height:1}.map-status div{min-width:0}.map-status strong,.map-status small{display:block}.map-status strong{font-size:12px;line-height:1.35}.map-status small{margin-top:4px;color:#9fb4b1;font-size:9px;line-height:1.45}
+.europe-map-panel{position:relative;min-width:0;min-height:720px;overflow:hidden;background:radial-gradient(circle at 56% 48%,#fff 0,#eff8f3 42%,#dfece5 100%)}
+.europe-map-panel:before{content:'';position:absolute;inset:0;pointer-events:none;background-image:linear-gradient(rgba(16,44,44,.05) 1px,transparent 1px),linear-gradient(90deg,rgba(16,44,44,.05) 1px,transparent 1px);background-size:45px 45px;mask-image:linear-gradient(to bottom right,#000,transparent 84%)}
+.europe-map-panel svg{position:relative;z-index:1;display:block;width:100%;height:100%;min-height:720px;background:transparent}
+.europe-country{fill:#c8d8d0;stroke:#f8fbf9;stroke-width:1.35;vector-effect:non-scaling-stroke;transition:fill .25s,stroke .25s,filter .25s}
+.europe-country.is-member-country{fill:#72cfc4;stroke:#fff}.europe-country.is-active-country{fill:var(--lime-deep);stroke:var(--ink);filter:drop-shadow(0 3px 5px rgba(16,44,44,.2))}
+.map-network-lines path{fill:none;stroke:#16867d;stroke-width:1.35;stroke-dasharray:5 8;vector-effect:non-scaling-stroke;opacity:.48}
+.partner-node{cursor:pointer;outline:none}.partner-node-pulse{fill:rgba(217,255,89,.2)!important;stroke:rgba(23,133,125,.28)!important;stroke-width:1!important;transform-box:fill-box;transform-origin:center;animation:partner-map-pulse 2.8s ease-out infinite}.partner-node-dot{fill:var(--ink)!important;stroke:var(--lime)!important;stroke-width:4!important;transition:fill .2s,stroke-width .2s,transform .2s;transform-box:fill-box;transform-origin:center}.partner-node text{fill:#fff;text-anchor:middle;font:7px 'DM Mono';font-weight:700;pointer-events:none}.partner-node:hover .partner-node-dot,.partner-node:focus .partner-node-dot,.partner-node.active .partner-node-dot{fill:#147c74!important;stroke-width:7!important;transform:scale(1.16)}.partner-node:hover .partner-node-pulse,.partner-node:focus .partner-node-pulse,.partner-node.active .partner-node-pulse{fill:rgba(217,255,89,.36)!important;stroke:var(--lime)!important}.map-attribution{position:absolute;z-index:2;right:15px;bottom:12px;margin:0;padding:5px 7px;border-radius:5px;background:rgba(255,255,255,.8);color:#5c6f6e;font:7px 'DM Mono';letter-spacing:.03em}
+@keyframes partner-map-pulse{0%{opacity:.9;transform:scale(.75)}70%,100%{opacity:0;transform:scale(1.55)}}
+
+@media(max-width:1100px){.consortium-map{grid-template-columns:280px minmax(0,1fr)}.map-intro{padding:32px 26px}.map-country-list{grid-template-columns:1fr}}
+@media(max-width:800px){.consortium-map{grid-template-columns:1fr;min-height:0}.map-intro{min-height:auto;padding:36px 28px}.map-country-list{grid-template-columns:repeat(3,1fr)}.map-status{margin-top:28px}.europe-map-panel,.europe-map-panel svg{min-height:520px}}
+@media(max-width:560px){.map-section{padding-left:0;padding-right:0}.consortium-map{border-left:0;border-right:0;border-radius:0}.map-intro{padding:34px 22px}.map-country-list{grid-template-columns:1fr 1fr}.europe-map-panel,.europe-map-panel svg{min-height:430px}.map-attribution{right:8px;bottom:7px}.partner-node-pulse{animation:none}.partner-node text{font-size:8px}}

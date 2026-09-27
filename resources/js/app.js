@@ -42,11 +42,15 @@ if ('IntersectionObserver' in window) {
 
 const map = document.querySelector('[data-consortium-map]');
 const status = map?.querySelector('[data-map-status]');
+const statusTitle = status?.querySelector('[data-map-status-title]');
+const statusMeta = status?.querySelector('[data-map-status-meta]');
 map?.querySelectorAll('[data-partner]').forEach((node) => {
     const selectNode = () => {
         map.querySelectorAll('[data-partner]').forEach((item) => item.classList.remove('active'));
+        map.querySelectorAll('.europe-country').forEach((country) => country.classList.toggle('is-active-country', country.dataset.countryCode === node.dataset.countryCode));
         node.classList.add('active');
-        status.innerHTML = `<span>●</span> ${node.dataset.partner}`;
+        if (statusTitle) statusTitle.textContent = node.dataset.partner;
+        if (statusMeta) statusMeta.textContent = node.dataset.location;
     };
     node.addEventListener('click', selectNode);
     node.addEventListener('keydown', (event) => {
