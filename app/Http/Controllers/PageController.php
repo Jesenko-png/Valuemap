@@ -21,6 +21,11 @@ class PageController extends Controller
         return view('pages.about');
     }
 
+    public function impact(): View
+    {
+        return view('pages.impact');
+    }
+
     public function structure(): View
     {
         return view('pages.structure');
@@ -36,10 +41,25 @@ class PageController extends Controller
         return view('pages.ecosystem');
     }
 
+    public function privacy(): View
+    {
+        return view('pages.policy', ['policy' => 'privacy']);
+    }
+
+    public function cookies(): View
+    {
+        return view('pages.policy', ['policy' => 'cookies']);
+    }
+
+    public function accessibility(): View
+    {
+        return view('pages.policy', ['policy' => 'accessibility']);
+    }
+
     public function sitemap(): Response
     {
         return response()->view('sitemap', [
-            'staticRoutes' => ['home', 'about', 'structure', 'consortium', 'ecosystem', 'results', 'news', 'contact'],
+            'staticRoutes' => ['home', 'about', 'impact', 'structure', 'consortium', 'ecosystem', 'results', 'news', 'contact', 'privacy', 'cookies', 'accessibility'],
             'items' => ContentItem::visible()->select(['slug', 'updated_at'])->get(),
         ])->header('Content-Type', 'application/xml');
     }

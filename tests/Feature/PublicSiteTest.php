@@ -4,6 +4,7 @@ namespace Tests\Feature;
 
 use App\Models\ContactMessage;
 use App\Models\ContentItem;
+use App\Models\NewsletterSubscriber;
 use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
@@ -14,7 +15,7 @@ class PublicSiteTest extends TestCase
 
     public function test_public_pages_are_available(): void
     {
-        foreach (['/', '/about', '/structure', '/consortium', '/ecosystem', '/results', '/news-media', '/contact'] as $uri) {
+        foreach (['/', '/about', '/impact', '/structure', '/consortium', '/ecosystem', '/results', '/news-media', '/contact', '/privacy', '/cookies', '/accessibility'] as $uri) {
             $this->get($uri)->assertOk();
         }
     }
@@ -29,10 +30,18 @@ class PublicSiteTest extends TestCase
 
     public function test_contact_form_stores_a_valid_message(): void
     {
-        $this->post('/contact', ['name' => 'Project visitor', 'email' => 'visitor@example.com', 'organisation' => 'Example', 'subject' => 'Collaboration', 'message' => 'I would like to learn more about ValueMap.'])
+        $this->post('/contact', ['name' => 'Project visitor', 'email' => 'visitor@example.com', 'organisation' => 'Example', 'subject' => 'Collaboration', 'message' => 'I would like to learn more about ValueMap.', 'consent' => '1'])
             ->assertSessionHas('success');
 
         $this->assertDatabaseCount(ContactMessage::class, 1);
+    }
+
+    public function test_newsletter_subscription_is_stored_with_consent(): void
+    {
+        $this->post('/newsletter/subscribe', ['email' => 'subscriber@example.com', 'consent' => '1'])
+            ->assertSessionHas('newsletter_success');
+
+        $this->assertDatabaseHas(NewsletterSubscriber::class, ['email' => 'subscriber@example.com']);
     }
 
     public function test_admin_area_is_protected(): void

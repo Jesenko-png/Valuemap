@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use App\Models\ContactMessage;
 use App\Models\ContentItem;
+use App\Models\NewsletterSubscriber;
 use App\Models\User;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
@@ -24,6 +25,7 @@ class ContentController extends Controller
             'items' => $items,
             'type' => $type,
             'messageCount' => ContactMessage::count(),
+            'subscriberCount' => NewsletterSubscriber::count(),
             'pendingUsers' => $request->user()->isMainAdmin() ? User::where('is_approved', false)->count() : 0,
         ]);
     }
@@ -78,6 +80,9 @@ class ContentController extends Controller
             'reference_code' => ['nullable', 'string', 'max:80'], 'excerpt' => ['nullable', 'string', 'max:800'],
             'body' => ['nullable', 'string'], 'partner' => ['nullable', 'string', 'max:255'],
             'published_at' => ['nullable', 'date'], 'event_date' => ['nullable', 'date'],
+            'location' => ['nullable', 'string', 'max:255'], 'target_audience' => ['nullable', 'string', 'max:255'],
+            'registration_url' => ['nullable', 'url', 'max:500'], 'agenda_url' => ['nullable', 'url', 'max:500'],
+            'related_resources' => ['nullable', 'string', 'max:2000'],
             'status' => ['required', Rule::in(['draft', 'forthcoming', 'published', 'completed'])],
             'category' => ['nullable', 'string', 'max:100'], 'external_url' => ['nullable', 'url', 'max:500'],
             'sort_order' => ['nullable', 'integer', 'min:0', 'max:9999'],

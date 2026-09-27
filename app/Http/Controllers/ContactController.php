@@ -30,7 +30,11 @@ class ContactController extends Controller
             'name' => ['required', 'string', 'max:120'], 'email' => ['required', 'email', 'max:180'],
             'organisation' => ['nullable', 'string', 'max:180'], 'subject' => ['required', 'string', 'max:180'],
             'message' => ['required', 'string', 'max:5000'],
+            'consent' => ['accepted'],
         ]);
+
+        unset($data['consent']);
+        $data['consent_at'] = now();
 
         ContactMessage::create($data);
         RateLimiter::hit($key, 3600);

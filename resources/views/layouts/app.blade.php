@@ -3,7 +3,7 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta name="description" content="@yield('description', 'ValueMap connects European regions, health data and stakeholders to turn fragmented knowledge into shared public value.')">
+    <meta name="description" content="@yield('description', 'VALUEMAP connects European health data ecosystems to develop sustainable business models and coordinated action for responsible secondary use of health data.')">
     <meta name="theme-color" content="#102c2c">
     <link rel="icon" href="{{ asset('favicon.svg') }}" type="image/svg+xml">
     <title>@yield('title', 'Mapping health data ecosystems across Europe') — ValueMap</title>
@@ -34,15 +34,16 @@
         <a class="brand" href="{{ route('home') }}" aria-label="ValueMap home">
             <img class="site-logo" src="{{ asset('images/brand/valuemap-logo.png') }}" alt="VALUEMAP" width="725" height="130">
         </a>
-        <button class="menu-toggle" type="button" aria-label="Open menu" aria-expanded="false" data-menu-toggle><span></span><span></span></button>
-        <nav class="site-nav" aria-label="Main navigation" data-menu>
+        <button class="menu-toggle" type="button" aria-label="Open menu" aria-expanded="false" aria-controls="main-navigation" data-menu-toggle><span></span><span></span></button>
+        <nav class="site-nav" id="main-navigation" aria-label="Main navigation" data-menu>
             <a @class(['active' => request()->routeIs('home')]) href="{{ route('home') }}">Home</a>
             <a @class(['active' => request()->routeIs('about')]) href="{{ route('about') }}">About</a>
-            <a @class(['active' => request()->routeIs('structure')]) href="{{ route('structure') }}">Structure</a>
+            <a @class(['active' => request()->routeIs('impact')]) href="{{ route('impact') }}">Impact</a>
+            <a @class(['active' => request()->routeIs('structure')]) href="{{ route('structure') }}">Project Structure</a>
             <a @class(['active' => request()->routeIs('consortium')]) href="{{ route('consortium') }}">Consortium</a>
-            <a @class(['active' => request()->routeIs('ecosystem')]) href="{{ route('ecosystem') }}">Ecosystem</a>
-            <a @class(['active' => request()->routeIs('results', 'content.show')]) href="{{ route('results') }}">Results</a>
-            <a @class(['active' => request()->routeIs('news')]) href="{{ route('news') }}">News & media</a>
+            <a @class(['active' => request()->routeIs('ecosystem')]) href="{{ route('ecosystem') }}">Stakeholders</a>
+            <a @class(['active' => request()->routeIs('results', 'content.show')]) href="{{ route('results') }}">Results & Resources</a>
+            <a @class(['active' => request()->routeIs('news')]) href="{{ route('news') }}">News & Media</a>
             <a class="nav-cta" href="{{ route('contact') }}">Contact <span aria-hidden="true">↗</span></a>
             @auth
                 <a class="nav-login" href="{{ auth()->user()->canManageContent() ? route('admin.index') : route('account.index') }}">{{ auth()->user()->canManageContent() ? 'Dashboard' : 'Account' }}</a>
@@ -58,16 +59,17 @@
         <div class="footer-main">
             <div>
                 <a class="brand footer-brand" href="{{ route('home') }}" aria-label="ValueMap home"><img class="footer-logo" src="{{ asset('images/brand/valuemap-logo.png') }}" alt="VALUEMAP" width="725" height="130"></a>
-                <p>Mapping the actors, resources and relationships that make health data valuable across Europe.</p>
+                <p>Supporting fair, ethical and sustainable value-sharing across connected European health data ecosystems.</p>
             </div>
-            <div class="footer-links"><h2>Explore</h2><a href="{{ route('about') }}">About the project</a><a href="{{ route('structure') }}">Work packages</a><a href="{{ route('consortium') }}">Consortium</a><a href="{{ route('ecosystem') }}">Stakeholder ecosystem</a></div>
-            <div class="footer-links"><h2>Follow the work</h2><a href="{{ route('results') }}">Public results</a><a href="{{ route('news') }}?type=event">Events</a><a href="{{ route('news') }}?type=newsletter">Newsletters</a><a href="{{ route('contact') }}">Contact</a></div>
+            <div class="footer-links"><h2>Explore</h2><a href="{{ route('about') }}">About VALUEMAP</a><a href="{{ route('impact') }}">Project impact</a><a href="{{ route('structure') }}">Work packages</a><a href="{{ route('consortium') }}">Consortium</a><a href="{{ route('ecosystem') }}">Stakeholders</a></div>
+            <div class="footer-links"><h2>Follow the work</h2><a href="{{ route('results') }}">Results & Resources</a><a href="{{ route('news') }}?type=event">Events</a><a href="{{ route('news') }}?type=newsletter">Newsletters</a><a href="{{ config('valuemap.linkedin') }}" target="_blank" rel="noopener">LinkedIn ↗</a><a href="{{ route('contact') }}">Contact</a></div>
             <div class="funding-block">
                 <div class="eu-funded-logo"><img src="{{ asset('eu-funding-reference.png') }}" alt="Funded by the European Union"></div>
+                <p><strong>VALUEMAP has received funding from the European Union under the Horizon Europe programme. Grant Agreement No. {{ config('valuemap.grant_agreement') }}.</strong></p>
                 <p>Funded by the European Union. Views and opinions expressed are, however, those of the author(s) only and do not necessarily reflect those of the European Union or the granting authority. Neither the European Union nor the granting authority can be held responsible for them.</p>
             </div>
         </div>
-        <div class="footer-bottom"><span>© {{ date('Y') }} ValueMap project</span><span>Horizon Europe · Grant details pending confirmation</span><a href="{{ route('login') }}">Project login</a></div>
+        <div class="footer-bottom"><span>© {{ date('Y') }} VALUEMAP project</span><span>Horizon Europe · Grant Agreement No. {{ config('valuemap.grant_agreement') }}</span><nav aria-label="Legal"><a href="{{ route('privacy') }}">Privacy</a><a href="{{ route('cookies') }}">Cookies</a><a href="{{ route('accessibility') }}">Accessibility</a><a href="{{ route('login') }}">Project login</a></nav></div>
     </footer>
     @if(config('services.analytics.id'))
         <aside class="consent-banner" data-consent-banner hidden aria-label="Analytics preferences">

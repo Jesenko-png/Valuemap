@@ -6,11 +6,13 @@ use App\Http\Controllers\Admin\ContentController as AdminContentController;
 use App\Http\Controllers\Admin\UserController as AdminUserController;
 use App\Http\Controllers\ContactController;
 use App\Http\Controllers\ContentController;
+use App\Http\Controllers\NewsletterController;
 use App\Http\Controllers\PageController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', [PageController::class, 'home'])->name('home');
 Route::get('/about', [PageController::class, 'about'])->name('about');
+Route::get('/impact', [PageController::class, 'impact'])->name('impact');
 Route::get('/structure', [PageController::class, 'structure'])->name('structure');
 Route::get('/consortium', [PageController::class, 'consortium'])->name('consortium');
 Route::get('/ecosystem', [PageController::class, 'ecosystem'])->name('ecosystem');
@@ -19,6 +21,10 @@ Route::get('/news-media', [ContentController::class, 'news'])->name('news');
 Route::get('/library/{contentItem:slug}', [ContentController::class, 'show'])->name('content.show');
 Route::get('/contact', [ContactController::class, 'create'])->name('contact');
 Route::post('/contact', [ContactController::class, 'store'])->middleware('throttle:6,60')->name('contact.store');
+Route::post('/newsletter/subscribe', [NewsletterController::class, 'store'])->middleware('throttle:6,60')->name('newsletter.subscribe');
+Route::get('/privacy', [PageController::class, 'privacy'])->name('privacy');
+Route::get('/cookies', [PageController::class, 'cookies'])->name('cookies');
+Route::get('/accessibility', [PageController::class, 'accessibility'])->name('accessibility');
 Route::get('/sitemap.xml', [PageController::class, 'sitemap'])->name('sitemap');
 
 Route::middleware('guest')->group(function () {

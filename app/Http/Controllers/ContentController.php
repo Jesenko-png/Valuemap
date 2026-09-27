@@ -29,12 +29,17 @@ class ContentController extends Controller
     {
         $activeType = in_array($request->string('type')->toString(), $types, true) ? $request->string('type')->toString() : null;
         $search = trim($request->string('q')->toString());
+        $eventPeriod = $activeType === 'event' && in_array($request->string('period')->toString(), ['upcoming', 'past'], true)
+            ? $request->string('period')->toString()
+            : null;
         $items = ContentItem::visible()->whereIn('type', $types)
             ->when($activeType, fn ($query) => $query->where('type', $activeType))
+            ->when($eventPeriod === 'upcoming', fn ($query) => $query->where('event_date', '>=', now()))
+            ->when($eventPeriod === 'past', fn ($query) => $query->where('event_date', '<', now()))
             ->when($search, fn ($query) => $query->where(fn ($q) => $q->where('title', 'like', "%{$search}%")->orWhere('excerpt', 'like', "%{$search}%")))
             ->orderByRaw('CASE WHEN event_date IS NOT NULL THEN event_date ELSE published_at END DESC')
             ->orderBy('sort_order')->paginate(9)->withQueryString();
 
-        return view('content.index', compact('items', 'section', 'types', 'activeType', 'search'));
+        return view('content.index', compact('items', 'section', 'types', 'activeType', 'search', 'eventPeriod'));
     }
 }

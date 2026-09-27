@@ -10,7 +10,7 @@ class ContentItem extends Model
 {
     use HasFactory;
 
-    public const RESULT_TYPES = ['deliverable', 'publication', 'other_result'];
+    public const RESULT_TYPES = ['deliverable', 'publication', 'communication_material', 'event_material', 'other_result'];
 
     public const MEDIA_TYPES = ['news', 'event', 'newsletter', 'press'];
 
@@ -18,7 +18,8 @@ class ContentItem extends Model
 
     protected $fillable = [
         'type', 'title', 'slug', 'reference_code', 'excerpt', 'body', 'partner',
-        'published_at', 'event_date', 'status', 'category', 'file_path',
+        'published_at', 'event_date', 'location', 'target_audience', 'registration_url',
+        'agenda_url', 'related_resources', 'status', 'category', 'file_path',
         'external_url', 'image_path', 'is_public', 'sort_order',
     ];
 
@@ -41,6 +42,7 @@ class ContentItem extends Model
     {
         return match ($this->type) {
             'deliverable' => 'Deliverable', 'publication' => 'Publication',
+            'communication_material' => 'Communication material', 'event_material' => 'Event material',
             'other_result' => 'Project output', 'news' => 'News', 'event' => 'Event',
             'newsletter' => 'Newsletter', 'press' => 'Press / Media', default => ucfirst($this->type),
         };

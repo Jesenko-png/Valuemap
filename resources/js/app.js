@@ -1,15 +1,31 @@
 import './bootstrap';
 
+const siteHeader = document.querySelector('.site-header');
+const syncHeader = () => siteHeader?.classList.toggle('is-compact', window.scrollY > 36);
+syncHeader();
+window.addEventListener('scroll', syncHeader, { passive: true });
+
 const toggle = document.querySelector('[data-menu-toggle]');
 const menu = document.querySelector('[data-menu]');
-toggle?.addEventListener('click', () => {
-    const open = menu.classList.toggle('open');
-    toggle.setAttribute('aria-expanded', String(open));
+const setMenuState = (open) => {
+    menu?.classList.toggle('open', open);
+    document.body.classList.toggle('menu-open', open);
+    toggle?.classList.toggle('is-open', open);
+    toggle?.setAttribute('aria-expanded', String(open));
+    toggle?.setAttribute('aria-label', open ? 'Close menu' : 'Open menu');
+};
+
+toggle?.addEventListener('click', () => setMenuState(!menu?.classList.contains('open')));
+menu?.querySelectorAll('a').forEach((link) => link.addEventListener('click', () => setMenuState(false)));
+document.addEventListener('keydown', (event) => {
+    if (event.key === 'Escape' && menu?.classList.contains('open')) {
+        setMenuState(false);
+        toggle?.focus();
+    }
 });
-menu?.querySelectorAll('a').forEach((link) => link.addEventListener('click', () => {
-    menu.classList.remove('open');
-    toggle?.setAttribute('aria-expanded', 'false');
-}));
+window.addEventListener('resize', () => {
+    if (window.innerWidth > 1050) setMenuState(false);
+});
 
 const revealItems = document.querySelectorAll('.reveal');
 if ('IntersectionObserver' in window) {

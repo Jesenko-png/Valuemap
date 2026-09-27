@@ -31,6 +31,21 @@
             @if($contentItem->event_date)
                 <div><small>Event date</small><strong>{{ $contentItem->event_date->format('d M Y, H:i') }}</strong></div>
             @endif
+            @if($contentItem->location)
+                <div><small>Location</small><strong>{{ $contentItem->location }}</strong></div>
+            @endif
+            @if($contentItem->target_audience)
+                <div><small>Target audience</small><strong>{{ $contentItem->target_audience }}</strong></div>
+            @endif
+            @if($contentItem->registration_url)
+                <a class="button" href="{{ $contentItem->registration_url }}" target="_blank" rel="noopener">Register ↗</a>
+            @endif
+            @if($contentItem->agenda_url)
+                <a class="button button-outline" href="{{ $contentItem->agenda_url }}" target="_blank" rel="noopener">View agenda ↗</a>
+            @endif
+            @if($contentItem->related_resources)
+                <div><small>Related resources</small><p>{{ $contentItem->related_resources }}</p></div>
+            @endif
             @if($contentItem->file_path)
                 <a class="button" href="{{ asset('storage/'.$contentItem->file_path) }}" download>Download document ↓</a>
             @endif
