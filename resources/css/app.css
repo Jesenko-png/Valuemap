@@ -151,6 +151,9 @@
 .footer-main>*{min-width:0}.footer-logo{width:285px;max-width:100%}.footer-brand{width:min(285px,100%)}
 .button,.nav-cta,.nav-login,.arrow-link,.text-link{transition:background-color .2s,color .2s,border-color .2s,transform .2s}
 .activity-grid article,.use-case-grid article,.result-card-grid article,.partner-grid article,.content-card,.partner-strip a,.stakeholder-wheel a{overflow:hidden}
+.hero-project-logo{width:max-content;max-width:100%;margin:0 0 28px;padding:11px 15px;border:1px solid rgba(255,255,255,.38);border-radius:12px;background:rgba(255,255,255,.94);box-shadow:0 16px 45px rgba(0,0,0,.17);backdrop-filter:blur(12px)}
+.hero-project-logo img{display:block;width:clamp(190px,18vw,250px);max-width:100%;height:auto}
+.hero-project-logo+.eyebrow{margin-bottom:26px}
 
 @media(max-width:1050px){
     body.menu-open{overflow:hidden}
@@ -192,6 +195,7 @@
     .site-nav{inset:72px 0 0;height:calc(100dvh - 72px);padding:14px 22px 28px}
     .hero{padding-left:22px;padding-right:22px}.home-page .hero{padding:44px 22px 24px}
     .home-page .hero-grid{gap:0}.home-page .hero h1{font-size:clamp(42px,12.5vw,57px);line-height:.98;letter-spacing:-.065em}
+    .hero-project-logo{margin-bottom:24px;padding:9px 12px;border-radius:10px}.hero-project-logo img{width:180px}.hero-project-logo+.eyebrow{margin-bottom:22px}
     .hero-lede{margin-top:25px;font-size:18px;line-height:1.48}.hero-description{margin-top:15px;font-size:13px;line-height:1.65}
     .hero-actions{width:100%;margin-top:28px;gap:10px}.hero-actions .button{width:100%;min-height:52px}.hero-actions .text-link{width:100%;min-height:46px;display:flex;align-items:center;justify-content:space-between}
     .hero-insight{margin-top:38px;padding:22px;border-radius:16px}.hero-insight>p{font-size:24px}.hero-insight>a{min-height:44px;align-items:center}
@@ -221,6 +225,15 @@
 @media(max-width:380px){
     .site-header,.site-header.is-compact{padding:0 18px}.site-logo,.site-header.is-compact .site-logo{width:156px}
     .home-page .hero,.section,.page-hero,.page-hero.compact,.visual-story,.article-page,.newsletter-cta{padding-left:18px;padding-right:18px}
+    .home-page .hero{padding-top:34px}
+    .hero-project-logo{margin-bottom:18px;padding:7px 9px;border-radius:9px}.hero-project-logo img{width:min(145px,48vw)}.hero-project-logo+.eyebrow{margin-bottom:18px}
+    .home-page .hero .eyebrow{font-size:9px;letter-spacing:.09em}
+    .home-page .hero h1{font-size:clamp(36px,12vw,44px);line-height:1;letter-spacing:-.058em}
+    .hero-lede{margin-top:21px;font-size:16px;line-height:1.5}.hero-description{margin-top:13px;font-size:12px;line-height:1.58}
+    .hero-actions{margin-top:24px}.hero-actions .button{min-height:50px;padding:0 16px}.hero-actions .text-link{min-height:43px}
+    .hero-insight{margin-top:32px;padding:18px}.hero-insight>p{margin:28px 0 20px;font-size:21px}
+    .page-hero h1,.page-hero.compact h1{font-size:clamp(38px,12vw,48px)}
+    .section-heading h2,.split-feature h2,.impact-band h2,.engagement-band h2{font-size:clamp(35px,10.5vw,43px)}
     .project-facts{margin-left:-18px;margin-right:-18px}.project-facts>div{padding-left:12px;padding-right:10px}.project-facts strong{font-size:13px}
     .story-slide-content,.story-controls{left:18px;right:18px}.story-arrows{gap:5px}.story-dots button{min-width:25px;width:25px}.story-dots button.is-active{width:38px}
 }

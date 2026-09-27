@@ -15,6 +15,9 @@
     </div>
     <div class="hero-grid">
         <div class="hero-copy reveal">
+            <div class="hero-project-logo">
+                <img src="{{ asset('images/brand/valuemap-logo.png') }}" alt="VALUEMAP project" width="725" height="130">
+            </div>
             <p class="eyebrow"><span></span> Horizon Europe project</p>
             <h1>Enabling value-sharing and adoption of <em>health data</em> business models.</h1>
             <p class="hero-lede">Building a more connected, inclusive and sustainable European health data ecosystem.</p>
