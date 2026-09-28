@@ -95,7 +95,7 @@
 <section class="section consortium-preview">
     <div class="section-heading heading-row"><div><p class="eyebrow">05 / Connecting European expertise</p><h2>Complementary expertise across <em>six countries.</em></h2></div><a class="arrow-link" href="{{ route('consortium') }}">Meet the Consortium <span>↗</span></a></div>
     <p class="section-intro">Nine organisations combine healthcare, research, digital health, public administration, innovation, industry and health data governance expertise.</p>
-    <div class="partner-strip">@foreach(config('valuemap.partners') as $partner)<a href="{{ $partner['url'] }}" target="_blank" rel="noopener"><span>{{ $partner['initials'] }}</span><strong>{{ $partner['name'] }}</strong><small>{{ $partner['country'] }}</small></a>@endforeach</div>
+    <div class="partner-strip">@foreach($partners as $partner)<a href="{{ $partner->website_url ?: route('consortium') }}" @if($partner->website_url) target="_blank" rel="noopener" @endif>@if($partner->logo_path)<span class="has-logo"><img src="{{ asset('storage/'.$partner->logo_path) }}" alt="" loading="lazy"></span>@else<span>{{ $partner->initials }}</span>@endif<strong>{{ $partner->name }}</strong><small>{{ $partner->country }}</small></a>@endforeach</div>
 </section>
 
 <section class="section ecosystem-preview">

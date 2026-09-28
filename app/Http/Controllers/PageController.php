@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\ContentItem;
+use App\Models\Partner;
 use Illuminate\Http\Response;
 use Illuminate\View\View;
 
@@ -13,6 +14,7 @@ class PageController extends Controller
         return view('home', [
             'latestNews' => ContentItem::visible()->whereIn('type', ContentItem::MEDIA_TYPES)->latest('published_at')->limit(3)->get(),
             'latestResults' => ContentItem::visible()->whereIn('type', ContentItem::RESULT_TYPES)->latest('published_at')->limit(3)->get(),
+            'partners' => Partner::visible()->get(),
         ]);
     }
 
@@ -33,7 +35,7 @@ class PageController extends Controller
 
     public function consortium(): View
     {
-        return view('pages.consortium');
+        return view('pages.consortium', ['partners' => Partner::visible()->get()]);
     }
 
     public function ecosystem(): View

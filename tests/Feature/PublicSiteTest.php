@@ -5,6 +5,7 @@ namespace Tests\Feature;
 use App\Models\ContactMessage;
 use App\Models\ContentItem;
 use App\Models\NewsletterSubscriber;
+use App\Models\Partner;
 use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
@@ -78,6 +79,33 @@ class PublicSiteTest extends TestCase
         }
     }
 
+    public function test_administrator_can_update_partner_and_public_contacts(): void
+    {
+        $admin = User::factory()->create(['role' => User::ROLE_ADMIN, 'is_approved' => true]);
+        $partner = Partner::query()->firstOrFail();
+
+        $this->actingAs($admin)->put('/admin/partners/'.$partner->id, [
+            'name' => $partner->name,
+            'initials' => $partner->initials,
+            'country' => $partner->country,
+            'country_code' => $partner->country_code,
+            'location' => 'Budapest',
+            'latitude' => $partner->latitude,
+            'longitude' => $partner->longitude,
+            'role' => $partner->role,
+            'description' => $partner->description,
+            'website_url' => $partner->website_url,
+            'sort_order' => $partner->sort_order,
+            'is_active' => '1',
+            'contacts' => [['name' => 'Project Contact', 'position' => 'Coordinator', 'email' => 'contact@example.com']],
+        ])->assertRedirect('/admin/partners');
+
+        $partner->refresh();
+        $this->assertSame('Budapest', $partner->location);
+        $this->assertSame('contact@example.com', $partner->contacts[0]['email']);
+        $this->get('/consortium')->assertSee('Project Contact')->assertSee('contact@example.com');
+    }
+
     public function test_registration_waits_for_main_administrator_approval(): void
     {
         $this->post('/register', [
@@ -124,6 +152,7 @@ class PublicSiteTest extends TestCase
 
         $this->actingAs($reader)->get('/account')->assertOk();
         $this->actingAs($reader)->get('/admin')->assertRedirect('/login');
+        $this->actingAs($reader)->get('/admin/partners')->assertRedirect('/login');
     }
 
     public function test_administrator_cannot_manage_user_roles(): void

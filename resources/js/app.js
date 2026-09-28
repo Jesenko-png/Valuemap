@@ -144,3 +144,24 @@ if (storySlider) {
     showStorySlide(0);
     startStoryTimer();
 }
+
+const contactList = document.querySelector('[data-contact-list]');
+const contactTemplate = document.querySelector('[data-contact-template]');
+const addContactButton = document.querySelector('[data-add-contact]');
+let nextContactIndex = contactList?.querySelectorAll('[data-contact-row]').length ?? 0;
+
+addContactButton?.addEventListener('click', () => {
+    if (!contactList || !contactTemplate) return;
+    const wrapper = document.createElement('div');
+    wrapper.innerHTML = contactTemplate.innerHTML.replaceAll('__INDEX__', String(nextContactIndex++));
+    const row = wrapper.firstElementChild;
+    if (!row) return;
+    contactList.appendChild(row);
+    row.querySelector('input')?.focus();
+});
+
+contactList?.addEventListener('click', (event) => {
+    const button = event.target.closest('[data-remove-contact]');
+    if (!button) return;
+    button.closest('[data-contact-row]')?.remove();
+});

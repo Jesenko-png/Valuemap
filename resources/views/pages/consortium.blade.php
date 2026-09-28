@@ -12,12 +12,11 @@
             $y = 30 + (($mapBounds['maxLatitude'] - $latitude) / ($mapBounds['maxLatitude'] - $mapBounds['minLatitude'])) * 560;
             return [round($x, 1), round($y, 1)];
         };
-        $countryCodes = ['Hungary' => 'HUN', 'Spain' => 'ESP', 'Portugal' => 'PRT', 'Sweden' => 'SWE', 'Bosnia and Herzegovina' => 'BIH', 'Ireland' => 'IRL'];
-        $partnerPoints = collect(config('valuemap.partners'))->map(function ($partner, $index) use ($projectPoint, $countryCodes) {
+        $partnerPoints = collect($partners)->values()->map(function ($partner, $index) use ($projectPoint) {
             [$x, $y] = $projectPoint($partner['longitude'], $partner['latitude']);
             $x += $partner['map_offset_x'] ?? 0;
             $y += $partner['map_offset_y'] ?? 0;
-            return [...$partner, 'number' => $index + 1, 'x' => $x, 'y' => $y, 'country_code' => $countryCodes[$partner['country']]];
+            return [...$partner->toArray(), 'number' => $index + 1, 'x' => $x, 'y' => $y];
         });
         $coordinator = $partnerPoints->first();
         $countryGroups = $partnerPoints->groupBy('country');
@@ -28,8 +27,8 @@
             <h2>Six countries.<br>One shared effort.</h2>
             <p>Seven beneficiaries, one affiliated partner and one associated partner bring complementary regional and sectoral perspectives.</p>
             <ul class="map-country-list" aria-label="Partner countries">
-                @foreach($countryGroups as $country => $partners)
-                    <li><span>{{ $countryCodes[$country] }}</span><strong>{{ $country }}</strong><small>{{ $partners->count() }} {{ Str::plural('partner', $partners->count()) }}</small></li>
+                @foreach($countryGroups as $country => $countryPartners)
+                    <li><span>{{ $countryPartners->first()['country_code'] }}</span><strong>{{ $country }}</strong><small>{{ $countryPartners->count() }} {{ Str::plural('partner', $countryPartners->count()) }}</small></li>
                 @endforeach
             </ul>
             <div class="map-status" data-map-status aria-live="polite"><span aria-hidden="true">●</span><div><strong data-map-status-title>Explore partner locations</strong><small data-map-status-meta>Select a numbered marker on the map.</small></div></div>
@@ -65,7 +64,7 @@
     </div>
 </section>
 
-<section class="section partners-section"><div class="section-heading heading-row"><div><p class="eyebrow">Partner directory</p><h2>Nine organisations.<br><em>Complementary expertise.</em></h2></div><p class="section-note">Official organisation links open in a new tab. Partner contact persons can be added when the consortium approves them for publication.</p></div><div class="partner-grid">@foreach(config('valuemap.partners') as $partner)<article class="reveal"><div class="partner-logo" aria-hidden="true">{{ $partner['initials'] }}</div><span class="tag">{{ $partner['country'] }}</span><h3>{{ $partner['name'] }}</h3><strong class="partner-role">{{ $partner['role'] }}</strong><p>{{ $partner['description'] }}</p><footer><a href="{{ $partner['url'] }}" target="_blank" rel="noopener">Official website</a><span>↗</span></footer></article>@endforeach</div></section>
+<section class="section partners-section"><div class="section-heading heading-row"><div><p class="eyebrow">Partner directory</p><h2>Nine organisations.<br><em>Complementary expertise.</em></h2></div><p class="section-note">Partner profiles, contacts and logos are maintained by the project team through the administration panel.</p></div><div class="partner-grid">@foreach($partners as $partner)<article class="reveal">@if($partner->logo_path)<div class="partner-logo has-logo"><img src="{{ asset('storage/'.$partner->logo_path) }}" alt="{{ $partner->name }} logo" loading="lazy"></div>@else<div class="partner-logo" aria-hidden="true">{{ $partner->initials }}</div>@endif<span class="tag">{{ $partner->country }}</span><h3>{{ $partner->name }}</h3><strong class="partner-role">{{ $partner->role }}</strong><p>{{ $partner->description }}</p>@if($partner->contacts)<div class="partner-contacts">@foreach($partner->contacts as $contact)<div><strong>{{ $contact['name'] ?: 'Project contact' }}</strong>@if($contact['position'])<span>{{ $contact['position'] }}</span>@endif @if($contact['email'])<a href="mailto:{{ $contact['email'] }}">{{ $contact['email'] }}</a>@endif</div>@endforeach</div>@endif<footer>@if($partner->website_url)<a href="{{ $partner->website_url }}" target="_blank" rel="noopener">Official website</a><span>↗</span>@else<span>Website pending</span>@endif</footer></article>@endforeach</div></section>
 
 <section class="cta-section"><p class="eyebrow">Wider ecosystem</p><h2>Expertise grows through<br><em>stakeholder cooperation.</em></h2><p>See the communities VALUEMAP engages across healthcare, policy, research, innovation, industry and society.</p><a class="button button-lime" href="{{ route('ecosystem') }}">Explore the ecosystem ↗</a></section>
 @endsection

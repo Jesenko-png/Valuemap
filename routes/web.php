@@ -3,6 +3,7 @@
 use App\Http\Controllers\AccountController;
 use App\Http\Controllers\Admin\AuthController as AdminAuthController;
 use App\Http\Controllers\Admin\ContentController as AdminContentController;
+use App\Http\Controllers\Admin\PartnerController as AdminPartnerController;
 use App\Http\Controllers\Admin\UserController as AdminUserController;
 use App\Http\Controllers\ContactController;
 use App\Http\Controllers\ContentController;
@@ -46,6 +47,12 @@ Route::prefix('admin')->middleware(['auth', 'admin'])->group(function () {
     Route::get('/content/{contentItem}/edit', [AdminContentController::class, 'edit'])->name('admin.content.edit');
     Route::put('/content/{contentItem}', [AdminContentController::class, 'update'])->name('admin.content.update');
     Route::delete('/content/{contentItem}', [AdminContentController::class, 'destroy'])->name('admin.content.destroy');
+    Route::get('/partners', [AdminPartnerController::class, 'index'])->name('admin.partners.index');
+    Route::get('/partners/create', [AdminPartnerController::class, 'create'])->name('admin.partners.create');
+    Route::post('/partners', [AdminPartnerController::class, 'store'])->name('admin.partners.store');
+    Route::get('/partners/{partner}/edit', [AdminPartnerController::class, 'edit'])->name('admin.partners.edit');
+    Route::put('/partners/{partner}', [AdminPartnerController::class, 'update'])->name('admin.partners.update');
+    Route::delete('/partners/{partner}', [AdminPartnerController::class, 'destroy'])->name('admin.partners.destroy');
     Route::middleware('main_admin')->group(function () {
         Route::get('/users', [AdminUserController::class, 'index'])->name('admin.users.index');
         Route::patch('/users/{user}', [AdminUserController::class, 'update'])->name('admin.users.update');
