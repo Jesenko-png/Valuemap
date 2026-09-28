@@ -254,3 +254,52 @@ contactList?.addEventListener('click', (event) => {
     if (!button) return;
     button.closest('[data-contact-row]')?.remove();
 });
+
+const newsAssistant = document.querySelector('[data-news-assistant]');
+const newsForm = newsAssistant?.closest('form');
+const newsGenerateButton = newsAssistant?.querySelector('[data-ai-generate]');
+const newsAssistantStatus = newsAssistant?.querySelector('[data-ai-status]');
+
+newsGenerateButton?.addEventListener('click', async () => {
+    const facts = newsAssistant.querySelector('[data-ai-facts]')?.value.trim();
+    if (!facts || facts.length < 20) {
+        newsAssistantStatus.textContent = 'Add at least 20 characters of verified source notes.';
+        newsAssistant.querySelector('[data-ai-facts]')?.focus();
+        return;
+    }
+
+    newsGenerateButton.disabled = true;
+    newsGenerateButton.setAttribute('aria-busy', 'true');
+    newsAssistantStatus.textContent = 'Preparing a draft…';
+
+    try {
+        const response = await fetch(newsAssistant.dataset.endpoint, {
+            method: 'POST',
+            headers: {
+                Accept: 'application/json',
+                'Content-Type': 'application/json',
+                'X-CSRF-TOKEN': newsForm?.querySelector('input[name="_token"]')?.value ?? '',
+            },
+            body: JSON.stringify({
+                facts,
+                tone: newsAssistant.querySelector('[data-ai-tone]')?.value ?? 'professional',
+            }),
+        });
+        const result = await response.json();
+        if (!response.ok) throw new Error(result.message ?? 'The draft could not be generated.');
+
+        Object.entries(result.draft).forEach(([name, value]) => {
+            const field = newsForm?.querySelector(`[name="${name}"]`);
+            if (field && typeof value === 'string') field.value = value;
+        });
+        const typeField = newsForm?.querySelector('[name="type"]');
+        if (typeField) typeField.value = 'news';
+        newsAssistantStatus.textContent = 'Draft inserted below. Review and edit it before saving.';
+        newsForm?.querySelector('[name="title"]')?.focus();
+    } catch (error) {
+        newsAssistantStatus.textContent = error instanceof Error ? error.message : 'The draft could not be generated.';
+    } finally {
+        newsGenerateButton.disabled = false;
+        newsGenerateButton.removeAttribute('aria-busy');
+    }
+});

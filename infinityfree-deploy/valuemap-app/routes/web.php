@@ -4,6 +4,7 @@ use App\Http\Controllers\AccountController;
 use App\Http\Controllers\Admin\AuthController as AdminAuthController;
 use App\Http\Controllers\Admin\ContentController as AdminContentController;
 use App\Http\Controllers\Admin\InboxController;
+use App\Http\Controllers\Admin\NewsAssistantController;
 use App\Http\Controllers\Admin\PartnerController as AdminPartnerController;
 use App\Http\Controllers\Admin\UserController as AdminUserController;
 use App\Http\Controllers\ContactController;
@@ -50,6 +51,7 @@ Route::prefix('admin')->middleware(['auth', 'admin'])->group(function () {
     Route::get('/messages/{message}', [InboxController::class, 'show'])->name('admin.messages.show');
     Route::get('/subscribers', [InboxController::class, 'subscribers'])->name('admin.subscribers.index');
     Route::get('/content/create', [AdminContentController::class, 'create'])->name('admin.content.create');
+    Route::post('/news-assistant/generate', [NewsAssistantController::class, 'generate'])->middleware('throttle:10,1')->name('admin.news-assistant.generate');
     Route::post('/content', [AdminContentController::class, 'store'])->name('admin.content.store');
     Route::get('/content/{contentItem}/edit', [AdminContentController::class, 'edit'])->name('admin.content.edit');
     Route::put('/content/{contentItem}', [AdminContentController::class, 'update'])->name('admin.content.update');
