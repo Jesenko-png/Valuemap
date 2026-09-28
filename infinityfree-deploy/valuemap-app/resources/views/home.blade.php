@@ -1,0 +1,117 @@
+@extends('layouts.app')
+
+@section('title', 'Enabling value-sharing and adoption of health data business models')
+@section('description', 'VALUEMAP connects European health data ecosystems to develop sustainable business models, practical tools and coordinated actions for the responsible secondary use of health data.')
+@section('body_class', 'home-page')
+
+@section('content')
+<section class="hero">
+    <img class="hero-background" src="{{ asset('images/visuals/valuemap-europe-network.webp') }}" alt="" width="1942" height="809" fetchpriority="high" decoding="async">
+    <div class="hero-shade" aria-hidden="true"></div>
+    <div class="hero-pulses" aria-hidden="true">
+        @foreach([[58,35,'.2s',7],[66,31,'1.1s',6],[72,42,'.6s',8],[79,37,'1.8s',6],[84,49,'.9s',8],[63,52,'1.5s',7],[73,58,'.35s',6],[88,61,'2.2s',7]] as $pulse)
+            <i style="--x:{{ $pulse[0] }}%;--y:{{ $pulse[1] }}%;--delay:{{ $pulse[2] }};--size:{{ $pulse[3] }}px"></i>
+        @endforeach
+    </div>
+    <div class="hero-grid">
+        <div class="hero-copy reveal">
+            <div class="hero-project-logo">
+                <img src="{{ asset('images/brand/valuemap-logo.webp') }}" alt="VALUEMAP project" width="725" height="130" decoding="async">
+            </div>
+            <p class="eyebrow"><span></span> Horizon Europe project</p>
+            <h1>Enabling value-sharing and adoption of <em>health data</em> business models.</h1>
+            <p class="hero-lede">Building a more connected, inclusive and sustainable European health data ecosystem.</p>
+            <p class="hero-description">VALUEMAP supports fair, ethical and sustainable business models for the secondary use of health data—turning its potential into shared value for European health systems and society.</p>
+            <div class="hero-actions">
+                <a class="button" href="{{ route('about') }}">Discover VALUEMAP <span>↗</span></a>
+                <a class="text-link" href="{{ route('structure') }}">Explore our work <span>↓</span></a>
+                <a class="text-link" href="{{ route('results') }}">Project resources <span>↗</span></a>
+            </div>
+        </div>
+        <div class="hero-insight reveal" aria-label="VALUEMAP project scope">
+            <div class="hero-insight-head"><span>European collaboration</span><i aria-hidden="true"></i></div>
+            <p>Connecting regional intelligence, stakeholder experience and coordinated action.</p>
+            <div class="hero-insight-grid"><span><small>Organisations</small><strong>09</strong></span><span><small>Countries</small><strong>06</strong></span><span><small>Focus</small><strong>Shared value</strong></span></div>
+            <a href="{{ route('consortium') }}">Meet the consortium <span>↗</span></a>
+        </div>
+    </div>
+    <div class="project-facts" aria-label="Project at a glance">
+        <div><span>01</span><small>Duration</small><strong>18 months</strong></div>
+        <div><span>02</span><small>Consortium</small><strong>9 organisations</strong></div>
+        <div><span>03</span><small>Geography</small><strong>6 countries</strong></div>
+        <div><span>04</span><small>Grant type</small><strong>Horizon Europe CSA</strong></div>
+    </div>
+</section>
+
+<section class="visual-story" data-story-slider aria-label="VALUEMAP project story">
+    <div class="visual-story-heading reveal"><p class="eyebrow">The project in focus</p><h2>From potential to <em>shared value.</em></h2><p>Understanding the landscape, connecting stakeholders and translating evidence into coordinated European action.</p></div>
+    <div class="story-stage" tabindex="0">
+        @foreach([
+            ['01 / Map','valuemap-europe-network.webp','Luminous map of connected European regions','Understand the landscape.','Map existing business models, initiatives, practices, opportunities and challenges across Europe.',route('about'),1942,809],
+            ['02 / Connect','valuemap-collaboration.webp','European health data stakeholders collaborating around a map','Bring perspectives together.','Connect regions, healthcare, policy, research, industry and citizens around shared priorities.',route('ecosystem'),2056,765],
+            ['03 / Act','valuemap-impact-network.webp','European health data streams converging into a shared network','Turn evidence into action.','Create recommendations, a joint action plan and practical implementation tools.',route('impact'),2048,768],
+        ] as $i => $slide)
+        <article @class(['story-slide','is-active'=>$i===0]) data-story-slide aria-hidden="{{ $i===0 ? 'false' : 'true' }}">
+            <img src="{{ asset('images/visuals/'.$slide[1]) }}" alt="{{ $slide[2] }}" width="{{ $slide[6] }}" height="{{ $slide[7] }}" decoding="async" @if($i) loading="lazy" @endif>
+            <div class="story-slide-shade"></div><div class="story-slide-content"><span>{{ $slide[0] }}</span><h3>{{ $slide[3] }}</h3><p>{{ $slide[4] }}</p><a href="{{ $slide[5] }}">Learn more ↗</a></div>
+        </article>
+        @endforeach
+        <div class="story-controls" aria-label="Slideshow controls"><div class="story-dots">@for($i=0;$i<3;$i++)<button @class(['is-active'=>$i===0]) type="button" data-story-dot="{{ $i }}" aria-label="Show slide {{ $i+1 }}" @if($i===0) aria-current="true" @endif></button>@endfor</div><div class="story-arrows"><button type="button" data-story-prev aria-label="Previous slide">←</button><button type="button" data-story-next aria-label="Next slide">→</button></div></div>
+    </div>
+</section>
+
+<section class="section intro-section" id="about">
+    <div class="section-heading"><p class="eyebrow">01 / Why VALUEMAP?</p><h2>Creating the conditions for <em>shared value</em> from health data.</h2></div>
+    <div class="intro-grid"><div class="large-copy">Health data can accelerate research, strengthen health systems and enable better products, services and policies.</div><div><p>Its value is not yet fully realised. Differences in governance, access conditions, infrastructures, pricing, licensing and stakeholder capacities continue to limit collaboration and innovation.</p><p>VALUEMAP explores how health data ecosystems can create, share and sustain value in a fair, transparent and responsible way—supporting the ambition of the European Health Data Space.</p><a class="arrow-link" href="{{ route('about') }}">Read about the project <span>↗</span></a></div></div>
+</section>
+
+<section class="section activity-section">
+    <div class="section-heading"><p class="eyebrow">02 / What is VALUEMAP?</p><h2>Six activities. <em>One connected approach.</em></h2></div>
+    <div class="activity-grid">
+        @foreach([
+            ['Examine','Existing health data business models and practices.'],['Identify','Barriers and opportunities for secondary use.'],['Assess','Regional health data ecosystems and needs.'],['Promote','Cooperation between regions and stakeholders.'],['Develop','Recommendations, tools and joint actions.'],['Support','Long-term sustainability of health data initiatives.']
+        ] as $i => $activity)
+        <article class="reveal" tabindex="0" aria-labelledby="activity-title-{{ $i }}" aria-describedby="activity-description-{{ $i }}"><span>0{{ $i+1 }}</span><h3 id="activity-title-{{ $i }}">{{ $activity[0] }}</h3><p id="activity-description-{{ $i }}">{{ $activity[1] }}</p></article>
+        @endforeach
+    </div>
+</section>
+
+<section class="section process-section">
+    <div class="section-heading"><p class="eyebrow">03 / From evidence to action</p><h2>A collaborative path from <em>mapping to implementation.</em></h2></div>
+    <ol class="process-flow">
+        @foreach([
+            ['Map','Understand the European landscape.'],['Connect','Bring regions, sectors and expertise together.'],['Assess','Examine ecosystems, challenges and opportunities.'],['Co-create','Develop shared recommendations and priorities.'],['Act','Deliver a Joint Action Plan and Implementation Toolkit.']
+        ] as $i => $step)
+        <li class="reveal"><span>0{{ $i+1 }}</span><h3>{{ $step[0] }}</h3><p>{{ $step[1] }}</p></li>
+        @endforeach
+    </ol>
+</section>
+
+<section class="section dark-section" id="structure">
+    <div class="section-heading heading-row"><div><p class="eyebrow">04 / Project structure</p><h2>Five work packages.<br><em>One shared direction.</em></h2></div><a class="button button-light" href="{{ route('structure') }}">Explore all work packages ↗</a></div>
+    <div class="wp-preview wp-preview-five">@foreach(config('valuemap.work_packages') as $wp)<article><span>WP {{ $wp['number'] }}</span><h3>{{ $wp['title'] }}</h3><p>{{ $wp['lead'] }} · {{ $wp['duration'] }}</p></article>@endforeach</div>
+</section>
+
+<section class="section consortium-preview">
+    <div class="section-heading heading-row"><div><p class="eyebrow">05 / Connecting European expertise</p><h2>Complementary expertise across <em>six countries.</em></h2></div><a class="arrow-link" href="{{ route('consortium') }}">Meet the Consortium <span>↗</span></a></div>
+    <p class="section-intro">Nine organisations combine healthcare, research, digital health, public administration, innovation, industry and health data governance expertise.</p>
+    <div class="partner-strip">@foreach($partners as $partner)<a href="{{ $partner->website_url ?: route('consortium') }}" @if($partner->website_url) target="_blank" rel="noopener" @endif>@if($partner->logo_path)<span class="has-logo"><img src="{{ asset('storage/'.$partner->logo_path) }}" alt="" loading="lazy"></span>@else<span>{{ $partner->initials }}</span>@endif<strong>{{ $partner->name }}</strong><small>{{ $partner->country }}</small></a>@endforeach</div>
+</section>
+
+<section class="section ecosystem-preview">
+    <div class="section-heading"><p class="eyebrow">06 / Stakeholder ecosystem</p><h2>One ecosystem. <em>Many perspectives.</em></h2></div>
+    <div class="stakeholder-wheel">@foreach(config('valuemap.stakeholders') as $i => $group)<a href="{{ route('ecosystem') }}"><span>0{{ $i+1 }}</span><strong>{{ $group[0] }}</strong><i>↗</i></a>@endforeach</div>
+</section>
+
+<section class="section library-section" id="resources">
+    <div class="section-heading heading-row"><div><p class="eyebrow">07 / Results & resources</p><h2>From project work to <em>practical resources.</em></h2></div><a class="arrow-link" href="{{ route('results') }}">Explore project resources <span>↗</span></a></div>
+    <div class="content-grid">@forelse($latestResults as $item) @include('partials.content-card', ['item' => $item]) @empty <article class="empty-card"><span>Library opening soon</span><h3>Reports, recommendations, tools and other public resources will live here.</h3><p>The library will grow throughout project implementation.</p><a href="{{ route('results') }}">Visit the library →</a></article>@endforelse</div>
+</section>
+
+<section class="section news-section" id="news">
+    <div class="section-heading heading-row"><div><p class="eyebrow">08 / Latest from VALUEMAP</p><h2>Follow the work <em>as it happens.</em></h2></div><a class="arrow-link" href="{{ route('news') }}">All updates <span>↗</span></a></div>
+    <div class="news-list">@forelse($latestNews as $item)<a href="{{ route('content.show', $item) }}"><span class="tag">{{ $item->type_label }}</span><strong>{{ $item->title }}</strong><time>{{ optional($item->published_at)->format('d M Y') }}</time><i>↗</i></a>@empty<div class="news-placeholder"><span class="tag">Project update</span><strong>News, events and project activities will appear here.</strong><time>Coming soon</time></div>@endforelse</div>
+</section>
+
+<section class="cta-section"><p class="eyebrow">Join the ecosystem</p><h2>Let’s create shared value.<br><em>Together.</em></h2><p>Learn more, contribute to stakeholder activities or explore opportunities for collaboration with VALUEMAP.</p><a class="button button-lime" href="{{ route('contact') }}">Get in touch ↗</a></section>
+@endsection

@@ -1,0 +1,12 @@
+@extends('layouts.app')
+@section('title', 'Project structure')
+@section('description', 'Explore the five VALUEMAP work packages, lead partners, activities, outputs and 18-month implementation timeline.')
+@section('content')
+<header class="page-hero compact"><p class="eyebrow">Project structure</p><h1>A coordinated approach to <em>lasting impact.</em></h1><p>Five connected work packages move VALUEMAP from European evidence and regional assessment to shared priorities, practical tools and long-term cooperation.</p></header>
+
+<section class="section wp-accordion-section"><div class="section-heading"><p class="eyebrow">01 / Work packages</p><h2>Explore how the project <em>works.</em></h2><p class="section-intro">Select a work package to see its description, main activities and outputs.</p></div><div class="wp-accordion">@foreach(config('valuemap.work_packages') as $i=>$wp)<details class="wp-disclosure reveal" @if($i===0) open @endif><summary><span class="wp-number">WP {{ $wp['number'] }}</span><span><strong>{{ $wp['title'] }}</strong><small>{{ $wp['lead'] }} · {{ $wp['duration'] }}</small></span><i aria-hidden="true">+</i></summary><div class="wp-disclosure-body"><div><h3>Objective</h3><p>{{ $wp['description'] }}</p><h3>Main output</h3><p>{{ $wp['outputs'] }}</p></div><div><h3>Key activities</h3><ul>@foreach($wp['activities'] as $activity)<li>{{ $activity }}</li>@endforeach</ul></div></div></details>@endforeach</div></section>
+
+<section class="section timeline-section"><div class="section-heading"><p class="eyebrow">02 / Work package timeline</p><h2>Month 1 to <em>Month 18.</em></h2></div><div class="timeline" aria-label="Project work package timeline"><div class="timeline-axis" aria-hidden="true">@for($m=1;$m<=18;$m++)<span>{{ $m }}</span>@endfor</div>@foreach(config('valuemap.work_packages') as $wp)<div class="timeline-row"><div><strong>WP{{ intval($wp['number']) }}</strong><small>{{ $wp['title'] }}</small></div><div class="timeline-track"><span style="--start:{{ $wp['start'] }};--end:{{ $wp['end'] }}"><b>{{ $wp['duration'] }}</b></span></div></div>@endforeach</div></section>
+
+<section class="cta-section"><p class="eyebrow">Project outputs</p><h2>Follow the work from<br><em>evidence to action.</em></h2><p>Public reports, recommendations and tools will be added to the resource library throughout implementation.</p><a class="button button-lime" href="{{ route('results') }}">Explore Results & Resources ↗</a></section>
+@endsection

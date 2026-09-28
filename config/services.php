@@ -26,6 +26,11 @@ return [
         'id' => env('GA_MEASUREMENT_ID'),
     ],
 
+    'gemini' => [
+        'api_key' => env('GEMINI_API_KEY'),
+        'news_model' => env('GEMINI_NEWS_MODEL', 'gemini-3.5-flash-lite'),
+    ],
+
     'ses' => [
         'key' => env('AWS_ACCESS_KEY_ID'),
         'secret' => env('AWS_SECRET_ACCESS_KEY'),

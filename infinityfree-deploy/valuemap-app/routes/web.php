@@ -1,0 +1,69 @@
+<?php
+
+use App\Http\Controllers\AccountController;
+use App\Http\Controllers\Admin\AuthController as AdminAuthController;
+use App\Http\Controllers\Admin\ContentController as AdminContentController;
+use App\Http\Controllers\Admin\InboxController;
+use App\Http\Controllers\Admin\PartnerController as AdminPartnerController;
+use App\Http\Controllers\Admin\UserController as AdminUserController;
+use App\Http\Controllers\ContactController;
+use App\Http\Controllers\ContentController;
+use App\Http\Controllers\NewsletterController;
+use App\Http\Controllers\PageController;
+use Illuminate\Support\Facades\Route;
+
+Route::get('/', [PageController::class, 'home'])->name('home');
+Route::get('/about', [PageController::class, 'about'])->name('about');
+Route::get('/impact', [PageController::class, 'impact'])->name('impact');
+Route::get('/structure', [PageController::class, 'structure'])->name('structure');
+Route::get('/consortium', [PageController::class, 'consortium'])->name('consortium');
+Route::get('/ecosystem', [PageController::class, 'ecosystem'])->name('ecosystem');
+Route::get('/results', [ContentController::class, 'results'])->name('results');
+Route::get('/news-media', [ContentController::class, 'news'])->name('news');
+Route::get('/library/{contentItem:slug}', [ContentController::class, 'show'])->name('content.show');
+Route::get('/contact', [ContactController::class, 'create'])->name('contact');
+Route::post('/contact', [ContactController::class, 'store'])->middleware('throttle:6,60')->name('contact.store');
+Route::post('/newsletter/subscribe', [NewsletterController::class, 'store'])->middleware('throttle:6,60')->name('newsletter.subscribe');
+Route::get('/newsletter/confirm/{subscriber}', [NewsletterController::class, 'confirm'])->middleware(['signed', 'throttle:12,1'])->name('newsletter.confirm');
+Route::get('/newsletter/unsubscribe/{subscriber}', [NewsletterController::class, 'unsubscribeForm'])->middleware(['signed', 'throttle:12,1'])->name('newsletter.unsubscribe');
+Route::post('/newsletter/unsubscribe/{subscriber}', [NewsletterController::class, 'unsubscribe'])->middleware(['signed', 'throttle:12,1'])->name('newsletter.unsubscribe.store');
+Route::get('/privacy', [PageController::class, 'privacy'])->name('privacy');
+Route::get('/cookies', [PageController::class, 'cookies'])->name('cookies');
+Route::get('/accessibility', [PageController::class, 'accessibility'])->name('accessibility');
+Route::get('/sitemap.xml', [PageController::class, 'sitemap'])->name('sitemap');
+
+Route::middleware('guest')->group(function () {
+    Route::get('/login', [AdminAuthController::class, 'create'])->name('login');
+    Route::post('/login', [AdminAuthController::class, 'store'])->name('login.store');
+    Route::post('/register', [AdminAuthController::class, 'register'])->middleware('throttle:4,60')->name('register');
+});
+
+Route::get('/admin/login', fn () => redirect()->route('login'))->name('admin.login');
+Route::middleware('auth')->group(function () {
+    Route::get('/account', [AccountController::class, 'index'])->name('account.index');
+    Route::post('/logout', [AdminAuthController::class, 'destroy'])->name('logout');
+});
+
+Route::prefix('admin')->middleware(['auth', 'admin'])->group(function () {
+    Route::get('/', [AdminContentController::class, 'index'])->name('admin.index');
+    Route::get('/messages', [InboxController::class, 'messages'])->name('admin.messages.index');
+    Route::get('/messages/{message}', [InboxController::class, 'show'])->name('admin.messages.show');
+    Route::get('/subscribers', [InboxController::class, 'subscribers'])->name('admin.subscribers.index');
+    Route::get('/content/create', [AdminContentController::class, 'create'])->name('admin.content.create');
+    Route::post('/content', [AdminContentController::class, 'store'])->name('admin.content.store');
+    Route::get('/content/{contentItem}/edit', [AdminContentController::class, 'edit'])->name('admin.content.edit');
+    Route::put('/content/{contentItem}', [AdminContentController::class, 'update'])->name('admin.content.update');
+    Route::delete('/content/{contentItem}', [AdminContentController::class, 'destroy'])->name('admin.content.destroy');
+    Route::get('/partners', [AdminPartnerController::class, 'index'])->name('admin.partners.index');
+    Route::get('/partners/create', [AdminPartnerController::class, 'create'])->name('admin.partners.create');
+    Route::post('/partners', [AdminPartnerController::class, 'store'])->name('admin.partners.store');
+    Route::get('/partners/{partner}/edit', [AdminPartnerController::class, 'edit'])->name('admin.partners.edit');
+    Route::put('/partners/{partner}', [AdminPartnerController::class, 'update'])->name('admin.partners.update');
+    Route::delete('/partners/{partner}', [AdminPartnerController::class, 'destroy'])->name('admin.partners.destroy');
+    Route::middleware('main_admin')->group(function () {
+        Route::patch('/content/{contentItem}/approve', [AdminContentController::class, 'approve'])->name('admin.content.approve');
+        Route::patch('/content/{contentItem}/return', [AdminContentController::class, 'returnToDraft'])->name('admin.content.return');
+        Route::get('/users', [AdminUserController::class, 'index'])->name('admin.users.index');
+        Route::patch('/users/{user}', [AdminUserController::class, 'update'])->name('admin.users.update');
+    });
+});
