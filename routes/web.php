@@ -3,6 +3,7 @@
 use App\Http\Controllers\AccountController;
 use App\Http\Controllers\Admin\AuthController as AdminAuthController;
 use App\Http\Controllers\Admin\ContentController as AdminContentController;
+use App\Http\Controllers\Admin\InboxController;
 use App\Http\Controllers\Admin\PartnerController as AdminPartnerController;
 use App\Http\Controllers\Admin\UserController as AdminUserController;
 use App\Http\Controllers\ContactController;
@@ -23,6 +24,9 @@ Route::get('/library/{contentItem:slug}', [ContentController::class, 'show'])->n
 Route::get('/contact', [ContactController::class, 'create'])->name('contact');
 Route::post('/contact', [ContactController::class, 'store'])->middleware('throttle:6,60')->name('contact.store');
 Route::post('/newsletter/subscribe', [NewsletterController::class, 'store'])->middleware('throttle:6,60')->name('newsletter.subscribe');
+Route::get('/newsletter/confirm/{subscriber}', [NewsletterController::class, 'confirm'])->middleware(['signed', 'throttle:12,1'])->name('newsletter.confirm');
+Route::get('/newsletter/unsubscribe/{subscriber}', [NewsletterController::class, 'unsubscribeForm'])->middleware(['signed', 'throttle:12,1'])->name('newsletter.unsubscribe');
+Route::post('/newsletter/unsubscribe/{subscriber}', [NewsletterController::class, 'unsubscribe'])->middleware(['signed', 'throttle:12,1'])->name('newsletter.unsubscribe.store');
 Route::get('/privacy', [PageController::class, 'privacy'])->name('privacy');
 Route::get('/cookies', [PageController::class, 'cookies'])->name('cookies');
 Route::get('/accessibility', [PageController::class, 'accessibility'])->name('accessibility');
@@ -42,6 +46,9 @@ Route::middleware('auth')->group(function () {
 
 Route::prefix('admin')->middleware(['auth', 'admin'])->group(function () {
     Route::get('/', [AdminContentController::class, 'index'])->name('admin.index');
+    Route::get('/messages', [InboxController::class, 'messages'])->name('admin.messages.index');
+    Route::get('/messages/{message}', [InboxController::class, 'show'])->name('admin.messages.show');
+    Route::get('/subscribers', [InboxController::class, 'subscribers'])->name('admin.subscribers.index');
     Route::get('/content/create', [AdminContentController::class, 'create'])->name('admin.content.create');
     Route::post('/content', [AdminContentController::class, 'store'])->name('admin.content.store');
     Route::get('/content/{contentItem}/edit', [AdminContentController::class, 'edit'])->name('admin.content.edit');

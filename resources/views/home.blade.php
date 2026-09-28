@@ -6,7 +6,7 @@
 
 @section('content')
 <section class="hero">
-    <img class="hero-background" src="{{ asset('images/visuals/valuemap-europe-network.jpg') }}" alt="" width="1942" height="809" fetchpriority="high">
+    <img class="hero-background" src="{{ asset('images/visuals/valuemap-europe-network.webp') }}" alt="" width="1942" height="809" fetchpriority="high" decoding="async">
     <div class="hero-shade" aria-hidden="true"></div>
     <div class="hero-pulses" aria-hidden="true">
         @foreach([[58,35,'.2s',7],[66,31,'1.1s',6],[72,42,'.6s',8],[79,37,'1.8s',6],[84,49,'.9s',8],[63,52,'1.5s',7],[73,58,'.35s',6],[88,61,'2.2s',7]] as $pulse)
@@ -16,7 +16,7 @@
     <div class="hero-grid">
         <div class="hero-copy reveal">
             <div class="hero-project-logo">
-                <img src="{{ asset('images/brand/valuemap-logo.png') }}" alt="VALUEMAP project" width="725" height="130">
+                <img src="{{ asset('images/brand/valuemap-logo.webp') }}" alt="VALUEMAP project" width="725" height="130" decoding="async">
             </div>
             <p class="eyebrow"><span></span> Horizon Europe project</p>
             <h1>Enabling value-sharing and adoption of <em>health data</em> business models.</h1>
@@ -47,12 +47,12 @@
     <div class="visual-story-heading reveal"><p class="eyebrow">The project in focus</p><h2>From potential to <em>shared value.</em></h2><p>Understanding the landscape, connecting stakeholders and translating evidence into coordinated European action.</p></div>
     <div class="story-stage" tabindex="0">
         @foreach([
-            ['01 / Map','valuemap-europe-network.jpg','Luminous map of connected European regions','Understand the landscape.','Map existing business models, initiatives, practices, opportunities and challenges across Europe.',route('about')],
-            ['02 / Connect','valuemap-collaboration.jpg','European health data stakeholders collaborating around a map','Bring perspectives together.','Connect regions, healthcare, policy, research, industry and citizens around shared priorities.',route('ecosystem')],
-            ['03 / Act','valuemap-impact-network.jpg','European health data streams converging into a shared network','Turn evidence into action.','Create recommendations, a joint action plan and practical implementation tools.',route('impact')],
+            ['01 / Map','valuemap-europe-network.webp','Luminous map of connected European regions','Understand the landscape.','Map existing business models, initiatives, practices, opportunities and challenges across Europe.',route('about'),1942,809],
+            ['02 / Connect','valuemap-collaboration.webp','European health data stakeholders collaborating around a map','Bring perspectives together.','Connect regions, healthcare, policy, research, industry and citizens around shared priorities.',route('ecosystem'),2056,765],
+            ['03 / Act','valuemap-impact-network.webp','European health data streams converging into a shared network','Turn evidence into action.','Create recommendations, a joint action plan and practical implementation tools.',route('impact'),2048,768],
         ] as $i => $slide)
         <article @class(['story-slide','is-active'=>$i===0]) data-story-slide aria-hidden="{{ $i===0 ? 'false' : 'true' }}">
-            <img src="{{ asset('images/visuals/'.$slide[1]) }}" alt="{{ $slide[2] }}" width="1942" height="809" @if($i) loading="lazy" @endif>
+            <img src="{{ asset('images/visuals/'.$slide[1]) }}" alt="{{ $slide[2] }}" width="{{ $slide[6] }}" height="{{ $slide[7] }}" decoding="async" @if($i) loading="lazy" @endif>
             <div class="story-slide-shade"></div><div class="story-slide-content"><span>{{ $slide[0] }}</span><h3>{{ $slide[3] }}</h3><p>{{ $slide[4] }}</p><a href="{{ $slide[5] }}">Learn more ↗</a></div>
         </article>
         @endforeach

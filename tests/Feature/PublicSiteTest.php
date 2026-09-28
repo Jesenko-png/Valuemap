@@ -8,6 +8,7 @@ use App\Models\NewsletterSubscriber;
 use App\Models\Partner;
 use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
+use Illuminate\Support\Facades\Notification;
 use Tests\TestCase;
 
 class PublicSiteTest extends TestCase
@@ -39,6 +40,7 @@ class PublicSiteTest extends TestCase
 
     public function test_newsletter_subscription_is_stored_with_consent(): void
     {
+        Notification::fake();
         $this->post('/newsletter/subscribe', ['email' => 'subscriber@example.com', 'consent' => '1'])
             ->assertSessionHas('newsletter_success');
 

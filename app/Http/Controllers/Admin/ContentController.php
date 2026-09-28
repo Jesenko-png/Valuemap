@@ -29,7 +29,7 @@ class ContentController extends Controller
             'review' => $review,
             'pendingContent' => ContentItem::where('approval_status', 'pending')->count(),
             'messageCount' => ContactMessage::count(),
-            'subscriberCount' => NewsletterSubscriber::count(),
+            'subscriberCount' => NewsletterSubscriber::active()->count(),
             'pendingUsers' => $request->user()->isMainAdmin() ? User::where('is_approved', false)->count() : 0,
         ]);
     }

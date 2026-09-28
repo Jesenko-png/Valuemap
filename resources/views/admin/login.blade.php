@@ -10,7 +10,7 @@
 <body class="admin-body auth-body">
 <main class="auth-shell">
     <section class="auth-intro">
-        <a href="{{ route('home') }}"><img class="auth-logo" src="{{ asset('images/brand/valuemap-logo.png') }}" alt="VALUEMAP" width="725" height="130"></a>
+        <a href="{{ route('home') }}"><img class="auth-logo" src="{{ asset('images/brand/valuemap-logo.webp') }}" alt="VALUEMAP" width="725" height="130"></a>
         <div><p class="eyebrow">Project workspace</p><h1>One account.<br><em>Clear responsibilities.</em></h1><p>Sign in to follow the project or manage news, events, deliverables and newsletters according to your approved role.</p></div>
         <ul><li><strong>Main administrator</strong><span>Approves accounts and roles, and manages all content.</span></li><li><strong>Administrator</strong><span>Creates, edits and publishes project content.</span></li><li><strong>Reader</strong><span>Uses an approved account without publishing access.</span></li></ul>
     </section>

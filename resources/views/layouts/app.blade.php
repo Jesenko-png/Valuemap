@@ -17,9 +17,9 @@
         <meta name="twitter:card" content="summary_large_image">
         <meta name="twitter:image" content="{{ rtrim(config('app.url'), '/') }}/storage/{{ $contentItem->image_path }}">
     @elseif(!request()->routeIs('content.show'))
-        <meta property="og:image" content="{{ rtrim(config('app.url'), '/') }}/og.png">
+        <meta property="og:image" content="{{ rtrim(config('app.url'), '/') }}/og.webp">
         <meta name="twitter:card" content="summary_large_image">
-        <meta name="twitter:image" content="{{ rtrim(config('app.url'), '/') }}/og.png">
+        <meta name="twitter:image" content="{{ rtrim(config('app.url'), '/') }}/og.webp">
     @endif
     <meta name="twitter:title" content="@yield('title', 'Mapping value. Connecting Europe.') — ValueMap">
     <meta name="twitter:description" content="@yield('description', 'European health data ecosystems, connected for public value.')">
@@ -32,7 +32,7 @@
     <a class="skip-link" href="#main">Skip to content</a>
     <header class="site-header">
         <a class="brand" href="{{ route('home') }}" aria-label="ValueMap home">
-            <img class="site-logo" src="{{ asset('images/brand/valuemap-logo.png') }}" alt="VALUEMAP" width="725" height="130">
+            <img class="site-logo" src="{{ asset('images/brand/valuemap-logo.webp') }}" alt="VALUEMAP" width="725" height="130" decoding="async">
         </a>
         <button class="menu-toggle" type="button" aria-label="Open menu" aria-expanded="false" aria-controls="main-navigation" data-menu-toggle><span></span><span></span></button>
         <nav class="site-nav" id="main-navigation" aria-label="Main navigation" data-menu>
@@ -58,13 +58,13 @@
     <footer class="site-footer">
         <div class="footer-main">
             <div>
-                <a class="brand footer-brand" href="{{ route('home') }}" aria-label="ValueMap home"><img class="footer-logo" src="{{ asset('images/brand/valuemap-logo.png') }}" alt="VALUEMAP" width="725" height="130"></a>
+                <a class="brand footer-brand" href="{{ route('home') }}" aria-label="ValueMap home"><img class="footer-logo" src="{{ asset('images/brand/valuemap-logo.webp') }}" alt="VALUEMAP" width="725" height="130" loading="lazy" decoding="async"></a>
                 <p>Supporting fair, ethical and sustainable value-sharing across connected European health data ecosystems.</p>
             </div>
             <div class="footer-links"><h2>Explore</h2><a href="{{ route('about') }}">About VALUEMAP</a><a href="{{ route('impact') }}">Project impact</a><a href="{{ route('structure') }}">Work packages</a><a href="{{ route('consortium') }}">Consortium</a><a href="{{ route('ecosystem') }}">Stakeholders</a></div>
             <div class="footer-links"><h2>Follow the work</h2><a href="{{ route('results') }}">Results & Resources</a><a href="{{ route('news') }}?type=event">Events</a><a href="{{ route('news') }}?type=newsletter">Newsletters</a><a href="{{ config('valuemap.linkedin') }}" target="_blank" rel="noopener">LinkedIn ↗</a><a href="{{ route('contact') }}">Contact</a></div>
             <div class="funding-block">
-                <div class="eu-funded-logo"><img src="{{ asset('eu-funding-reference.png') }}" alt="Funded by the European Union"></div>
+                <div class="eu-funded-logo"><img src="{{ asset('eu-funding-reference.webp') }}" alt="Funded by the European Union" loading="lazy" decoding="async"></div>
                 <p><strong>VALUEMAP has received funding from the European Union under the Horizon Europe programme. Grant Agreement No. {{ config('valuemap.grant_agreement') }}.</strong></p>
                 <p>Funded by the European Union. Views and opinions expressed are, however, those of the author(s) only and do not necessarily reflect those of the European Union or the granting authority. Neither the European Union nor the granting authority can be held responsible for them.</p>
             </div>
