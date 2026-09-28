@@ -8,8 +8,18 @@
 @section('content')
 <header class="page-hero compact"><p class="eyebrow">{{ $isResults ? 'Results & Resources' : 'News & Media' }}</p><h1>{{ $isResults ? 'From project work to' : 'Follow VALUEMAP' }} <em>{{ $isResults ? 'practical resources.' : 'as it happens.' }}</em></h1><p>{{ $isResults ? 'An organised public collection of reports, recommendations, tools and materials supporting research, cooperation and implementation.' : 'Stay informed about project activities, stakeholder engagement, upcoming opportunities and new resources.' }}</p></header>
 <section class="section listing-section">
-    <form class="filter-bar" method="get"><div class="filter-tabs"><a @class(['active'=>!$activeType]) href="{{ url()->current() }}">All</a>@foreach($types as $type)<a @class(['active'=>$activeType===$type]) href="{{ url()->current() }}?type={{ $type }}">{{ $labels[$type] }}</a>@endforeach</div><label class="search-field"><span class="sr-only">Search</span><input type="search" name="q" value="{{ $search }}" placeholder="Search the library"><button type="submit">Search</button></label></form>
-    @if($activeType === 'event')<nav class="period-tabs" aria-label="Filter events by date"><a @class(['active'=>!$eventPeriod]) href="{{ route('news',['type'=>'event']) }}">All events</a><a @class(['active'=>$eventPeriod==='upcoming']) href="{{ route('news',['type'=>'event','period'=>'upcoming']) }}">Upcoming</a><a @class(['active'=>$eventPeriod==='past']) href="{{ route('news',['type'=>'event','period'=>'past']) }}">Past</a></nav>@endif
+    <nav class="filter-tabs" aria-label="Content type">
+        <a @class(['active'=>!$activeType]) href="{{ url()->current().'?'.http_build_query(['q'=>$search]) }}">All</a>
+        @foreach($types as $type)<a @class(['active'=>$activeType===$type]) href="{{ url()->current().'?'.http_build_query(['type'=>$type,'q'=>$search]) }}">{{ $labels[$type] }}</a>@endforeach
+    </nav>
+    <form class="publication-filters" method="get">
+        @if($activeType)<input type="hidden" name="type" value="{{ $activeType }}">@endif
+        <label>Search<input type="search" name="q" value="{{ $search }}" placeholder="Search titles and descriptions"></label>
+        <label>Category<select name="category"><option value="">All categories</option>@foreach($categories as $option)<option value="{{ $option }}" @selected($category===$option)>{{ $option }}</option>@endforeach</select></label>
+        @if($activeType === 'event')<label>Event period<select name="period"><option value="">All events</option><option value="upcoming" @selected($eventPeriod==='upcoming')>Upcoming</option><option value="past" @selected($eventPeriod==='past')>Past</option></select></label>@endif
+        <button class="button" type="submit">Apply filters</button><a href="{{ url()->current() }}">Reset</a>
+    </form>
+    <p class="listing-count" role="status">{{ $items->total() }} {{ Str::plural('result', $items->total()) }}</p>
     <div class="content-grid listing-grid">
         @forelse($items as $item) @include('partials.content-card', ['item'=>$item])
         @empty <div class="empty-state"><span>Nothing published yet</span><h2>{{ $isResults ? 'The library is ready for the first public result.' : 'Project updates will appear here as they are published.' }}</h2><p>Try another filter or return soon.</p></div>

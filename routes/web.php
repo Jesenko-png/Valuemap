@@ -54,6 +54,8 @@ Route::prefix('admin')->middleware(['auth', 'admin'])->group(function () {
     Route::put('/partners/{partner}', [AdminPartnerController::class, 'update'])->name('admin.partners.update');
     Route::delete('/partners/{partner}', [AdminPartnerController::class, 'destroy'])->name('admin.partners.destroy');
     Route::middleware('main_admin')->group(function () {
+        Route::patch('/content/{contentItem}/approve', [AdminContentController::class, 'approve'])->name('admin.content.approve');
+        Route::patch('/content/{contentItem}/return', [AdminContentController::class, 'returnToDraft'])->name('admin.content.return');
         Route::get('/users', [AdminUserController::class, 'index'])->name('admin.users.index');
         Route::patch('/users/{user}', [AdminUserController::class, 'update'])->name('admin.users.update');
     });

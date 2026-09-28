@@ -27,17 +27,106 @@ window.addEventListener('resize', () => {
     if (window.innerWidth > 1050) setMenuState(false);
 });
 
-const revealItems = document.querySelectorAll('.reveal');
+// Content stays visible without JavaScript; animate only when it enters the viewport.
+const motionPreference = window.matchMedia('(prefers-reduced-motion: reduce)');
+const runningReveals = new Map();
+const counterFrames = new Map();
+const publicMain = document.querySelector('main#main');
+const revealItems = publicMain ? [...publicMain.querySelectorAll(
+    '.reveal, .section-heading, .intro-grid > div, .page-hero > *, .cta-section > *, '
+    + '.wp-preview article, .partner-strip > a, .stakeholder-wheel > a, .content-card, '
+    + '.empty-card, .news-list > a, .map-intro, .europe-map-panel'
+)].filter((item) => !item.closest('.process-flow')
+    && !item.parentElement.closest('.reveal, .section-heading')) : [];
+
+const finishMotion = () => {
+    runningReveals.forEach((animation) => animation.cancel());
+    runningReveals.clear();
+    counterFrames.forEach(({ frame, original }, item) => {
+        cancelAnimationFrame(frame);
+        item.textContent = original;
+    });
+    counterFrames.clear();
+};
+motionPreference.addEventListener('change', () => {
+    if (motionPreference.matches) finishMotion();
+});
+document.addEventListener('focusin', (event) => {
+    runningReveals.forEach((animation, item) => {
+        if (item.contains(event.target)) {
+            animation.cancel();
+            runningReveals.delete(item);
+        }
+    });
+});
+
 if ('IntersectionObserver' in window) {
     const observer = new IntersectionObserver((entries) => entries.forEach((entry) => {
-        if (entry.isIntersecting) {
-            entry.target.classList.add('revealed');
-            observer.unobserve(entry.target);
-        }
-    }), { threshold: 0.12 });
+        if (!entry.isIntersecting) return;
+        observer.unobserve(entry.target);
+        if (motionPreference.matches || !entry.target.animate) return;
+        const item = entry.target;
+        const index = revealItems.indexOf(item);
+        const distance = window.innerWidth < 600 ? 20 : 48;
+        const animation = item.animate([
+            { opacity: 0, transform: `translateX(${index % 2 ? distance : -distance}px)` },
+            { opacity: 1, transform: 'translateX(0)' },
+        ], { duration: 750, easing: 'cubic-bezier(.2,.7,.2,1)' });
+        runningReveals.set(item, animation);
+        animation.onfinish = () => runningReveals.delete(item);
+    }), { threshold: 0, rootMargin: '0px 0px -32px 0px' });
     revealItems.forEach((item) => observer.observe(item));
-} else {
-    revealItems.forEach((item) => item.classList.add('revealed'));
+
+    // Start the whole sequence together so the five steps form one falling wave.
+    const processObserver = new IntersectionObserver((entries) => entries.forEach((entry) => {
+        if (!entry.isIntersecting) return;
+        processObserver.unobserve(entry.target);
+        if (motionPreference.matches) return;
+        entry.target.querySelectorAll('li').forEach((item, index) => {
+            if (!item.animate) return;
+            const animation = item.animate([
+                { opacity: 0, transform: 'translateY(-55px)', offset: 0 },
+                { opacity: 1, transform: 'translateY(5px)', offset: 0.78 },
+                { opacity: 1, transform: 'translateY(0)', offset: 1 },
+            ], {
+                duration: 1500,
+                delay: index * 360,
+                easing: 'cubic-bezier(.22,.61,.36,1)',
+                fill: 'backwards',
+            });
+            runningReveals.set(item, animation);
+            animation.onfinish = () => runningReveals.delete(item);
+        });
+    }), { threshold: 0, rootMargin: '0px 0px -100px 0px' });
+    publicMain?.querySelectorAll('.process-flow').forEach((flow) => processObserver.observe(flow));
+
+    const countObserver = new IntersectionObserver((entries) => entries.forEach((entry) => {
+        if (!entry.isIntersecting) return;
+        countObserver.unobserve(entry.target);
+        const item = entry.target;
+        const original = item.textContent;
+        const match = original.match(/^(\d+)(.*)$/);
+        if (!match || motionPreference.matches) return;
+        const target = Number(match[1]);
+        const started = performance.now();
+        const state = { original, frame: 0 };
+        // Keep the final value available to assistive technology throughout.
+        item.setAttribute('aria-label', original);
+        const tick = (now) => {
+            const progress = Math.min((now - started) / 1100, 1);
+            const value = Math.round(target * (1 - (1 - progress) ** 3));
+            item.textContent = String(value).padStart(match[1].length, '0') + match[2];
+            if (progress < 1) state.frame = requestAnimationFrame(tick);
+            else {
+                item.textContent = original;
+                counterFrames.delete(item);
+            }
+        };
+        counterFrames.set(item, state);
+        state.frame = requestAnimationFrame(tick);
+    }), { threshold: 0.5 });
+    publicMain?.querySelectorAll('.project-facts strong, .hero-insight-grid strong')
+        .forEach((item) => countObserver.observe(item));
 }
 
 const map = document.querySelector('[data-consortium-map]');

@@ -21,6 +21,7 @@ class ContentItem extends Model
         'published_at', 'event_date', 'location', 'target_audience', 'registration_url',
         'agenda_url', 'related_resources', 'status', 'category', 'file_path',
         'external_url', 'image_path', 'is_public', 'sort_order',
+        'approval_status', 'approved_by', 'approved_at',
     ];
 
     protected function casts(): array
@@ -29,13 +30,36 @@ class ContentItem extends Model
             'published_at' => 'date',
             'event_date' => 'datetime',
             'is_public' => 'boolean',
+            'approved_at' => 'datetime',
         ];
     }
 
     public function scopeVisible(Builder $query): Builder
     {
         return $query->where('is_public', true)
+            ->where('status', '!=', 'draft')->where('approval_status', 'approved')
             ->where(fn (Builder $q) => $q->whereNull('published_at')->orWhere('published_at', '<=', now()));
+    }
+
+    public function getVisibilityLabelAttribute(): string
+    {
+        if ($this->status === 'draft') {
+            return 'Draft';
+        }
+        if (! $this->is_public) {
+            return 'Hidden';
+        }
+        if ($this->approval_status === 'pending') {
+            return 'Awaiting approval';
+        }
+        if ($this->approval_status !== 'approved') {
+            return 'Not approved';
+        }
+        if ($this->published_at?->isFuture()) {
+            return 'Scheduled';
+        }
+
+        return 'Public';
     }
 
     public function getTypeLabelAttribute(): string

@@ -23,7 +23,7 @@ class PublicSiteTest extends TestCase
 
     public function test_only_public_content_is_listed(): void
     {
-        ContentItem::create(['type' => 'news', 'title' => 'Visible update', 'slug' => 'visible-update', 'status' => 'published', 'is_public' => true, 'published_at' => now()]);
+        ContentItem::create(['type' => 'news', 'title' => 'Visible update', 'slug' => 'visible-update', 'status' => 'published', 'is_public' => true, 'published_at' => now(), 'approval_status' => 'approved']);
         ContentItem::create(['type' => 'news', 'title' => 'Hidden update', 'slug' => 'hidden-update', 'status' => 'draft', 'is_public' => false]);
 
         $this->get('/news-media')->assertSee('Visible update')->assertDontSee('Hidden update');
@@ -50,7 +50,7 @@ class PublicSiteTest extends TestCase
         $this->get('/admin')->assertRedirect('/login');
     }
 
-    public function test_administrator_can_create_public_content(): void
+    public function test_administrator_content_requires_main_admin_approval(): void
     {
         $admin = User::factory()->create(['is_admin' => false, 'role' => User::ROLE_ADMIN, 'is_approved' => true]);
 
@@ -75,7 +75,15 @@ class PublicSiteTest extends TestCase
             ]);
         }
         foreach (['news', 'event', 'deliverable', 'newsletter'] as $type) {
-            $this->get('/library/published-'.$type)->assertOk()->assertSee('Published '.ucfirst($type));
+            $item = ContentItem::where('slug', 'published-'.$type)->firstOrFail();
+            $this->assertSame('pending', $item->approval_status);
+            $this->get('/library/published-'.$type)->assertNotFound();
+            $this->patch('/admin/content/'.$item->id.'/approve')->assertForbidden();
+        }
+        $main = User::factory()->create(['role' => User::ROLE_MAIN_ADMIN, 'is_approved' => true]);
+        foreach (ContentItem::all() as $item) {
+            $this->actingAs($main)->patch('/admin/content/'.$item->id.'/approve')->assertRedirect();
+            $this->get('/library/'.$item->slug)->assertOk()->assertSee($item->title);
         }
     }
 

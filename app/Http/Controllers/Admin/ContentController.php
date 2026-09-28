@@ -19,11 +19,15 @@ class ContentController extends Controller
     public function index(Request $request): View
     {
         $type = in_array($request->string('type')->toString(), ContentItem::TYPES, true) ? $request->string('type')->toString() : null;
-        $items = ContentItem::query()->when($type, fn ($q) => $q->where('type', $type))->latest()->paginate(15)->withQueryString();
+        $review = $request->query('review') === 'pending';
+        $items = ContentItem::query()->when($type, fn ($q) => $q->where('type', $type))
+            ->when($review, fn ($q) => $q->where('approval_status', 'pending'))->latest()->paginate(15)->withQueryString();
 
         return view('admin.index', [
             'items' => $items,
             'type' => $type,
+            'review' => $review,
+            'pendingContent' => ContentItem::where('approval_status', 'pending')->count(),
             'messageCount' => ContactMessage::count(),
             'subscriberCount' => NewsletterSubscriber::count(),
             'pendingUsers' => $request->user()->isMainAdmin() ? User::where('is_approved', false)->count() : 0,
@@ -42,7 +46,7 @@ class ContentController extends Controller
         $data = $this->storeUploads($request, $data);
         ContentItem::create($data);
 
-        return redirect()->route('admin.index')->with('success', 'Content item created.');
+        return redirect()->route('admin.index')->with('success', $data['approval_status'] === 'pending' ? 'Content saved and submitted to the main administrator for approval.' : 'Content item created.');
     }
 
     public function edit(ContentItem $contentItem): View
@@ -53,11 +57,28 @@ class ContentController extends Controller
     public function update(Request $request, ContentItem $contentItem): RedirectResponse
     {
         $data = $this->validated($request);
-        $data['slug'] = $this->uniqueSlug($data['title'], $contentItem->id);
+        // Keep published links stable when a title changes.
         $data = $this->storeUploads($request, $data, $contentItem);
         $contentItem->update($data);
 
-        return redirect()->route('admin.index')->with('success', 'Content item updated.');
+        return redirect()->route('admin.index')->with('success', $data['approval_status'] === 'pending' ? 'Changes submitted for approval. This item is hidden until approved again.' : 'Content item updated.');
+    }
+
+    public function approve(Request $request, ContentItem $contentItem): RedirectResponse
+    {
+        abort_unless($request->user()->isMainAdmin(), 403);
+        abort_unless($contentItem->approval_status === 'pending' && $contentItem->is_public && $contentItem->status !== 'draft', 422);
+        $contentItem->update(['approval_status' => 'approved', 'approved_by' => $request->user()->id, 'approved_at' => now()]);
+
+        return back()->with('success', 'Publication approved. Future-dated items remain scheduled.');
+    }
+
+    public function returnToDraft(Request $request, ContentItem $contentItem): RedirectResponse
+    {
+        abort_unless($request->user()->isMainAdmin(), 403);
+        $contentItem->update(['approval_status' => 'draft', 'status' => 'draft', 'is_public' => false, 'approved_by' => null, 'approved_at' => null]);
+
+        return back()->with('success', 'Content returned to draft for corrections.');
     }
 
     public function destroy(ContentItem $contentItem): RedirectResponse
@@ -90,6 +111,12 @@ class ContentController extends Controller
             'image' => ['nullable', 'image', 'mimes:jpg,jpeg,png,webp', 'max:5120'],
         ]);
         $data['is_public'] = $request->boolean('is_public');
+        $wantsPublication = $data['is_public'] && $data['status'] !== 'draft';
+        $approved = $wantsPublication && $request->user()->isMainAdmin();
+        $data['approval_status'] = $wantsPublication ? ($approved ? 'approved' : 'pending') : 'draft';
+        $data['approved_by'] = $approved ? $request->user()->id : null;
+        $data['approved_at'] = $approved ? now() : null;
+        $data['category'] = isset($data['category']) ? trim($data['category']) : null;
         $data['sort_order'] ??= 0;
         unset($data['document'], $data['image']);
 

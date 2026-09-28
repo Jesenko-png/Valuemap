@@ -71,7 +71,7 @@
         @foreach([
             ['Examine','Existing health data business models and practices.'],['Identify','Barriers and opportunities for secondary use.'],['Assess','Regional health data ecosystems and needs.'],['Promote','Cooperation between regions and stakeholders.'],['Develop','Recommendations, tools and joint actions.'],['Support','Long-term sustainability of health data initiatives.']
         ] as $i => $activity)
-        <article class="reveal"><span>0{{ $i+1 }}</span><h3>{{ $activity[0] }}</h3><p>{{ $activity[1] }}</p></article>
+        <article class="reveal" tabindex="0" aria-labelledby="activity-title-{{ $i }}" aria-describedby="activity-description-{{ $i }}"><span>0{{ $i+1 }}</span><h3 id="activity-title-{{ $i }}">{{ $activity[0] }}</h3><p id="activity-description-{{ $i }}">{{ $activity[1] }}</p></article>
         @endforeach
     </div>
 </section>

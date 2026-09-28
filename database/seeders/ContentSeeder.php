@@ -41,7 +41,7 @@ class ContentSeeder extends Seeder
         ];
 
         foreach ($items as $item) {
-            ContentItem::updateOrCreate(['slug' => $item['slug']], $item);
+            ContentItem::updateOrCreate(['slug' => $item['slug']], [...$item, 'approval_status' => 'approved']);
         }
     }
 }
