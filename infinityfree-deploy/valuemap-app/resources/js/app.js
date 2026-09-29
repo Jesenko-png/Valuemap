@@ -7,12 +7,29 @@ window.addEventListener('scroll', syncHeader, { passive: true });
 
 const toggle = document.querySelector('[data-menu-toggle]');
 const menu = document.querySelector('[data-menu]');
+let menuScrollPosition = 0;
 const setMenuState = (open) => {
-    menu?.classList.toggle('open', open);
+    if (!menu || !toggle) return;
+
+    const wasOpen = document.body.classList.contains('menu-open');
+
+    menu.classList.toggle('open', open);
     document.body.classList.toggle('menu-open', open);
-    toggle?.classList.toggle('is-open', open);
-    toggle?.setAttribute('aria-expanded', String(open));
-    toggle?.setAttribute('aria-label', open ? 'Close menu' : 'Open menu');
+    toggle.classList.toggle('is-open', open);
+    toggle.setAttribute('aria-expanded', String(open));
+    toggle.setAttribute('aria-label', open ? 'Close menu' : 'Open menu');
+
+    if (open) {
+        menuScrollPosition = window.scrollY;
+        document.body.style.top = `-${menuScrollPosition}px`;
+        document.body.style.position = 'fixed';
+        document.body.style.width = '100%';
+    } else if (wasOpen) {
+        document.body.style.removeProperty('top');
+        document.body.style.removeProperty('position');
+        document.body.style.removeProperty('width');
+        window.scrollTo(0, menuScrollPosition);
+    }
 };
 
 toggle?.addEventListener('click', () => setMenuState(!menu?.classList.contains('open')));

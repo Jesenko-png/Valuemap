@@ -8,6 +8,54 @@
 <section class="hero">
     <img class="hero-background" src="{{ asset('images/visuals/valuemap-europe-network.webp') }}" alt="" width="1942" height="809" fetchpriority="high" decoding="async">
     <div class="hero-shade" aria-hidden="true"></div>
+    <svg class="hero-network hero-network-desktop" viewBox="0 0 100 100" preserveAspectRatio="none" aria-hidden="true" focusable="false">
+        <defs>
+            <linearGradient id="hero-network-gradient" x1="0" y1="0" x2="1" y2="0">
+                <stop offset="0" stop-color="#80e9dc" stop-opacity=".18" />
+                <stop offset=".52" stop-color="#d9ff59" stop-opacity=".9" />
+                <stop offset="1" stop-color="#80e9dc" stop-opacity=".2" />
+            </linearGradient>
+        </defs>
+        <g class="hero-network-routes">
+            <path id="hero-route-1" d="M58 35 C61 31 63 30 66 31" />
+            <path id="hero-route-2" d="M66 31 C68 34 70 39 72 42" />
+            <path id="hero-route-3" d="M72 42 C75 41 77 39 79 37" />
+            <path id="hero-route-4" d="M79 37 C82 39 83 45 84 49" />
+            <path id="hero-route-5" d="M58 35 C59 42 61 48 63 52" />
+            <path id="hero-route-6" d="M63 52 C66 54 70 56 73 58" />
+            <path id="hero-route-7" d="M73 58 C78 59 83 60 88 61" />
+            <path id="hero-route-8" d="M72 42 C77 43 81 46 84 49" />
+        </g>
+        <g class="hero-network-travellers">
+            <circle r=".32"><animateMotion dur="5.8s" begin="-.8s" repeatCount="indefinite"><mpath href="#hero-route-1" /></animateMotion></circle>
+            <circle r=".28"><animateMotion dur="6.6s" begin="-3.1s" repeatCount="indefinite"><mpath href="#hero-route-2" /></animateMotion></circle>
+            <circle r=".3"><animateMotion dur="5.4s" begin="-1.9s" repeatCount="indefinite"><mpath href="#hero-route-3" /></animateMotion></circle>
+            <circle r=".26"><animateMotion dur="7.2s" begin="-4.4s" repeatCount="indefinite"><mpath href="#hero-route-4" /></animateMotion></circle>
+            <circle r=".3"><animateMotion dur="6.9s" begin="-2.2s" repeatCount="indefinite"><mpath href="#hero-route-5" /></animateMotion></circle>
+            <circle r=".27"><animateMotion dur="5.9s" begin="-4.8s" repeatCount="indefinite"><mpath href="#hero-route-6" /></animateMotion></circle>
+            <circle r=".3"><animateMotion dur="7.8s" begin="-3.6s" repeatCount="indefinite"><mpath href="#hero-route-7" /></animateMotion></circle>
+            <circle r=".25"><animateMotion dur="6.3s" begin="-1.2s" repeatCount="indefinite"><mpath href="#hero-route-8" /></animateMotion></circle>
+        </g>
+    </svg>
+    <svg class="hero-network hero-network-mobile" viewBox="0 0 100 100" preserveAspectRatio="none" aria-hidden="true" focusable="false">
+        <defs>
+            <linearGradient id="hero-network-gradient-mobile" x1="0" y1="0" x2="1" y2="0">
+                <stop offset="0" stop-color="#80e9dc" stop-opacity=".18" />
+                <stop offset=".52" stop-color="#d9ff59" stop-opacity=".9" />
+                <stop offset="1" stop-color="#80e9dc" stop-opacity=".2" />
+            </linearGradient>
+        </defs>
+        <g class="hero-network-routes">
+            <path id="hero-mobile-route-1" d="M74 29 C79 28 84 31 88 34" />
+            <path id="hero-mobile-route-2" d="M88 34 C86 37 84 40 81 43" />
+            <path id="hero-mobile-route-3" d="M74 29 C76 34 78 39 81 43" />
+        </g>
+        <g class="hero-network-travellers">
+            <circle r=".42"><animateMotion dur="6.2s" begin="-1.4s" repeatCount="indefinite"><mpath href="#hero-mobile-route-1" /></animateMotion></circle>
+            <circle r=".4"><animateMotion dur="7s" begin="-4s" repeatCount="indefinite"><mpath href="#hero-mobile-route-2" /></animateMotion></circle>
+            <circle r=".38"><animateMotion dur="6.6s" begin="-2.8s" repeatCount="indefinite"><mpath href="#hero-mobile-route-3" /></animateMotion></circle>
+        </g>
+    </svg>
     <div class="hero-pulses" aria-hidden="true">
         @foreach([[58,35,'.2s',7],[66,31,'1.1s',6],[72,42,'.6s',8],[79,37,'1.8s',6],[84,49,'.9s',8],[63,52,'1.5s',7],[73,58,'.35s',6],[88,61,'2.2s',7]] as $pulse)
             <i style="--x:{{ $pulse[0] }}%;--y:{{ $pulse[1] }}%;--delay:{{ $pulse[2] }};--size:{{ $pulse[3] }}px"></i>
