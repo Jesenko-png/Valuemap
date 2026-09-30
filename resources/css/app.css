@@ -350,3 +350,25 @@ main#main{overflow-x:clip}
     .story-arrows button{top:auto;bottom:22px;transform:none;width:44px;height:44px}
     .story-arrows button:first-child{left:22px}.story-arrows button:last-child{right:22px}
 }
+
+/* Readable typography hierarchy from the VALUEMAP development brief. */
+body{font-size:16px;line-height:1.65}
+h1,h2,h3{font-family:inherit;text-wrap:balance}
+h1,.home-page .hero h1,.page-hero h1,.page-hero.compact h1{font-weight:700;line-height:1.04;letter-spacing:-.045em}
+.section-heading h2,.split-feature h2,.impact-band h2,.engagement-band h2,.visual-story-heading h2{font-weight:700;line-height:1.08;letter-spacing:-.04em}
+h3,.activity-grid h3{font-weight:600;line-height:1.2;letter-spacing:-.025em}
+.section-intro,.intro-grid>div:last-child p,.split-feature .prose p,.policy-content article p{line-height:1.7}
+.content-card p,.empty-card p,.wp-preview p,.wp-details p,.wp-details li,.partner-grid p,.ecosystem-groups p,.process-flow p,.result-card-grid p,.impact-statement-grid p{font-size:15px;line-height:1.65}
+.funding-block p{font-size:13px;line-height:1.6}
+@media(max-width:480px){.hero-description{font-size:15px;line-height:1.6}}
+
+/* Brand-colour accents on dark panels keep long copy easy to read. */
+:root{--text-accent:#8de5e9}
+.home-page .hero h1 em{color:var(--text-accent)}
+.home-page .hero-lede{color:#e1f2f7}
+.home-page .hero-description{color:#c2d9e5}
+.home-page .hero-actions .text-link{color:var(--text-accent);border-bottom-color:rgba(141,229,233,.65)}
+.hero-insight-grid strong{color:var(--text-accent)}
+.dark-section .section-heading h2 em,.impact-band h2 em{color:var(--text-accent)}
+.newsletter-cta .eyebrow,.site-footer .footer-links h2{color:var(--text-accent)}
+.site-footer a:hover{color:var(--text-accent)}
