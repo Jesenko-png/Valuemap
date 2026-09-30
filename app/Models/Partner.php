@@ -39,6 +39,24 @@ class Partner extends Model
         ];
     }
 
+    public function getDisplayLogoUrlAttribute(): ?string
+    {
+        $path = $this->logo_path;
+
+        if (! $path) {
+            $partner = collect(config('valuemap.partners'))->firstWhere('name', $this->name);
+            $path = $partner['logo_path'] ?? null;
+        }
+
+        if (! $path) {
+            return null;
+        }
+
+        return str_starts_with($path, 'images/partners/')
+            ? asset($path)
+            : asset('storage/'.$path);
+    }
+
     public function scopeVisible(Builder $query): Builder
     {
         return $query->where('is_active', true)->orderBy('sort_order')->orderBy('name');

@@ -22,6 +22,20 @@ class PublicSiteTest extends TestCase
         }
     }
 
+    public function test_consortium_remains_visible_when_hosted_partner_table_is_empty(): void
+    {
+        Partner::query()->delete();
+
+        $response = $this->get('/consortium')->assertOk();
+        foreach (config('valuemap.partners') as $partner) {
+            $response->assertSee($partner['name']);
+            $response->assertSee(asset($partner['logo_path']));
+            $this->assertFileExists(public_path($partner['logo_path']));
+        }
+        $this->get('/')->assertOk()->assertSee('InnoStars');
+        $this->assertDatabaseCount('partners', 0);
+    }
+
     public function test_only_public_content_is_listed(): void
     {
         ContentItem::create(['type' => 'news', 'title' => 'Visible update', 'slug' => 'visible-update', 'status' => 'published', 'is_public' => true, 'published_at' => now(), 'approval_status' => 'approved']);
