@@ -38,8 +38,8 @@
                 <title id="europe-map-title">Map of the VALUEMAP consortium across Europe</title>
                 <desc id="europe-map-description">A geographic map showing nine partner locations in Hungary, Spain, Portugal, Sweden, Bosnia and Herzegovina, and Ireland.</desc>
                 <defs>
-                    <radialGradient id="map-glow"><stop offset="0" stop-color="#80e9dc" stop-opacity=".22"/><stop offset="1" stop-color="#80e9dc" stop-opacity="0"/></radialGradient>
-                    <filter id="pin-shadow" x="-80%" y="-80%" width="260%" height="260%"><feDropShadow dx="0" dy="4" stdDeviation="5" flood-color="#071f1f" flood-opacity=".32"/></filter>
+                    <radialGradient id="map-glow"><stop offset="0" stop-color="#78cbd2" stop-opacity=".22"/><stop offset="1" stop-color="#78cbd2" stop-opacity="0"/></radialGradient>
+                    <filter id="pin-shadow" x="-80%" y="-80%" width="260%" height="260%"><feDropShadow dx="0" dy="4" stdDeviation="5" flood-color="#071d2e" flood-opacity=".32"/></filter>
                 </defs>
                 <circle class="map-glow" cx="520" cy="330" r="330" fill="url(#map-glow)"/>
                 @include('partials.europe-map')

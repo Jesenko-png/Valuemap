@@ -11,9 +11,9 @@
     <svg class="hero-network hero-network-desktop" viewBox="0 0 100 100" preserveAspectRatio="none" aria-hidden="true" focusable="false">
         <defs>
             <linearGradient id="hero-network-gradient" x1="0" y1="0" x2="1" y2="0">
-                <stop offset="0" stop-color="#80e9dc" stop-opacity=".18" />
-                <stop offset=".52" stop-color="#d9ff59" stop-opacity=".9" />
-                <stop offset="1" stop-color="#80e9dc" stop-opacity=".2" />
+                <stop offset="0" stop-color="#78cbd2" stop-opacity=".18" />
+                <stop offset=".52" stop-color="#d7eef5" stop-opacity=".9" />
+                <stop offset="1" stop-color="#78cbd2" stop-opacity=".2" />
             </linearGradient>
         </defs>
         <g class="hero-network-routes">
@@ -40,9 +40,9 @@
     <svg class="hero-network hero-network-mobile" viewBox="0 0 100 100" preserveAspectRatio="none" aria-hidden="true" focusable="false">
         <defs>
             <linearGradient id="hero-network-gradient-mobile" x1="0" y1="0" x2="1" y2="0">
-                <stop offset="0" stop-color="#80e9dc" stop-opacity=".18" />
-                <stop offset=".52" stop-color="#d9ff59" stop-opacity=".9" />
-                <stop offset="1" stop-color="#80e9dc" stop-opacity=".2" />
+                <stop offset="0" stop-color="#78cbd2" stop-opacity=".18" />
+                <stop offset=".52" stop-color="#d7eef5" stop-opacity=".9" />
+                <stop offset="1" stop-color="#78cbd2" stop-opacity=".2" />
             </linearGradient>
         </defs>
         <g class="hero-network-routes">

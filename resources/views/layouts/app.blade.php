@@ -4,7 +4,7 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="description" content="@yield('description', 'VALUEMAP connects European health data ecosystems to develop sustainable business models and coordinated action for responsible secondary use of health data.')">
-    <meta name="theme-color" content="#102c2c">
+    <meta name="theme-color" content="#0c2537">
     <link rel="icon" href="{{ asset('favicon.svg') }}" type="image/svg+xml">
     <title>@yield('title', 'Mapping health data ecosystems across Europe') — ValueMap</title>
     <link rel="canonical" href="{{ url()->current() }}">
