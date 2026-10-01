@@ -42,8 +42,8 @@
             <a @class(['active' => request()->routeIs('structure')]) href="{{ route('structure') }}">Project Structure</a>
             <a @class(['active' => request()->routeIs('consortium')]) href="{{ route('consortium') }}">Consortium</a>
             <a @class(['active' => request()->routeIs('ecosystem')]) href="{{ route('ecosystem') }}">Stakeholders</a>
-            <a @class(['active' => request()->routeIs('results', 'content.show')]) href="{{ route('results') }}">Results & Resources</a>
-            <a @class(['active' => request()->routeIs('news')]) href="{{ route('news') }}">News & Media</a>
+            <a @class(['active' => request()->routeIs('results') || (request()->routeIs('content.show') && isset($contentItem) && in_array($contentItem->type, \App\Models\ContentItem::RESULT_TYPES))]) href="{{ route('results') }}">Results & Resources</a>
+            <a @class(['active' => request()->routeIs('news') || (request()->routeIs('content.show') && isset($contentItem) && in_array($contentItem->type, \App\Models\ContentItem::MEDIA_TYPES))]) href="{{ route('news') }}">News & Media</a>
             <a class="nav-cta" href="{{ route('contact') }}">Contact <span aria-hidden="true">↗</span></a>
             @auth
                 <a class="nav-login" href="{{ auth()->user()->canManageContent() ? route('admin.index') : route('account.index') }}">{{ auth()->user()->canManageContent() ? 'Dashboard' : 'Account' }}</a>

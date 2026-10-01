@@ -22,7 +22,13 @@
         <img class="article-image" src="{{ asset('storage/'.$contentItem->image_path) }}" alt="">
     @endif
     <div class="article-layout">
-        <div class="article-body">{!! nl2br(e($contentItem->body)) !!}</div>
+        <div class="article-body {{ $contentItem->type === 'news' ? 'article-body--markdown' : '' }}">
+            @if($contentItem->type === 'news')
+                {!! \Illuminate\Support\Str::markdown($contentItem->body ?? '', ['html_input' => 'strip', 'allow_unsafe_links' => false]) !!}
+            @else
+                {!! nl2br(e($contentItem->body)) !!}
+            @endif
+        </div>
         <aside>
             @if($contentItem->partner)
                 <div><small>Responsible partner</small><strong>{{ $contentItem->partner }}</strong></div>

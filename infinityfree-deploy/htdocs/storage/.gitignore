@@ -1,2 +1,5 @@
 *
 !.gitignore
+!images/
+images/*
+!images/valuemap-kickoff-2026.jpg

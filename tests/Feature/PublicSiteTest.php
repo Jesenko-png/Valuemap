@@ -36,6 +36,25 @@ class PublicSiteTest extends TestCase
         $this->assertDatabaseCount('partners', 0);
     }
 
+    public function test_news_article_preserves_headings_and_safe_emphasis(): void
+    {
+        ContentItem::create([
+            'type' => 'news',
+            'title' => 'Project meeting',
+            'slug' => 'project-meeting',
+            'body' => "## Shared action\n\n**Partner update** <script>alert(1)</script>",
+            'status' => 'published',
+            'is_public' => true,
+            'approval_status' => 'approved',
+            'published_at' => now(),
+        ]);
+
+        $this->get('/library/project-meeting')->assertOk()
+            ->assertSee('<h2>Shared action</h2>', false)
+            ->assertSee('<strong>Partner update</strong>', false)
+            ->assertDontSee('<script>', false);
+    }
+
     public function test_only_public_content_is_listed(): void
     {
         ContentItem::create(['type' => 'news', 'title' => 'Visible update', 'slug' => 'visible-update', 'status' => 'published', 'is_public' => true, 'published_at' => now(), 'approval_status' => 'approved']);
