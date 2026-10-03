@@ -1,10 +1,11 @@
 @extends('layouts.app')
 @section('title', 'Project impact')
 @section('description', 'Explore the reports, recommendations, tools and long-term impact VALUEMAP will deliver for European health data ecosystems.')
+@section('body_class', 'impact-page')
 @section('content')
 <header class="page-hero"><p class="eyebrow">Project impact</p><h1>From shared knowledge to <em>coordinated action.</em></h1><p>VALUEMAP will deliver practical knowledge, recommendations and tools that help stakeholders strengthen sustainable health data ecosystems across Europe.</p></header>
 
-<section class="section results-showcase"><div class="section-heading"><p class="eyebrow">01 / Key results</p><h2>Knowledge designed to be <em>used.</em></h2></div><div class="result-card-grid">@foreach(config('valuemap.results') as $i=>$result)<article class="reveal"><span>0{{ $i+1 }}</span><h3>{{ $result[0] }}</h3><p>{{ $result[1] }}</p><small>Future public resource</small></article>@endforeach</div></section>
+<section class="section results-showcase"><div class="section-heading"><p class="eyebrow">01 / Key results</p><h2>Knowledge designed to be <em>used.</em></h2></div><div class="result-card-grid">@foreach(config('valuemap.results') as $i=>$result)<article class="reveal"><span aria-hidden="true">{{ str_pad($i+1,2,'0',STR_PAD_LEFT) }}</span><h3>{{ $result[0] }}</h3><p>{{ $result[1] }}</p><small>Future public resource</small></article>@endforeach</div></section>
 
 <section class="section expected-impact"><div class="section-heading"><p class="eyebrow">02 / Expected impact</p><h2>What difference will <em>VALUEMAP make?</em></h2></div><div class="impact-statement-grid">@foreach([
 ['Cooperation','Stronger cooperation between European regions.'],
