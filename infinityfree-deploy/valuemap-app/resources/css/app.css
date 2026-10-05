@@ -430,3 +430,46 @@ h3,.activity-grid h3{font-weight:600;line-height:1.2;letter-spacing:-.025em}
 .impact-page .impact-band>*{position:relative;z-index:1}
 @media(max-width:900px){.impact-page .result-card-grid article:last-child:nth-child(3n+1){grid-column:auto}.impact-page .result-card-grid article{min-height:330px}.impact-page .impact-statement-grid article{min-height:220px}}
 @media(max-width:600px){.impact-page .result-card-grid{gap:14px}.impact-page .result-card-grid article{min-height:310px;padding:25px}.impact-page .result-card-grid h3{margin-top:60px}.impact-page .impact-statement-grid{gap:12px}.impact-page .impact-statement-grid article{min-height:205px;padding:25px}.impact-page .impact-statement-grid h3{margin-top:58px}.impact-page .results-showcase:before{display:none}}
+
+/* Stakeholder ecosystem: connected central node and six distinct perspectives. */
+.stakeholder-page .page-hero{background-position:center 36%}
+.stakeholder-page .ecosystem-intro{padding-bottom:clamp(48px,6vw,78px);background:linear-gradient(180deg,#fff 0%,#f3f8fb 100%)}
+.stakeholder-page .ecosystem-intro .section-heading{margin-bottom:0}
+.stakeholder-page .ecosystem-intro .eyebrow,.stakeholder-page .shared-approach .eyebrow{width:max-content;padding:8px 13px;border-radius:99px;background:#d9f1f4;color:#0b527f}
+.stakeholder-page .ecosystem-diagram{position:relative;isolation:isolate;max-width:none;padding:clamp(70px,8vw,115px) max(4.5vw,calc((100vw - 1440px)/2 + 4.5vw));gap:clamp(60px,8vw,125px);overflow:hidden;background:linear-gradient(135deg,#e9f4f7 0%,#f7fbfc 48%,#e8f0f8 100%)}
+.stakeholder-page .ecosystem-diagram:before{content:'';position:absolute;z-index:-1;left:9%;top:50%;width:42vw;max-width:610px;aspect-ratio:1;translate:0 -50%;border:1px solid rgba(18,102,179,.13);border-radius:50%;box-shadow:0 0 0 55px rgba(120,203,210,.075),0 0 0 110px rgba(18,102,179,.04)}
+.stakeholder-page .ecosystem-diagram:after{content:'';position:absolute;z-index:-1;inset:0;background-image:linear-gradient(rgba(18,102,179,.045) 1px,transparent 1px),linear-gradient(90deg,rgba(18,102,179,.045) 1px,transparent 1px);background-size:56px 56px;mask-image:linear-gradient(90deg,#000,transparent 62%)}
+.stakeholder-page .ecosystem-core{position:relative;width:min(390px,31vw);max-width:none;flex:none;background:radial-gradient(circle at 34% 28%,#1b7198 0%,#0b4364 45%,#082c45 100%);box-shadow:0 0 0 1px rgba(18,102,179,.18),0 0 0 30px rgba(120,203,210,.13),0 0 0 61px rgba(18,102,179,.065),0 30px 80px rgba(8,44,69,.22)}
+.stakeholder-page .ecosystem-core:before,.stakeholder-page .ecosystem-core:after{content:'';position:absolute;border-radius:50%;pointer-events:none}
+.stakeholder-page .ecosystem-core:before{inset:12%;border:1px dashed rgba(174,233,234,.34);animation:stakeholder-orbit 30s linear infinite}
+.stakeholder-page .ecosystem-core:after{right:8%;top:17%;width:13px;height:13px;background:#8de5e9;box-shadow:-245px 148px 0 -2px #fff,0 0 0 8px rgba(141,229,233,.13),0 0 24px rgba(141,229,233,.8)}
+.stakeholder-page .ecosystem-core small{padding:7px 11px;border:1px solid rgba(255,255,255,.24);border-radius:99px;background:rgba(255,255,255,.08);color:#aee9ea;letter-spacing:.14em}
+.stakeholder-page .ecosystem-core strong{max-width:270px;margin:20px 0;font-size:clamp(34px,3.1vw,47px);line-height:1.02}
+.stakeholder-page .ecosystem-core span{color:#cfe4ed;font-size:13px;letter-spacing:.03em}
+@keyframes stakeholder-orbit{to{rotate:360deg}}
+.stakeholder-page .ecosystem-groups{gap:14px}
+.stakeholder-page .ecosystem-groups article{position:relative;overflow:hidden;min-height:245px;padding:27px;border:1px solid rgba(18,102,179,.12);border-radius:18px;background:rgba(255,255,255,.86);box-shadow:0 14px 38px rgba(12,37,55,.07);transition:transform .3s ease,box-shadow .3s ease,border-color .3s ease}
+.stakeholder-page .ecosystem-groups article:nth-last-child(-n+2){border-bottom:1px solid rgba(18,102,179,.12)}
+.stakeholder-page .ecosystem-groups article:hover{transform:translateY(-5px);border-color:rgba(18,102,179,.3);box-shadow:0 24px 54px rgba(12,37,55,.13)}
+.stakeholder-page .ecosystem-groups article:after{content:'';position:absolute;right:-45px;bottom:-65px;width:145px;aspect-ratio:1;border:22px solid rgba(18,102,179,.045);border-radius:50%;pointer-events:none}
+.stakeholder-page .ecosystem-groups article>span{width:43px;height:43px;display:grid;place-items:center;border-radius:50%;background:#0b486a;color:#fff;font-size:10px;font-weight:700;letter-spacing:.1em}
+.stakeholder-page .ecosystem-groups article:nth-child(2n)>span{background:#187f92}
+.stakeholder-page .ecosystem-groups article:nth-child(3n)>span{background:#486eaa}
+.stakeholder-page .ecosystem-groups article>i{position:absolute;right:28px;top:35px;width:55px;height:1px;background:linear-gradient(90deg,transparent,#78cbd2);font-style:normal}
+.stakeholder-page .ecosystem-groups article>i:after{content:'';position:absolute;right:0;top:-4px;width:9px;height:9px;border-radius:50%;background:#78cbd2;box-shadow:0 0 0 6px rgba(120,203,210,.13)}
+.stakeholder-page .ecosystem-groups h2{position:relative;margin:37px 0 12px;max-width:300px;font-size:23px}
+.stakeholder-page .ecosystem-groups p{position:relative;color:#526b79;font-size:14px}
+.stakeholder-page .shared-approach{position:relative;gap:clamp(60px,8vw,120px);background:#fff}
+.stakeholder-page .shared-approach h2{max-width:650px}
+.stakeholder-page .connection-list{display:grid;grid-template-columns:1fr 1fr;gap:10px;border:0}
+.stakeholder-page .connection-list div{min-height:88px;padding:18px;border:1px solid rgba(18,102,179,.13);border-radius:14px;background:linear-gradient(145deg,#f5fafc,#eaf3f7);align-items:center;font-size:14px;line-height:1.35}
+.stakeholder-page .connection-list span{flex:0 0 28px;width:28px;height:28px;display:grid;place-items:center;border-radius:50%;background:#1266b3;color:#8de5e9;font-size:8px;box-shadow:0 0 0 5px rgba(18,102,179,.08)}
+.stakeholder-page .engagement-band{position:relative;overflow:hidden;color:#fff;background:linear-gradient(125deg,#082c45 0%,#0d536d 58%,#137b91 100%)}
+.stakeholder-page .engagement-band:after{content:'';position:absolute;right:-8%;top:-70%;width:38vw;aspect-ratio:1;border:1px solid rgba(255,255,255,.15);border-radius:50%;box-shadow:0 0 0 65px rgba(141,229,233,.055),0 0 0 130px rgba(255,255,255,.03);pointer-events:none}
+.stakeholder-page .engagement-band>div{position:relative;z-index:1}
+.stakeholder-page .engagement-band .eyebrow{color:#aee9ea}
+.stakeholder-page .engagement-band h2 em{color:#8de5e9}
+.stakeholder-page .engagement-band>div:last-child p{color:#d8eaf0}
+.stakeholder-page .engagement-band .button{background:#fff;color:#082c45}
+@media(max-width:900px){.stakeholder-page .ecosystem-diagram{grid-template-columns:1fr;gap:80px}.stakeholder-page .ecosystem-core{width:min(360px,64vw);margin:auto}.stakeholder-page .ecosystem-diagram:before{left:50%;top:17%;width:64vw;translate:-50% -50%}.stakeholder-page .connection-list{grid-template-columns:1fr 1fr}}
+@media(max-width:600px){.stakeholder-page .ecosystem-intro{padding-bottom:48px}.stakeholder-page .ecosystem-diagram{padding-top:78px;padding-bottom:76px;gap:68px}.stakeholder-page .ecosystem-core{width:min(270px,76vw)}.stakeholder-page .ecosystem-core strong{max-width:210px;font-size:32px}.stakeholder-page .ecosystem-core:after{box-shadow:-170px 108px 0 -3px #fff,0 0 0 7px rgba(141,229,233,.13),0 0 20px rgba(141,229,233,.8)}.stakeholder-page .ecosystem-groups{display:grid;grid-template-columns:1fr;gap:12px}.stakeholder-page .ecosystem-groups article{min-height:230px;padding:24px}.stakeholder-page .ecosystem-groups h2{margin-top:32px}.stakeholder-page .connection-list{grid-template-columns:1fr}.stakeholder-page .connection-list div{min-height:76px}.stakeholder-page .engagement-band{gap:42px}}

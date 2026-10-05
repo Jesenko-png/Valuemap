@@ -1,6 +1,7 @@
 @extends('layouts.app')
 @section('title', 'Stakeholders and ecosystem')
 @section('description', 'Discover the stakeholder groups VALUEMAP connects to strengthen responsible and sustainable European health data ecosystems.')
+@section('body_class', 'stakeholder-page')
 @section('content')
 <header class="page-hero"><p class="eyebrow">Stakeholders & ecosystem</p><h1>Connecting the <em>health data ecosystem.</em></h1><p>Sustainable health data ecosystems depend on cooperation between organisations with different responsibilities, needs and perspectives.</p></header>
 
@@ -8,7 +9,7 @@
 
 <section class="section ecosystem-diagram">
     <div class="ecosystem-core"><small>VALUEMAP</small><strong>Shared ecosystem approach</strong><span>Evidence · trust · cooperation</span></div>
-    <div class="ecosystem-groups">@foreach(config('valuemap.stakeholders') as $i=>$group)<article class="reveal"><span>0{{ $i+1 }}</span><h2>{{ $group[0] }}</h2><p>{{ $group[1] }}</p></article>@endforeach</div>
+    <div class="ecosystem-groups">@foreach(config('valuemap.stakeholders') as $i=>$group)<article class="reveal"><span>{{ str_pad($i+1,2,'0',STR_PAD_LEFT) }}</span><i aria-hidden="true"></i><h2>{{ $group[0] }}</h2><p>{{ $group[1] }}</p></article>@endforeach</div>
 </section>
 
 <section class="section shared-approach"><div><p class="eyebrow">02 / A shared ecosystem approach</p><h2>No single organisation can address these challenges <em>alone.</em></h2></div><div class="connection-list">@foreach(['European and regional initiatives','Public and private stakeholders','Healthcare and research organisations','Technology providers and data owners','Policymakers and citizens','Established infrastructures and emerging innovations'] as $connection)<div><span aria-hidden="true">●</span>{{ $connection }}</div>@endforeach</div></section>
