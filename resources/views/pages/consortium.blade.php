@@ -1,6 +1,7 @@
 @extends('layouts.app')
 @section('title', 'Consortium')
 @section('description', 'Meet the nine VALUEMAP organisations connecting health, research, public administration, innovation and industry across six countries.')
+@section('body_class', 'consortium-page')
 @section('content')
 <header class="page-hero compact"><p class="eyebrow">The consortium</p><h1>Connecting expertise <em>across Europe.</em></h1><p>Nine organisations from six countries combine expertise in healthcare, research, digital health, public administration, innovation, industry and health data governance.</p></header>
 

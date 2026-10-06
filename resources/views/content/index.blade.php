@@ -5,6 +5,7 @@
 @endphp
 @section('title', $isResults ? 'Public results library' : 'News and media')
 @section('description', $isResults ? 'Browse public ValueMap deliverables, publications and project outputs.' : 'Follow ValueMap news, events, newsletters and media coverage.')
+@section('body_class', $isResults ? 'results-page' : 'news-page')
 @section('content')
 <header class="page-hero compact"><p class="eyebrow">{{ $isResults ? 'Results & Resources' : 'News & Media' }}</p><h1>{{ $isResults ? 'From project work to' : 'Follow VALUEMAP' }} <em>{{ $isResults ? 'practical resources.' : 'as it happens.' }}</em></h1><p>{{ $isResults ? 'An organised public collection of reports, recommendations, tools and materials supporting research, cooperation and implementation.' : 'Stay informed about project activities, stakeholder engagement, upcoming opportunities and new resources.' }}</p></header>
 <section class="section listing-section">

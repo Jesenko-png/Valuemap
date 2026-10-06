@@ -1,6 +1,7 @@
 @extends('layouts.app')
 @section('title', 'Contact')
 @section('description', 'Contact the ValueMap project coordination team.')
+@section('body_class', 'contact-page')
 @section('content')
 <header class="page-hero compact"><p class="eyebrow">Contact</p><h1>Get in touch with <em>VALUEMAP.</em></h1><p>Would you like to learn more, contribute to stakeholder activities or explore opportunities for collaboration? Contact the VALUEMAP team.</p></header>
 <section class="section contact-layout">

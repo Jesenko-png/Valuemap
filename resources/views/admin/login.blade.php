@@ -10,6 +10,23 @@
 <body class="admin-body auth-body">
 <main class="auth-shell">
     <section class="auth-intro">
+        <svg class="auth-map-background" viewBox="0 0 1150 620" preserveAspectRatio="xMidYMid slice" aria-hidden="true" focusable="false">
+            <defs>
+                <linearGradient id="auth-map-background-gradient" x1="0" y1="0" x2="1" y2="1">
+                    <stop offset="0" stop-color="#061b2d" />
+                    <stop offset=".58" stop-color="#0a3555" />
+                    <stop offset="1" stop-color="#1266b3" />
+                </linearGradient>
+                <pattern id="auth-map-grid" width="38" height="38" patternUnits="userSpaceOnUse">
+                    <path d="M38 0H0V38" fill="none" stroke="#d7eef5" stroke-opacity=".055" stroke-width="1" />
+                </pattern>
+            </defs>
+            <rect width="1150" height="620" fill="url(#auth-map-background-gradient)" />
+            <rect width="1150" height="620" fill="url(#auth-map-grid)" />
+            <g transform="translate(250 0)">
+                @include('partials.europe-map')
+            </g>
+        </svg>
         <a href="{{ route('home') }}"><img class="auth-logo" src="{{ asset('images/brand/valuemap-logo.webp') }}" alt="VALUEMAP" width="725" height="130"></a>
         <div><p class="eyebrow">Project workspace</p><h1>One account.<br><em>Clear responsibilities.</em></h1><p>Sign in to follow the project or manage news, events, deliverables and newsletters according to your approved role.</p></div>
         <ul><li><strong>Main administrator</strong><span>Approves accounts and roles, and manages all content.</span></li><li><strong>Administrator</strong><span>Creates, edits and publishes project content.</span></li><li><strong>Reader</strong><span>Uses an approved account without publishing access.</span></li></ul>

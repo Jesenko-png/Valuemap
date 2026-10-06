@@ -6,7 +6,23 @@
 
 @section('content')
 <section class="hero">
-    <img class="hero-background" src="{{ asset('images/visuals/valuemap-europe-network.webp') }}" alt="" width="1942" height="809" fetchpriority="high" decoding="async">
+    <svg class="hero-background hero-background-map" viewBox="0 0 1150 620" preserveAspectRatio="xMidYMid slice" aria-hidden="true" focusable="false">
+        <defs>
+            <linearGradient id="hero-map-background" x1="0" y1="0" x2="1" y2="1">
+                <stop offset="0" stop-color="#061b2d" />
+                <stop offset=".58" stop-color="#0a3555" />
+                <stop offset="1" stop-color="#1266b3" />
+            </linearGradient>
+            <pattern id="hero-map-grid" width="38" height="38" patternUnits="userSpaceOnUse">
+                <path d="M38 0H0V38" fill="none" stroke="#d7eef5" stroke-opacity=".055" stroke-width="1" />
+            </pattern>
+        </defs>
+        <rect width="1150" height="620" fill="url(#hero-map-background)" />
+        <rect width="1150" height="620" fill="url(#hero-map-grid)" />
+        <g class="hero-europe-countries" transform="translate(250 0)">
+            @include('partials.europe-map')
+        </g>
+    </svg>
     <div class="hero-shade" aria-hidden="true"></div>
     <svg class="hero-network hero-network-desktop" viewBox="0 0 100 100" preserveAspectRatio="none" aria-hidden="true" focusable="false">
         <defs>
@@ -95,9 +111,9 @@
     <div class="visual-story-heading reveal"><p class="eyebrow">The project in focus</p><h2>From potential to <em>shared value.</em></h2><p>Understanding the landscape, connecting stakeholders and translating evidence into coordinated European action.</p></div>
     <div class="story-stage" tabindex="0">
         @foreach([
-            ['01 / Map','valuemap-europe-network.webp','Luminous map of connected European regions','Understand the landscape.','Map existing business models, initiatives, practices, opportunities and challenges across Europe.',route('about'),1942,809],
-            ['02 / Connect','valuemap-collaboration.webp','European health data stakeholders collaborating around a map','Bring perspectives together.','Connect regions, healthcare, policy, research, industry and citizens around shared priorities.',route('ecosystem'),2056,765],
-            ['03 / Act','valuemap-impact-network.webp','European health data streams converging into a shared network','Turn evidence into action.','Create recommendations, a joint action plan and practical implementation tools.',route('impact'),2048,768],
+            ['01 / Map','story-map.jpg','Digital globe representing connected data ecosystems','Understand the landscape.','Map existing business models, initiatives, practices, opportunities and challenges across Europe.',route('about'),2400,1600],
+            ['02 / Connect','story-connect.jpg','People joining hands inside a connected global network','Bring perspectives together.','Connect regions, healthcare, policy, research, industry and citizens around shared priorities.',route('ecosystem'),2400,1600],
+            ['03 / Act','story-act.jpg','Interconnected network reflected across a calm surface','Turn evidence into action.','Create recommendations, a joint action plan and practical implementation tools.',route('impact'),2400,1600],
         ] as $i => $slide)
         <article @class(['story-slide','is-active'=>$i===0]) data-story-slide aria-hidden="{{ $i===0 ? 'false' : 'true' }}">
             <img src="{{ asset('images/visuals/'.$slide[1]) }}" alt="{{ $slide[2] }}" width="{{ $slide[6] }}" height="{{ $slide[7] }}" decoding="async" @if($i) loading="lazy" @endif>
@@ -110,6 +126,19 @@
 
 <section class="section intro-section" id="about">
     <div class="section-heading"><p class="eyebrow">01 / Why VALUEMAP?</p><h2>Creating the conditions for <em>shared value</em> from health data.</h2></div>
+    <div class="intro-ecg" aria-hidden="true">
+        <svg viewBox="0 0 1200 150" preserveAspectRatio="none" focusable="false">
+            <defs>
+                <linearGradient id="intro-ecg-gradient" x1="0" y1="0" x2="1" y2="0">
+                    <stop offset="0" stop-color="#78cbd2" />
+                    <stop offset=".55" stop-color="#1266b3" />
+                    <stop offset="1" stop-color="#78cbd2" />
+                </linearGradient>
+            </defs>
+            <path class="intro-ecg-track" pathLength="1" d="M0 76 H150 L178 76 L197 56 L217 100 L241 18 L268 128 L292 52 L316 76 H468 L490 76 L507 60 L525 94 L548 30 L572 116 L596 57 L618 76 H775 L799 76 L816 54 L837 101 L860 20 L886 126 L910 53 L934 76 H1200" />
+            <path class="intro-ecg-signal" pathLength="1" d="M0 76 H150 L178 76 L197 56 L217 100 L241 18 L268 128 L292 52 L316 76 H468 L490 76 L507 60 L525 94 L548 30 L572 116 L596 57 L618 76 H775 L799 76 L816 54 L837 101 L860 20 L886 126 L910 53 L934 76 H1200" />
+        </svg>
+    </div>
     <div class="intro-grid"><div class="large-copy">Health data can accelerate research, strengthen health systems and enable better products, services and policies.</div><div><p>Its value is not yet fully realised. Differences in governance, access conditions, infrastructures, pricing, licensing and stakeholder capacities continue to limit collaboration and innovation.</p><p>VALUEMAP explores how health data ecosystems can create, share and sustain value in a fair, transparent and responsible way—supporting the ambition of the European Health Data Space.</p><a class="arrow-link" href="{{ route('about') }}">Read about the project <span>↗</span></a></div></div>
 </section>
 

@@ -1,6 +1,7 @@
 @extends('layouts.app')
 @section('title', 'About VALUEMAP')
 @section('description', 'Learn how VALUEMAP supports fair, ethical and sustainable value-sharing through connected European health data ecosystems.')
+@section('body_class', 'about-page')
 @section('content')
 <header class="page-hero"><p class="eyebrow">About VALUEMAP</p><h1>Creating the conditions for <em>shared value</em> from health data.</h1><p>VALUEMAP examines how health data business models can support responsible and sustainable secondary use across Europe.</p></header>
 

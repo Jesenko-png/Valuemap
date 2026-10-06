@@ -1,6 +1,7 @@
 @extends('layouts.app')
 @section('title', 'Project structure')
 @section('description', 'Explore the five VALUEMAP work packages, lead partners, activities, outputs and 18-month implementation timeline.')
+@section('body_class', 'structure-page')
 @section('content')
 <header class="page-hero compact"><p class="eyebrow">Project structure</p><h1>A coordinated approach to <em>lasting impact.</em></h1><p>Five connected work packages move VALUEMAP from European evidence and regional assessment to shared priorities, practical tools and long-term cooperation.</p></header>
 
