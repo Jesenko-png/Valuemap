@@ -180,14 +180,9 @@
     <div class="stakeholder-wheel">@foreach(config('valuemap.stakeholders') as $i => $group)<a href="{{ route('ecosystem') }}"><span>0{{ $i+1 }}</span><strong>{{ $group[0] }}</strong><i>↗</i></a>@endforeach</div>
 </section>
 
-<section class="section library-section" id="resources">
-    <div class="section-heading heading-row"><div><p class="eyebrow">07 / Results & resources</p><h2>From project work to <em>practical resources.</em></h2></div><a class="arrow-link" href="{{ route('results') }}">Explore project resources <span>↗</span></a></div>
-    <div class="content-grid">@forelse($latestResults as $item) @include('partials.content-card', ['item' => $item]) @empty <article class="empty-card"><span>Library opening soon</span><h3>Reports, recommendations, tools and other public resources will live here.</h3><p>The library will grow throughout project implementation.</p><a href="{{ route('results') }}">Visit the library →</a></article>@endforelse</div>
-</section>
-
 <section class="section news-section" id="news">
-    <div class="section-heading heading-row"><div><p class="eyebrow">08 / Latest from VALUEMAP</p><h2>Follow the work <em>as it happens.</em></h2></div><a class="arrow-link" href="{{ route('news') }}">All updates <span>↗</span></a></div>
-    <div class="news-list">@forelse($latestNews as $item)<a href="{{ route('content.show', $item) }}"><span class="tag">{{ $item->type_label }}</span><strong>{{ $item->title }}</strong><time>{{ optional($item->published_at)->format('d M Y') }}</time><i>↗</i></a>@empty<div class="news-placeholder"><span class="tag">Project update</span><strong>News, events and project activities will appear here.</strong><time>Coming soon</time></div>@endforelse</div>
+    <div class="section-heading heading-row"><div><p class="eyebrow">07 / Latest news</p><h2>Latest news from <em>VALUEMAP.</em></h2></div><a class="arrow-link" href="{{ route('news') }}">All news & media <span>↗</span></a></div>
+    <div class="content-grid">@forelse($latestNews as $item) @include('partials.content-card', ['item' => $item]) @empty <article class="empty-card"><span>Project updates</span><h3>News and project activities will appear here.</h3><p>Follow VALUEMAP as the work develops across Europe.</p><a href="{{ route('news') }}">Explore News & Media →</a></article>@endforelse</div>
 </section>
 
 <section class="cta-section"><p class="eyebrow">Join the ecosystem</p><h2>Let’s create shared value.<br><em>Together.</em></h2><p>Learn more, contribute to stakeholder activities or explore opportunities for collaboration with VALUEMAP.</p><a class="button button-lime" href="{{ route('contact') }}">Get in touch ↗</a></section>

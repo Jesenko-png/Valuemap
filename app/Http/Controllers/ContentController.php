@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\ContentItem;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\View\View;
 
@@ -18,9 +19,24 @@ class ContentController extends Controller
         return $this->listing($request, 'news', ContentItem::MEDIA_TYPES);
     }
 
-    public function show(ContentItem $contentItem): View
+    public function show(ContentItem $contentItem): View|RedirectResponse
     {
         abort_unless(ContentItem::visible()->whereKey($contentItem->id)->exists(), 404);
+
+        if (in_array($contentItem->type, ContentItem::MEDIA_TYPES, true)) {
+            return redirect()->route('content.news.show', $contentItem, 301);
+        }
+
+        return view('content.show', compact('contentItem'));
+    }
+
+    public function showNews(ContentItem $contentItem): View
+    {
+        abort_unless(
+            in_array($contentItem->type, ContentItem::MEDIA_TYPES, true)
+                && ContentItem::visible()->whereKey($contentItem->id)->exists(),
+            404
+        );
 
         return view('content.show', compact('contentItem'));
     }

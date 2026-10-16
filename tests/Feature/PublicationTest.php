@@ -24,7 +24,7 @@ class PublicationTest extends TestCase
     {
         foreach ([['status' => 'draft'], ['approval_status' => 'pending'], ['is_public' => false], ['published_at' => now()->addDays(3)]] as $i => $state) {
             $item = $this->item([...$state, 'slug' => 'private-'.$i, 'title' => 'Private publication '.$i]);
-            $this->get('/library/'.$item->slug)->assertNotFound();
+            $this->get('/news/'.$item->slug)->assertNotFound();
             foreach (['/', '/news-media', '/sitemap.xml'] as $url) {
                 $this->get($url)->assertDontSee($item->title)->assertDontSee('/library/'.$item->slug);
             }
@@ -52,12 +52,13 @@ class PublicationTest extends TestCase
         $payload = ['type' => 'news', 'title' => 'Original title', 'status' => 'published', 'is_public' => 1];
         $this->actingAs($main)->post('/admin/content', $payload)->assertRedirect('/admin');
         $item = ContentItem::firstOrFail();
-        $this->get('/library/original-title')->assertOk();
+        $this->get('/news/original-title')->assertOk();
+        $this->get('/library/original-title')->assertRedirect('/news/original-title');
         $this->actingAs($admin)->put('/admin/content/'.$item->id, [...$payload, 'title' => 'Revised title', 'approval_status' => 'approved'])
             ->assertRedirect('/admin');
         $this->assertSame('original-title', $item->fresh()->slug);
         $this->assertSame('pending', $item->fresh()->approval_status);
-        $this->get('/library/original-title')->assertNotFound();
+        $this->get('/news/original-title')->assertNotFound();
         $this->actingAs($main)->get('/admin?review=pending')->assertOk()->assertSee('Revised title');
         $this->patch('/admin/content/'.$item->id.'/return')->assertRedirect();
         $this->assertSame('draft', $item->fresh()->status);
@@ -67,9 +68,9 @@ class PublicationTest extends TestCase
     {
         $item = $this->item(['published_at' => now()->addDays(2)]);
         $this->assertSame('Scheduled', $item->visibility_label);
-        $this->get('/library/'.$item->slug)->assertNotFound();
+        $this->get('/news/'.$item->slug)->assertNotFound();
         $this->travel(3)->days();
-        $this->get('/library/'.$item->slug)->assertOk();
+        $this->get('/news/'.$item->slug)->assertOk();
     }
 
     public function test_result_and_newsletter_filters_do_not_mix_content_types(): void

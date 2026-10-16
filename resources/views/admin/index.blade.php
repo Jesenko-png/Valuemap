@@ -8,7 +8,7 @@
 @forelse($items as $item)
 <tr><td><span class="tag">{{ $item->type_label }}</span></td><td><strong>{{ $item->title }}</strong><small>{{ $item->reference_code }}</small></td><td>{{ ucfirst($item->status) }}</td><td>{{ $item->visibility_label }}</td><td>{{ optional($item->published_at)->format('d M Y') ?: '—' }}</td><td class="table-actions">
     <a href="{{ route('admin.content.edit',$item) }}">Edit / review</a>
-    @if($item->visibility_label === 'Public')<a href="{{ route('content.show',['contentItem'=>$item->slug]) }}" target="_blank" rel="noopener">View ↗</a>@endif
+    @if($item->visibility_label === 'Public')<a href="{{ $item->public_url }}" target="_blank" rel="noopener">View ↗</a>@endif
     @if(auth()->user()->isMainAdmin() && $item->approval_status === 'pending')
         <form method="post" action="{{ route('admin.content.approve',$item) }}">@csrf @method('PATCH')<button type="submit">Approve</button></form>
         <form method="post" action="{{ route('admin.content.return',$item) }}">@csrf @method('PATCH')<button type="submit">Return to draft</button></form>

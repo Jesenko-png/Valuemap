@@ -71,4 +71,11 @@ class ContentItem extends Model
             'newsletter' => 'Newsletter', 'press' => 'Press / Media', default => ucfirst($this->type),
         };
     }
+
+    public function getPublicUrlAttribute(): string
+    {
+        return in_array($this->type, self::MEDIA_TYPES, true)
+            ? route('content.news.show', $this)
+            : route('content.show', $this);
+    }
 }

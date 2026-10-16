@@ -21,6 +21,7 @@ Route::get('/consortium', [PageController::class, 'consortium'])->name('consorti
 Route::get('/ecosystem', [PageController::class, 'ecosystem'])->name('ecosystem');
 Route::get('/results', [ContentController::class, 'results'])->name('results');
 Route::get('/news-media', [ContentController::class, 'news'])->name('news');
+Route::get('/news/{contentItem:slug}', [ContentController::class, 'showNews'])->name('content.news.show');
 Route::get('/library/{contentItem:slug}', [ContentController::class, 'show'])->name('content.show');
 Route::get('/contact', [ContactController::class, 'create'])->name('contact');
 Route::post('/contact', [ContactController::class, 'store'])->middleware('throttle:6,60')->name('contact.store');

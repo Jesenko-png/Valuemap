@@ -4,6 +4,6 @@
     <url><loc>{{ route($routeName) }}</loc><changefreq>{{ $routeName === 'home' ? 'weekly' : 'monthly' }}</changefreq></url>
 @endforeach
 @foreach($items as $item)
-    <url><loc>{{ route('content.show', $item->slug) }}</loc><lastmod>{{ $item->updated_at->toAtomString() }}</lastmod><changefreq>monthly</changefreq></url>
+    <url><loc>{{ $item->public_url }}</loc><lastmod>{{ $item->updated_at->toAtomString() }}</lastmod><changefreq>monthly</changefreq></url>
 @endforeach
 </urlset>

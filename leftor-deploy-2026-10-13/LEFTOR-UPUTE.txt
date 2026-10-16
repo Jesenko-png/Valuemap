@@ -1,0 +1,44 @@
+VALUEMAP - LEFTOR CPANEL DEPLOYMENT
+=================================
+
+Pripremljena struktura na hostingu:
+
+  /home/valuemap/public_html   - samo javni fajlovi
+  /home/valuemap/valuemap-app  - Laravel aplikacija i vendor
+
+1. U cPanelu postavi PHP 8.2 ili 8.3 za valuemap-project.eu.
+
+2. Otvori Database Wizard i kreiraj MySQL bazu i korisnika. Dodijeli
+   korisniku ALL PRIVILEGES. Sacuvaj puni naziv baze, korisnika i lozinku.
+
+3. U phpMyAdminu odaberi novu bazu i uvezi valuemap-database.sql.
+
+4. U /home/valuemap/ napravi folder valuemap-app. U njega raspakuj
+   sadrzaj ZIP-a leftor-valuemap-app.zip.
+
+5. U /home/valuemap/public_html/ raspakuj sadrzaj ZIP-a
+   leftor-public_html.zip. index.php mora biti direktno u public_html,
+   a ne u dodatnom public_html/public_html folderu.
+
+6. U valuemap-app kopiraj .env.leftor.example kao .env. U .env upisi
+   stvarne DB_DATABASE, DB_USERNAME i DB_PASSWORD vrijednosti.
+
+7. Ako cPanel ima Terminal, izvrsi:
+
+   cd /home/valuemap/valuemap-app
+   php artisan key:generate
+   php artisan optimize:clear
+   php artisan migrate --force
+   php artisan config:cache
+   php artisan route:cache
+   php artisan view:cache
+
+8. Folderima storage i bootstrap/cache dodijeli 775 ako Laravel prijavi
+   problem sa pisanjem. .env postavi na 600 ili 640.
+
+9. Nakon sto DNS pokazuje na Leftor, u SSL/TLS Status pokreni AutoSSL.
+   Ne ostavljaj self-signed certifikat kao konacno stanje.
+
+10. Testiraj: naslovnicu, /login, /admin, prikaz vijesti, slike i upload.
+
+VAZNO: Ne stavljaj cijeli Laravel u public_html i ne uploadaj lokalni .env.

@@ -12,11 +12,11 @@
     <meta property="og:title" content="@yield('title', 'Mapping value. Connecting Europe.') — ValueMap">
     <meta property="og:description" content="@yield('description', 'European health data ecosystems, connected for public value.')">
     <meta property="og:url" content="{{ url()->current() }}">
-    @if(request()->routeIs('content.show') && isset($contentItem) && $contentItem->image_path)
+    @if(request()->routeIs('content.show', 'content.news.show') && isset($contentItem) && $contentItem->image_path)
         <meta property="og:image" content="{{ rtrim(config('app.url'), '/') }}/storage/{{ $contentItem->image_path }}">
         <meta name="twitter:card" content="summary_large_image">
         <meta name="twitter:image" content="{{ rtrim(config('app.url'), '/') }}/storage/{{ $contentItem->image_path }}">
-    @elseif(!request()->routeIs('content.show'))
+    @elseif(!request()->routeIs('content.show', 'content.news.show'))
         <meta property="og:image" content="{{ rtrim(config('app.url'), '/') }}/og.webp">
         <meta name="twitter:card" content="summary_large_image">
         <meta name="twitter:image" content="{{ rtrim(config('app.url'), '/') }}/og.webp">
@@ -43,7 +43,7 @@
             <a @class(['active' => request()->routeIs('consortium')]) href="{{ route('consortium') }}">Consortium</a>
             <a @class(['active' => request()->routeIs('ecosystem')]) href="{{ route('ecosystem') }}">Stakeholders</a>
             <a @class(['active' => request()->routeIs('results') || (request()->routeIs('content.show') && isset($contentItem) && in_array($contentItem->type, \App\Models\ContentItem::RESULT_TYPES))]) href="{{ route('results') }}">Results & Resources</a>
-            <a @class(['active' => request()->routeIs('news') || (request()->routeIs('content.show') && isset($contentItem) && in_array($contentItem->type, \App\Models\ContentItem::MEDIA_TYPES))]) href="{{ route('news') }}">News & Media</a>
+            <a @class(['active' => request()->routeIs('news', 'content.news.show')]) href="{{ route('news') }}">News & Media</a>
             <a class="nav-cta" href="{{ route('contact') }}">Contact <span aria-hidden="true">↗</span></a>
             @auth
                 <a class="nav-login" href="{{ auth()->user()->canManageContent() ? route('admin.index') : route('account.index') }}">{{ auth()->user()->canManageContent() ? 'Dashboard' : 'Account' }}</a>

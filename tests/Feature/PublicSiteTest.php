@@ -49,7 +49,7 @@ class PublicSiteTest extends TestCase
             'published_at' => now(),
         ]);
 
-        $this->get('/library/project-meeting')->assertOk()
+        $this->get('/news/project-meeting')->assertOk()
             ->assertSee('<h2>Shared action</h2>', false)
             ->assertSee('<strong>Partner update</strong>', false)
             ->assertDontSee('<script>', false);
@@ -61,6 +61,7 @@ class PublicSiteTest extends TestCase
         ContentItem::create(['type' => 'news', 'title' => 'Hidden update', 'slug' => 'hidden-update', 'status' => 'draft', 'is_public' => false]);
 
         $this->get('/news-media')->assertSee('Visible update')->assertDontSee('Hidden update');
+        $this->get('/')->assertSee('Visible update')->assertSee('/news/visible-update');
     }
 
     public function test_contact_form_stores_a_valid_message(): void
@@ -112,13 +113,15 @@ class PublicSiteTest extends TestCase
         foreach (['news', 'event', 'deliverable', 'newsletter'] as $type) {
             $item = ContentItem::where('slug', 'published-'.$type)->firstOrFail();
             $this->assertSame('pending', $item->approval_status);
-            $this->get('/library/published-'.$type)->assertNotFound();
+            $url = in_array($type, ContentItem::MEDIA_TYPES, true) ? '/news/published-'.$type : '/library/published-'.$type;
+            $this->get($url)->assertNotFound();
             $this->patch('/admin/content/'.$item->id.'/approve')->assertForbidden();
         }
         $main = User::factory()->create(['role' => User::ROLE_MAIN_ADMIN, 'is_approved' => true]);
         foreach (ContentItem::all() as $item) {
             $this->actingAs($main)->patch('/admin/content/'.$item->id.'/approve')->assertRedirect();
-            $this->get('/library/'.$item->slug)->assertOk()->assertSee($item->title);
+            $url = in_array($item->type, ContentItem::MEDIA_TYPES, true) ? '/news/'.$item->slug : '/library/'.$item->slug;
+            $this->get($url)->assertOk()->assertSee($item->title);
         }
     }
 

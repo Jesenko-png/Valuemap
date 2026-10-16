@@ -13,8 +13,7 @@ class PageController extends Controller
     public function home(): View
     {
         return view('home', [
-            'latestNews' => ContentItem::visible()->whereIn('type', ContentItem::MEDIA_TYPES)->latest('published_at')->limit(3)->get(),
-            'latestResults' => ContentItem::visible()->whereIn('type', ContentItem::RESULT_TYPES)->latest('published_at')->limit(3)->get(),
+            'latestNews' => ContentItem::visible()->where('type', 'news')->latest('published_at')->limit(3)->get(),
             'partners' => $this->visiblePartners(),
         ]);
     }

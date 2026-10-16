@@ -40,7 +40,10 @@ return [
 
         'public' => [
             'driver' => 'local',
-            'root' => storage_path('app/public'),
+            // Shared hosting may expose a separate public_html directory where
+            // symbolic links are unavailable. PUBLIC_STORAGE_PATH lets uploads
+            // live directly in that public storage directory.
+            'root' => env('PUBLIC_STORAGE_PATH', storage_path('app/public')),
             'url' => rtrim(env('APP_URL', 'http://localhost'), '/').'/storage',
             'visibility' => 'public',
             'throw' => false,
