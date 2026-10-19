@@ -2,11 +2,14 @@
 
 namespace App\Http\Controllers;
 
+use App\Mail\ContactFormSubmitted;
 use App\Models\ContactMessage;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\RateLimiter;
 use Illuminate\View\View;
+use Throwable;
 
 class ContactController extends Controller
 {
@@ -36,8 +39,15 @@ class ContactController extends Controller
         unset($data['consent']);
         $data['consent_at'] = now();
 
-        ContactMessage::create($data);
+        $contactMessage = ContactMessage::create($data);
         RateLimiter::hit($key, 3600);
+
+        try {
+            Mail::to(config('mail.contact_to'))->send(new ContactFormSubmitted($contactMessage));
+        } catch (Throwable $exception) {
+            // The database copy remains available in the admin inbox even if SMTP is unavailable.
+            report($exception);
+        }
 
         return back()->with('success', 'Thank you. Your message has been received.');
     }

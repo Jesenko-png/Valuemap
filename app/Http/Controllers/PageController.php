@@ -76,7 +76,7 @@ class PageController extends Controller
 
         // A fresh hosted database may have the partners table but no seed rows.
         // Keep the public directory populated until the records are imported.
-        $countryCodes = ['Hungary' => 'HUN', 'Spain' => 'ESP', 'Portugal' => 'PRT', 'Sweden' => 'SWE', 'Bosnia and Herzegovina' => 'BIH', 'Ireland' => 'IRL'];
+        $countryCodes = ['Germany' => 'DEU', 'Spain' => 'ESP', 'Portugal' => 'PRT', 'Sweden' => 'SWE', 'Bosnia and Herzegovina' => 'BIH', 'Ireland' => 'IRL'];
 
         return collect(config('valuemap.partners'))->values()->map(fn (array $partner, int $index) => new Partner([
             'name' => $partner['name'],

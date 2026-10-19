@@ -2,12 +2,14 @@
 
 namespace Tests\Feature;
 
+use App\Mail\ContactFormSubmitted;
 use App\Models\ContactMessage;
 use App\Models\ContentItem;
 use App\Models\NewsletterSubscriber;
 use App\Models\Partner;
 use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
+use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Notification;
 use Tests\TestCase;
 
@@ -22,6 +24,20 @@ class PublicSiteTest extends TestCase
         }
     }
 
+    public function test_cookie_choices_are_available_before_analytics_is_configured(): void
+    {
+        config(['services.analytics.id' => null]);
+
+        $this->get('/')
+            ->assertOk()
+            ->assertSee('data-consent-banner', false)
+            ->assertSee('Necessary only')
+            ->assertSee('Allow analytics')
+            ->assertSee('data-open-consent', false);
+
+        $this->get('/cookies')->assertOk()->assertSee('Change cookie settings');
+    }
+
     public function test_consortium_remains_visible_when_hosted_partner_table_is_empty(): void
     {
         Partner::query()->delete();
@@ -34,6 +50,18 @@ class PublicSiteTest extends TestCase
         }
         $this->get('/')->assertOk()->assertSee('InnoStars');
         $this->assertDatabaseCount('partners', 0);
+    }
+
+    public function test_partner_registration_country_and_public_name_are_current(): void
+    {
+        $this->assertDatabaseHas('partners', [
+            'name' => 'InnoStars',
+            'country' => 'Germany',
+            'country_code' => 'DEU',
+            'location' => 'Munich',
+        ]);
+        $this->assertDatabaseHas('partners', ['name' => 'Takeda']);
+        $this->assertDatabaseMissing('partners', ['name' => 'Takeda Products Ireland Ltd.']);
     }
 
     public function test_news_article_preserves_headings_and_safe_emphasis(): void
@@ -66,10 +94,13 @@ class PublicSiteTest extends TestCase
 
     public function test_contact_form_stores_a_valid_message(): void
     {
+        Mail::fake();
+
         $this->post('/contact', ['name' => 'Project visitor', 'email' => 'visitor@example.com', 'organisation' => 'Example', 'subject' => 'Collaboration', 'message' => 'I would like to learn more about ValueMap.', 'consent' => '1'])
             ->assertSessionHas('success');
 
         $this->assertDatabaseCount(ContactMessage::class, 1);
+        Mail::assertSent(ContactFormSubmitted::class, fn (ContactFormSubmitted $mail) => $mail->hasTo('info@valuemap-project.eu'));
     }
 
     public function test_newsletter_subscription_is_stored_with_consent(): void

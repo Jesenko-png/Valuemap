@@ -169,6 +169,43 @@ map?.querySelectorAll('[data-partner]').forEach((node) => {
 
 const consentBanner = document.querySelector('[data-consent-banner]');
 const analyticsId = window.valueMapAnalyticsId;
+const consentKey = 'valuemap_cookie_consent';
+const legacyConsentKey = 'valuemap_analytics_consent';
+
+const readConsent = () => {
+    try {
+        const stored = localStorage.getItem(consentKey);
+        if (stored) return JSON.parse(stored);
+
+        const legacy = localStorage.getItem(legacyConsentKey);
+        if (legacy === 'granted' || legacy === 'denied') {
+            return { version: 1, analytics: legacy === 'granted', decidedAt: null };
+        }
+    } catch (_) {
+        return null;
+    }
+
+    return null;
+};
+
+const saveConsent = (analytics) => {
+    try {
+        localStorage.setItem(consentKey, JSON.stringify({ version: 1, analytics, decidedAt: new Date().toISOString() }));
+        localStorage.removeItem(legacyConsentKey);
+    } catch (_) {
+        // The choice applies for the current page even when browser storage is unavailable.
+    }
+};
+
+const removeAnalyticsCookies = () => {
+    const domains = [location.hostname, `.${location.hostname}`];
+    document.cookie.split(';').map((cookie) => cookie.split('=')[0].trim()).filter((name) => name === '_ga' || name.startsWith('_ga_')).forEach((name) => {
+        domains.forEach((domain) => {
+            document.cookie = `${name}=; Max-Age=0; path=/; domain=${domain}; SameSite=Lax`;
+        });
+        document.cookie = `${name}=; Max-Age=0; path=/; SameSite=Lax`;
+    });
+};
 
 const startAnalytics = () => {
     if (!analyticsId || window.dataLayer) return;
@@ -182,18 +219,29 @@ const startAnalytics = () => {
     document.head.appendChild(script);
 };
 
-if (analyticsId) {
-    const savedConsent = localStorage.getItem('valuemap_analytics_consent');
-    if (savedConsent === 'granted') startAnalytics();
-    if (!savedConsent && consentBanner) consentBanner.hidden = false;
+const savedConsent = readConsent();
+if (savedConsent?.analytics) startAnalytics();
+if (!savedConsent && consentBanner) consentBanner.hidden = false;
 
-    consentBanner?.querySelectorAll('[data-consent]').forEach((button) => button.addEventListener('click', () => {
-        const choice = button.dataset.consent;
-        localStorage.setItem('valuemap_analytics_consent', choice);
-        consentBanner.hidden = true;
-        if (choice === 'granted') startAnalytics();
-    }));
-}
+consentBanner?.querySelectorAll('[data-consent]').forEach((button) => button.addEventListener('click', () => {
+    const allowAnalytics = button.dataset.consent === 'granted';
+    const analyticsWasActive = Boolean(window.dataLayer);
+    saveConsent(allowAnalytics);
+    consentBanner.hidden = true;
+
+    if (allowAnalytics) startAnalytics();
+    else {
+        window.gtag?.('consent', 'update', { analytics_storage: 'denied' });
+        removeAnalyticsCookies();
+        if (analyticsWasActive) window.location.reload();
+    }
+}));
+
+document.querySelectorAll('[data-open-consent]').forEach((button) => button.addEventListener('click', () => {
+    if (!consentBanner) return;
+    consentBanner.hidden = false;
+    consentBanner.querySelector('[data-consent="denied"]')?.focus();
+}));
 
 const storySlider = document.querySelector('[data-story-slider]');
 if (storySlider) {

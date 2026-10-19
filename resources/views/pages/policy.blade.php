@@ -15,9 +15,10 @@
             'Cookie policy',
             'A clear explanation of website storage and analytics choices.',
             [
-                ['Essential storage', 'The website may use essential session and security storage needed for login, forms and normal operation.'],
-                ['Optional analytics', 'Analytics is loaded only after a visitor actively allows it through the consent banner. The choice is stored in the browser.'],
-                ['Changing your choice', 'You can clear this website’s stored data in your browser to reset the analytics preference.'],
+                ['Essential storage', 'The website uses essential session and security storage for login, form protection and normal operation. This storage cannot be disabled through the website because those functions would stop working.'],
+                ['Optional analytics', 'If Google Analytics is enabled, it loads only after a visitor actively allows analytics. Google Analytics may set the first-party cookies _ga and _ga_<container-id>, which have a default lifetime of two years and are used to distinguish users and preserve session state.'],
+                ['Consent preference', 'Your analytics choice and the time of that choice are stored locally in your browser. This preference is not used for advertising or profiling.'],
+                ['Changing your choice', 'Use the Cookie settings control below or in the website footer at any time. Refusing optional analytics does not limit access to the website.'],
             ],
         ],
         'accessibility' => [
@@ -35,5 +36,5 @@
 @section('description', $content[1])
 @section('content')
 <header class="page-hero compact"><p class="eyebrow">Website information</p><h1>{{ $content[0] }}</h1><p>{{ $content[1] }}</p></header>
-<section class="section policy-content"><p class="policy-review">This operational statement should be reviewed by the project’s legal/data-protection contact before public launch.</p>@foreach($content[2] as $section)<article><h2>{{ $section[0] }}</h2><p>{{ $section[1] }}</p></article>@endforeach<a class="button" href="{{ route('contact') }}">Contact VALUEMAP ↗</a></section>
+<section class="section policy-content"><p class="policy-review">This operational statement should be reviewed by the project’s legal/data-protection contact before public launch.</p>@foreach($content[2] as $section)<article><h2>{{ $section[0] }}</h2><p>{{ $section[1] }}</p></article>@endforeach @if($policy === 'cookies')<button class="button cookie-settings-button" type="button" data-open-consent>Change cookie settings</button>@endif <a class="button" href="{{ route('contact') }}">Contact VALUEMAP ↗</a></section>
 @endsection

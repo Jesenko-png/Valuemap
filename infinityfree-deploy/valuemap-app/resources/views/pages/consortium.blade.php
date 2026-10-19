@@ -36,7 +36,7 @@
         <div class="europe-map-panel">
             <svg viewBox="0 0 900 620" role="img" aria-labelledby="europe-map-title europe-map-description">
                 <title id="europe-map-title">Map of the VALUEMAP consortium across Europe</title>
-                <desc id="europe-map-description">A geographic map showing nine partner locations in Hungary, Spain, Portugal, Sweden, Bosnia and Herzegovina, and Ireland.</desc>
+                <desc id="europe-map-description">A geographic map showing nine partner locations in Germany, Spain, Portugal, Sweden, Bosnia and Herzegovina, and Ireland.</desc>
                 <defs>
                     <radialGradient id="map-glow"><stop offset="0" stop-color="#80e9dc" stop-opacity=".22"/><stop offset="1" stop-color="#80e9dc" stop-opacity="0"/></radialGradient>
                     <filter id="pin-shadow" x="-80%" y="-80%" width="260%" height="260%"><feDropShadow dx="0" dy="4" stdDeviation="5" flood-color="#071f1f" flood-opacity=".32"/></filter>

@@ -30,7 +30,7 @@ return new class extends Migration
             $table->timestamps();
         });
 
-        $countryCodes = ['Hungary' => 'HUN', 'Spain' => 'ESP', 'Portugal' => 'PRT', 'Sweden' => 'SWE', 'Bosnia and Herzegovina' => 'BIH', 'Ireland' => 'IRL'];
+        $countryCodes = ['Germany' => 'DEU', 'Spain' => 'ESP', 'Portugal' => 'PRT', 'Sweden' => 'SWE', 'Bosnia and Herzegovina' => 'BIH', 'Ireland' => 'IRL'];
         $now = now();
         $partners = collect(config('valuemap.partners'))->values()->map(fn (array $partner, int $index) => [
             'name' => $partner['name'],

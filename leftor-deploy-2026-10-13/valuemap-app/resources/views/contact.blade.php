@@ -5,7 +5,7 @@
 @section('content')
 <header class="page-hero compact"><p class="eyebrow">Contact</p><h1>Get in touch with <em>VALUEMAP.</em></h1><p>Would you like to learn more, contribute to stakeholder activities or explore opportunities for collaboration? Contact the VALUEMAP team.</p></header>
 <section class="section contact-layout">
-    <div class="contact-details"><p class="eyebrow">Project contact</p><div><small>Project Coordinator</small><strong>InnoStars</strong></div><div><small>Coordination Team</small><strong>VALUEMAP Project Coordination Team</strong></div><div><small>Project email</small><strong>Official project address pending</strong></div><p>For general enquiries, partnership opportunities, stakeholder engagement and media requests, use the form.</p></div>
+    <div class="contact-details"><p class="eyebrow">Project contact</p><div><small>Project Coordinator</small><strong>InnoStars</strong></div><div><small>Coordination Team</small><strong>VALUEMAP Project Coordination Team</strong></div><div><small>Project email</small><strong><a href="mailto:info@valuemap-project.eu">info@valuemap-project.eu</a></strong></div><p>For general enquiries, partnership opportunities, stakeholder engagement and media requests, use the form.</p></div>
     <form class="contact-form" method="post" action="{{ route('contact.store') }}">@csrf
         @if(session('success'))<div class="form-success">{{ session('success') }}</div>@endif
         @if($errors->any())<div class="form-error">Please check the highlighted fields.</div>@endif

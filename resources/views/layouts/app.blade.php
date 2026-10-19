@@ -24,9 +24,7 @@
     <meta name="twitter:title" content="@yield('title', 'Mapping value. Connecting Europe.') — ValueMap">
     <meta name="twitter:description" content="@yield('description', 'European health data ecosystems, connected for public value.')">
     @vite(['resources/css/app.css', 'resources/js/app.js'])
-    @if(config('services.analytics.id'))
-        <script>window.valueMapAnalyticsId = @json(config('services.analytics.id'));</script>
-    @endif
+    <script>window.valueMapAnalyticsId = @json(config('services.analytics.id'));</script>
 </head>
 <body class="@yield('body_class')">
     <a class="skip-link" href="#main">Skip to content</a>
@@ -69,13 +67,11 @@
                 <p>Funded by the European Union. Views and opinions expressed are, however, those of the author(s) only and do not necessarily reflect those of the European Union or the granting authority. Neither the European Union nor the granting authority can be held responsible for them.</p>
             </div>
         </div>
-        <div class="footer-bottom"><span>© {{ date('Y') }} VALUEMAP project</span><span>Horizon Europe · Grant Agreement No. {{ config('valuemap.grant_agreement') }}</span><nav aria-label="Legal"><a href="{{ route('privacy') }}">Privacy</a><a href="{{ route('cookies') }}">Cookies</a><a href="{{ route('accessibility') }}">Accessibility</a><a href="{{ route('login') }}">Project login</a></nav></div>
+        <div class="footer-bottom"><span>© {{ date('Y') }} VALUEMAP project</span><span>Horizon Europe · Grant Agreement No. {{ config('valuemap.grant_agreement') }}</span><nav aria-label="Legal"><a href="{{ route('privacy') }}">Privacy</a><a href="{{ route('cookies') }}">Cookies</a><button type="button" data-open-consent>Cookie settings</button><a href="{{ route('accessibility') }}">Accessibility</a><a href="{{ route('login') }}">Project login</a></nav></div>
     </footer>
-    @if(config('services.analytics.id'))
-        <aside class="consent-banner" data-consent-banner hidden aria-label="Analytics preferences">
-            <p><strong>Help us improve ValueMap</strong><span>We use optional analytics to understand which project resources are useful. No analytics loads before your choice.</span></p>
-            <div><button class="button button-outline" type="button" data-consent="denied">Decline</button><button class="button" type="button" data-consent="granted">Allow analytics</button></div>
-        </aside>
-    @endif
+    <aside class="consent-banner" data-consent-banner hidden aria-label="Cookie preferences" aria-live="polite">
+        <p><strong>Your privacy choices</strong><span>Essential storage keeps the website secure. Optional analytics helps us understand which project resources are useful and loads only with your permission. <a href="{{ route('cookies') }}">Cookie policy</a>.</span></p>
+        <div><button class="button button-outline" type="button" data-consent="denied">Necessary only</button><button class="button" type="button" data-consent="granted">Allow analytics</button></div>
+    </aside>
 </body>
 </html>
