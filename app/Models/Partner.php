@@ -52,9 +52,12 @@ class Partner extends Model
             return null;
         }
 
-        return str_starts_with($path, 'images/partners/')
-            ? asset($path)
-            : asset('storage/'.$path);
+        $isBundledLogo = str_starts_with($path, 'images/partners/');
+        $publicPath = $isBundledLogo ? $path : 'storage/'.$path;
+        $absolutePath = public_path($publicPath);
+        $version = is_file($absolutePath) ? filemtime($absolutePath) : null;
+
+        return asset($publicPath).($version ? '?v='.$version : '');
     }
 
     public function scopeVisible(Builder $query): Builder
