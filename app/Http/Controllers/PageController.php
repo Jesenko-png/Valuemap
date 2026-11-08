@@ -58,10 +58,15 @@ class PageController extends Controller
         return view('pages.policy', ['policy' => 'accessibility']);
     }
 
+    public function legal(): View
+    {
+        return view('pages.legal');
+    }
+
     public function sitemap(): Response
     {
         return response()->view('sitemap', [
-            'staticRoutes' => ['home', 'about', 'impact', 'structure', 'consortium', 'ecosystem', 'results', 'news', 'contact', 'privacy', 'cookies', 'accessibility'],
+            'staticRoutes' => ['home', 'about', 'impact', 'structure', 'consortium', 'ecosystem', 'results', 'news', 'contact', 'privacy', 'cookies', 'accessibility', 'legal'],
             'items' => ContentItem::visible()->select(['slug', 'updated_at'])->get(),
         ])->header('Content-Type', 'application/xml');
     }

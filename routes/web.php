@@ -32,6 +32,7 @@ Route::post('/newsletter/unsubscribe/{subscriber}', [NewsletterController::class
 Route::get('/privacy', [PageController::class, 'privacy'])->name('privacy');
 Route::get('/cookies', [PageController::class, 'cookies'])->name('cookies');
 Route::get('/accessibility', [PageController::class, 'accessibility'])->name('accessibility');
+Route::get('/legal-notice', [PageController::class, 'legal'])->name('legal');
 Route::get('/sitemap.xml', [PageController::class, 'sitemap'])->name('sitemap');
 
 Route::middleware('guest')->group(function () {

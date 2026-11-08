@@ -67,7 +67,7 @@
                 <p>Funded by the European Union. Views and opinions expressed are, however, those of the author(s) only and do not necessarily reflect those of the European Union or the granting authority. Neither the European Union nor the granting authority can be held responsible for them.</p>
             </div>
         </div>
-        <div class="footer-bottom"><span>© {{ date('Y') }} VALUEMAP project</span><span>Horizon Europe · Grant Agreement No. {{ config('valuemap.grant_agreement') }}</span><nav aria-label="Legal"><a href="{{ route('privacy') }}">Privacy</a><a href="{{ route('cookies') }}">Cookies</a><button type="button" data-open-consent>Cookie settings</button><a href="{{ route('accessibility') }}">Accessibility</a><a href="{{ route('login') }}">Project login</a></nav></div>
+        <div class="footer-bottom"><span>© {{ date('Y') }} VALUEMAP project</span><span>Horizon Europe · Grant Agreement No. {{ config('valuemap.grant_agreement') }}</span><nav aria-label="Legal"><a href="{{ route('legal') }}">Legal notice</a><a href="{{ route('privacy') }}">Privacy</a><a href="{{ route('cookies') }}">Cookies</a><button type="button" data-open-consent>Cookie settings</button><a href="{{ route('accessibility') }}">Accessibility</a><a href="{{ route('login') }}">Project login</a></nav></div>
     </footer>
     <aside class="consent-banner" data-consent-banner hidden aria-label="Cookie preferences" aria-live="polite">
         <p><strong>Your privacy choices</strong><span>Essential storage keeps the website secure. Optional analytics helps us understand which project resources are useful and loads only with your permission. <a href="{{ route('cookies') }}">Cookie policy</a>.</span></p>

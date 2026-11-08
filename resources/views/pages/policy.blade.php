@@ -5,10 +5,11 @@
             'Privacy policy',
             'How VALUEMAP handles personal information.',
             [
-                ['Information we receive', 'The contact form collects your name, email address, organisation, subject and message only when you choose to submit them.'],
-                ['Why we use it', 'Information is used to respond to enquiries, coordinate requested project engagement and protect the website from misuse.'],
-                ['Storage and access', 'Access is limited to authorised project personnel. Information is retained only for as long as needed for the enquiry and applicable project obligations.'],
-                ['Your choices', 'You may contact the project coordination team to ask about access, correction or deletion of information you submitted.'],
+                ['Data controller', 'The website is operated by Naučnoistraživački institut Verlab za biomedicinski inžinjering, medicinske uređaje i vještačku inteligenciju, Ferhadija 27, 71000 Sarajevo, Bosnia and Herzegovina. Contact: info@verlabinstitute.com.'],
+                ['Information we receive', 'The contact form collects your name, email address, organisation, subject and message. Newsletter registration collects your email address and consent record. Project accounts contain the information required for authentication and role management. The hosting infrastructure also processes essential technical and security logs.'],
+                ['Why we use it', 'Information is used to respond to enquiries, manage requested project engagement, operate project accounts, deliver requested newsletters, maintain website security and meet applicable project obligations. Optional analytics is activated only after the visitor gives consent.'],
+                ['Storage, access and retention', 'Access is limited to authorised project personnel and service providers required to operate the website. Personal information is not sold and is retained only for as long as needed for the relevant purpose and applicable legal or project obligations.'],
+                ['Your rights and data-protection contact', 'You may request access, correction, deletion or restriction of your personal information, or withdraw consent where processing relies on consent. The data-protection contact is Matea Inić at matea@verlabinstitute.com. You may also contact the competent data-protection authority.'],
             ],
         ],
         'cookies' => [
@@ -36,5 +37,5 @@
 @section('description', $content[1])
 @section('content')
 <header class="page-hero compact"><p class="eyebrow">Website information</p><h1>{{ $content[0] }}</h1><p>{{ $content[1] }}</p></header>
-<section class="section policy-content"><p class="policy-review">This operational statement should be reviewed by the project’s legal/data-protection contact before public launch.</p>@foreach($content[2] as $section)<article><h2>{{ $section[0] }}</h2><p>{{ $section[1] }}</p></article>@endforeach @if($policy === 'cookies')<button class="button cookie-settings-button" type="button" data-open-consent>Change cookie settings</button>@endif <a class="button" href="{{ route('contact') }}">Contact VALUEMAP ↗</a></section>
+<section class="section policy-content"><p class="policy-review">Last updated: 8 November 2026.</p>@foreach($content[2] as $section)<article><h2>{{ $section[0] }}</h2><p>{{ $section[1] }}</p></article>@endforeach @if($policy === 'cookies')<button class="button cookie-settings-button" type="button" data-open-consent>Change cookie settings</button>@endif <a class="button" href="{{ route('contact') }}">Contact VALUEMAP ↗</a></section>
 @endsection

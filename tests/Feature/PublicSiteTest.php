@@ -19,9 +19,22 @@ class PublicSiteTest extends TestCase
 
     public function test_public_pages_are_available(): void
     {
-        foreach (['/', '/about', '/impact', '/structure', '/consortium', '/ecosystem', '/results', '/news-media', '/contact', '/privacy', '/cookies', '/accessibility'] as $uri) {
+        foreach (['/', '/about', '/impact', '/structure', '/consortium', '/ecosystem', '/results', '/news-media', '/contact', '/privacy', '/cookies', '/accessibility', '/legal-notice'] as $uri) {
             $this->get($uri)->assertOk();
         }
+    }
+
+    public function test_legal_notice_identifies_the_website_operator(): void
+    {
+        $this->get('/legal-notice')
+            ->assertOk()
+            ->assertSee('Naučnoistraživački institut Verlab')
+            ->assertSee('65-05-0002-22')
+            ->assertSee('203009220006')
+            ->assertSee('matea@verlabinstitute.com');
+
+        $this->get('/')->assertSee(route('legal'));
+        $this->get('/sitemap.xml')->assertSee(route('legal'));
     }
 
     public function test_cookie_choices_are_available_before_analytics_is_configured(): void
